@@ -19,11 +19,45 @@
 				<td colspan=2>
 				<input type ="submit" value="로그인">
 				<input type="reset" value ="취소">
-				</td>
+				<td></td>
+				<!-- onClick  하면 자바스크립트  함수 호출 -->
+				<td colspan=2>
+				<input type="button" value ="로그3" onClick="send()">
+				<input type="button" value ="취소3" onClick="del()">
+				<td></td>
 			</tr>
-			
+			<tr>
+				<button onClick="send()">로그인2</button>
+				<button>취소2</button>
+			</tr>
 		</table>	
 	</form>
 
 </body>
 </html>
+
+<script>
+	function send(){
+		if(document.frm.id.value==""){
+				// 경고창 띄우기 : alert("메시지")
+		alert("아이이디 입력")
+		document.from.id.focus();
+		return;
+		}
+		if(document.frm.pw.value==""){
+				// 경고창 띄우기 : 
+		alert("비번  입력")
+		document.from.pw.focus();
+		return;
+		}
+		alert("로ㅡ인 수행");
+	}
+	
+	function del(){
+		alert("등록된 정보를 모두 지우고 다시입력");
+		frm.reset();
+		frm.id.focus();
+		return;
+	}
+
+</script>
