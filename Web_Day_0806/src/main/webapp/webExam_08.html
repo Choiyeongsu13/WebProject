@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>会員登録</title>
+<style>
+	table {
+		border: 1px solid rgb(128, 128, 255);
+		border-collapse: collapse;
+		width: 500px; 
+	}
+	td {
+		border: 1px solid rgb(128, 255, 255);
+		padding: 5px;
+	}
+	.btn_group { 
+		text-align: center; 
+	}
+</style>
+</head>
+<body>
+	<form name="member" id="form" method="post" action="member_08_ok.jsp">
+		<table>
+			<tr>
+				<td colspan="2" align="center">会員登録</td>
+			</tr>
+			<tr>
+				<td width="100">名前</td>
+				<td><input type="text" name="name" id="name"></td>
+			</tr>
+			<tr>
+				<td>性別</td> <!-- <input type="radio" name="gender" value="M" checked>남자 -->
+				<td> <!-- 라디오는 오직 하나만 선택이 가능함 그렇기에 name이 같음 value의 값이 전송됨-->
+					<input type="radio" name="gender" value="M" >남자 
+					<input type="radio" name="gender" value="F">여자
+				</td>
+			</tr>
+			<tr>
+				<td>趣味</td>
+				<td> <!-- 이름이 같기에 배열로 전송됨 -->
+					<input type="checkbox" name="hobby" value="여행">여행
+					<input type="checkbox" name="hobby" value="영화">영화
+					<input type="checkbox" name="hobby" value="게임">게임
+					<input type="checkbox" name="hobby" value="운동">운동
+					<input type="checkbox" name="hobby" value="먹방">먹방
+				</td>
+			</tr>
+			<tr>
+				<td>職業</td>
+				<td> <!-- <option value="공무원"selected>공무원</option> -->
+					<select name="job">
+						<option> 직업선택 </option>
+						<option value="공무원">공무원</option>
+						<option value="군인">군인</option>
+						<option value="교육">교육</option>
+						<option value="학생">학생</option>
+						<option value="기타">기타</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>紹介</td>
+				<td>	<!-- row는 열(밑) cols(폭) -->
+					<textarea name = "intro" rows="4" cols="30"></textarea>
+
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<input type="reset" value="리셋">
+					<input type="button" value="등록" onClick="send()">
+					<input type="button" value="취소" onClick="del()">
+				</td>
+			</tr>
+		</table>
+	</form>
+
+</body>
+</html>
+
+
+	<script>
+	function send(){
+		//text 유효성 검사
+		if(!member.name.value){
+			alert("이름이 비어있음");
+			member.name.focus();
+			return;
+		}//radio
+		if(!member.gender[0].checked && !member.gender[1].checked){
+			alert("성별 선택");
+			member.gender.focus();
+			return;
+		}
+		var flag = false;
+		for(i = 0; i<member.hobby.length;i++){
+			if(member.hobby[i].checked){
+				flag=true;
+				break;
+			}
+		}
+		if(!flag){
+			//경고
+			alert("취미 선택");
+		} 
+		//select
+		if(member.job.selectedIndex==0){
+			alert("직업선택");
+		}
+		member.submit();
+		
+		function del(){
+			
+		}	
+			
+		
+	}
+			
+			
+		
+	</script>
