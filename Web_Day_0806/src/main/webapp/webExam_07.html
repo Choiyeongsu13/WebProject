@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<style>
+	table{
+	border:solid black;
+	border-collapse:collapse;
+	widyh:500px	
+	}
+	td{
+	border:1px solid black;
+	margin-left: 1;
+	padding:5px;
+	}
+	.btn_group{text-align: center;}
+</style>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form name="frm" id="from" method="get" action="aaa">
+	<table>
+		<tr>
+			<td colspan=2 align="center"> 会員登録　</td>
+		</tr>
+		<tr>
+			<td width="100">名前</td>
+			<td><input type="text" name ="name" id=""></td>
+		</tr>
+		<tr>
+			<td>ID</td>
+			<td><input type="text" name ="id" id=""></td>
+		</tr>
+		<tr>
+			<td>PWD</td>
+			<td><input type="password" name ="pwd" id=""></td>
+		</tr>
+		<tr>
+			<td>連絡先</td>
+			<td><input type="tel" name="tel" id="" size=10 >-<input type="tel" name="tel" id="" size = 10>-
+			<input type="tel" name="tel" id="" size =10></td>
+		
+			<td></td>
+		</tr>
+		<tr>
+			<td>メール</td>
+			<td><input type="email" name="mail" id="" size=30 > @ <input type="email" name="mail" id="" size = 30></td>
+			<td></td>
+		<tr>
+			<td colspan=2>
+			<input type="reset" value ="리셋">
+				<input type="button" value ="등록" onClick="send()">
+				<input type="button" value ="취소" onClick="del()">
+				<td></td>
+		</tr>
+		
+
+	</table>
+	
+
+</body>
+</html>
+
+<script>
+	function send(){
+		if(document.frm.id.value==""){
+				// 경고창 띄우기 : alert("메시지")
+		alert("아이디 입력")
+		document.from.id.focus();
+		return;
+		}
+		
+		if(document.frm.pw.value==""){
+				// 경고창 띄우기 : 
+		alert("비번  입력")
+		document.from.pw.focus();
+		return;
+		}
+		alert("로그인 수행");
+	}
+
+</script>
