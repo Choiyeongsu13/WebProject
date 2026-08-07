@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>会員登録</title>
+<style>
+	table {
+		border: 1px solid black;
+		border-collapse: collapse;
+		width: 500px; 
+	}
+	td {
+		border: 1px solid black;
+		padding: 5px;
+	}
+	.btn_group { 
+		text-align: center; 
+	}
+</style>
+</head>
+<body>
+	<form name="member" id="form" method="post" action="/memberWrite.do">
+		<table>
+			<tr>
+				<td colspan="2" align="center">会員登録</td>
+			</tr>
+			<tr>
+				<td width="100">名前</td>
+				<td><input type="text" name="name" id="name"></td>
+			</tr>
+			<tr>
+				<td>ID</td>
+				<td><input type="text" name="id" id="id"></td>
+			</tr>
+			<tr>
+				<td>PWD</td>
+				<td><input type="password" name="pwd" id="pwd"></td>
+			</tr>
+			<tr>
+				<td>連絡先</td>
+				<td>
+					<input type="tel" name="tel1" size="5">-
+					<input type="tel" name="tel2" size="5">-
+					<input type="tel" name="tel3" size="5">
+				</td>
+			</tr>
+			<tr>
+				<td>メール</td>
+				<td>
+					<input type="email" name="email1" size="10"> @ 
+					<input type="email" name="email2" size="10">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<input type="reset" value="리셋">
+					<input type="button" value="등록" onClick="send()">
+					<input type="button" value="취소" onClick="del()">
+				</td>
+			</tr>
+		</table>
+	</form>
+
+</body>
+</html>
+
+
+	<script>
+		function send() {
+
+			member.submit(); 
+		}
+		function del(){
+		}
+		
+	</script>
