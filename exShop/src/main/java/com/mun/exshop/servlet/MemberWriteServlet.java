@@ -28,16 +28,46 @@ public class MemberWriteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    
-	    RequestDispatcher rd = request.getRequestDispatcher("insert.jsp");
+		
+		
+	    RequestDispatcher rd = request.getRequestDispatcher("/insert.jsp");
 	    rd.forward(request, response);
+
+
+	    
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		request.setCharacterEncoding("UTF-8");
+		
+	    String custno = request.getParameter("custno");
+	    String custname = request.getParameter("custname");
+	    String phones []= request.getParameterValues("phone");
+	    String phone="";
+	    if(phones !=null && phones.length ==3) {
+	    	phone = phones[0] + "-" + phones[1] + "-" +  phones[2];
+	    }
+	    
+	    String gender = request.getParameter("gender");
+	    String joindate = request.getParameter("joindate");
+	    String grade = request.getParameter("grade");
+	    String city = request.getParameter("city");
+	    
+	    
+	    int result =1;
+	    
+	    System.out.println("회원번호 : " + custno);
+	    System.out.println("회원성명 : " + custname);
+	    System.out.println("회원전화 : " + phone);
+	    System.out.println("회원성별 : " +  gender);
+	    System.out.println("가입일자 : " + joindate);
+	    System.out.println("고객등급 : " + grade);
+	    System.out.println("도시코드 : " + city);
+	    
+	    
 	}
 
 }

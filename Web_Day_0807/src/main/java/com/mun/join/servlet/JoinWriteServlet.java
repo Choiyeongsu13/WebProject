@@ -32,32 +32,32 @@ public class JoinWriteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-//	    String irum = request.getParameter("irum");
-//	    String gender = "남자";
-//	    if(request.getParameter("gender").equals("F"))
-//	    		gender="여자";
-//	    String fa[] = request.getParameterValues("fa"); //배열
-//	    
-//	    String strFa="";
-//	    for(String s : fa){
-//	   	strFa += s + " ";
-//	   	}
-//	   	
-//	   	String job = request.getParameter("job");
-//	   	String tel1 = request.getParameter("tel1"); 
-//	   	String tel2 = request.getParameter("tel2"); 
-//	   	String tel3 = request.getParameter("tel3"); 
-//	    String tel = tel1 + "-" + tel2 + "-" +tel3;
-//	    
-//	    Map<String,String> map = new HashMap();
-//	    map.put("irum", irum);   map.put("gender", gender);
-//	    map.put("fa", strFa);   map.put("job", job);
-//	    map.put("tel", tel);
-//	    
-//	    request.setAttribute("map", map);
-//	    
-	    //회원가입 폼 이동
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	    String irum = request.getParameter("irum");
+	    String gender = "남자";
+	    if(request.getParameter("gender").equals("F"))
+	    		gender="여자";
+	    String fa[] = request.getParameterValues("fa"); //배열
+	    
+	    String strFa="";
+	    for(String s : fa){
+	   	strFa += s + " ";
+	   	}
+	   	
+	   	String job = request.getParameter("job");
+	   	String tel1 = request.getParameter("tel1"); 
+	   	String tel2 = request.getParameter("tel2"); 
+	   	String tel3 = request.getParameter("tel3"); 
+	    String tel = tel1 + "-" + tel2 + "-" +tel3;
+	    
+	    Map<String,String> map = new HashMap();
+	    map.put("irum", irum);   map.put("gender", gender);
+	    map.put("fa", strFa);   map.put("job", job);
+	    map.put("tel", tel);
+	    
+	    request.setAttribute("map", map);
+	    
+//	    회원가입 폼 이동
 	    
 	    RequestDispatcher rd = request.getRequestDispatcher("/Join/join_write2.jsp");
 	    rd.forward(request, response);
