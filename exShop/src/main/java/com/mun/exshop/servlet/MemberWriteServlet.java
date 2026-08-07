@@ -56,9 +56,6 @@ public class MemberWriteServlet extends HttpServlet {
 	    String grade = request.getParameter("grade");
 	    String city = request.getParameter("city");
 	    
-	    
-	    int result =1;
-	    
 	    System.out.println("회원번호 : " + custno);
 	    System.out.println("회원성명 : " + custname);
 	    System.out.println("회원전화 : " + phone);
