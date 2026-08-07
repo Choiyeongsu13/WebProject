@@ -23,15 +23,14 @@
 </head>
 <body>
 	<div class="header">
-			<h1 class="logo">인사관리 시스템  Ver 2.0</h1>
+			<h1 class="logo">쇼핑몰 회원관리  Ver 1.0</h1>
 			<div class="nav">
 				<nav>
 					<ul class="navi">
-						<li><a href="list.jsp">조회</a></li>
-						<li><a href="insert.jsp">사원등록</a></li>
-						<li><a href="">정보변경</a></li>
-						<li><a href="">부서별 사원현황</a></li>
-						<li><a href="">퇴사처리</a></li>
+						<li><a href="member_wrtie">회원등록</a></li>
+						<li><a href="member_list">회원목록조회</a></li>
+						<li><a href="">회원매출조회</a></li>
+						<li><a href="">회원정보검색</a></li>
 						<li><a href="index.jsp">홈으로</a></li>
 					</ul>
 				</nav>			
