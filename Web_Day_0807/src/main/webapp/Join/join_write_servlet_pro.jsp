@@ -13,7 +13,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-		이름 : <%= name %> <br>
+		이름 : <%= map.get("name") %> <br>
 	성별 : <%= map.get("gender") %> <br>
 	취미 : <%= map.get("fa") %> <br>
 	직업 : <%= map.get("job") %> <br>

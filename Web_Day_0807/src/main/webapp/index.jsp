@@ -9,6 +9,7 @@
 <body>
 	<h1>webDay_0807 project</h1>
 	<h3><a href="/Join/join_write.jsp">회원등록</a></h3>
+	<h3><a href="/join_write.do">회원등록(서블릿)</a></h3>
 	
 </body>
 </html>
