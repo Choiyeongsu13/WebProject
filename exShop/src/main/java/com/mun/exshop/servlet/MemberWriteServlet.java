@@ -64,7 +64,8 @@ public class MemberWriteServlet extends HttpServlet {
 	    System.out.println("고객등급 : " + grade);
 	    System.out.println("도시코드 : " + city);
 	    
-	    
+	    RequestDispatcher rd = request.getRequestDispatcher("/insert.jsp");
+        rd.forward(request, response);
 	}
 
 }

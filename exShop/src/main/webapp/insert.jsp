@@ -92,7 +92,7 @@
 	</div>
 </body>
 
-<script type="text/javascript">
+<script >
 	function send(){
 		if(!tbl_member_001.custname.value){
 			alert("회원 성명이 입력되지 않았습니다!");

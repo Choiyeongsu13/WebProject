@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
 <html>
+
 <style type="text/css">
 	*{margin:0; padding:0;}
 	ul,li {list-style:none;}
@@ -17,27 +17,28 @@
 	.content table .btn_group {text-align:center;}
 	.footer {padding:16px 0; text-align:center; background-color:#0040FF;}
 </style>
+
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	<div class="header">
-			<h1 class="logo">쇼핑몰 회원관리  Ver 1.0</h1>
-			<div class="nav">
-				<nav>
-					<ul class="navi">
-						<li><a href="member_write">회원등록</a></li>
-						<li><a href="member_list">회원목록조회</a></li>
-						<li><a href="">회원매출조회</a></li>
-						<li><a href="">회원정보검색</a></li>
-						<li><a href="index.jsp">홈으로</a></li>
-						<li><a href="menu.jsp">메뉴</a></li>
-						<li><a href="join_write">회원등록2</a></li>
-					</ul>
-				</nav>			
-			</div>
-		</header>
+	<%@include file="header.jsp" %>
+	<div class ="section"> 
+		<section>
+			<div class="content">	
+				<h2 class="title">메뉴</h2>
+		
+	
+	
+	
+		</div>
+		</section>
+		<div class="footer">
+		<footer>
+			<p>HRDKOREA Copyright@2016 All rights reserve. Human Resources Development Serivce of Korea</p>
+		</footer>
+		
 	</div>
 </body>
 </html>
