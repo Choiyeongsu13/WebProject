@@ -76,10 +76,10 @@
 					<tr>
 						<th>이메일</th>
 						<td>
-						<input type="email" size="10" name="email1" >
+							<input type="email" size="10" name="email1" >
 								@
-							<input type="email" size="10" name="email2" >
-							<select name="email_select"  >
+							<input type="email" size="10" name="email2" id="email2">
+							<select name="email_select" id="email_select" onchange="setemail()">
 								<option value="">직접입력</option>
 								<option value="naver.com">네이버</option>
 								<option value="nate.com">네이트</option>
@@ -199,6 +199,19 @@
 
 		
 		tbl_member_001.submit();
+	}
+	
+	function setemail() {
+		var domain = document.getElementById("email_select").value;
+		var email2 = document.getElementById("email2");
+
+		if (domain === "") {
+			email2.value = "";
+			email2.readOnly = false;
+		} else {
+			email2.value = domain;
+			email2.readOnly = true;
+		}
 	}
 
 
