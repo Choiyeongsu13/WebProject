@@ -63,9 +63,8 @@
 						for(MemberDTO dto : list){
 						%>
 						<tr class="text_center">
-						<td class="white">
-						<%= dto.getCustno() %></td>
-						<td><%= dto.getCustname() %></td>
+						<td class="white"><a href="MemberModify?custno=<%= dto.getCustno() %>"><%= dto.getCustname() %></a></td>
+						<td><a href="MemberModify?custno=<%= dto.getCustno() %>"><%= dto.getCustno() %></a></td>
 						<td><%= dto.getPhone() %></td>
 						<td><%= dto.getGender() %></td>
 						<td><%= dto.getJoindate() %></td>

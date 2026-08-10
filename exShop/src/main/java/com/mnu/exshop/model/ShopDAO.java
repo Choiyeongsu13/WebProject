@@ -188,5 +188,35 @@ public class ShopDAO {
 	    }
 	    return list;
 	}
-
+	
+	//회원번호를 이용한 검색
+	public MemberDTO getMember(int custno) {
+		MemberDTO dto = new MemberDTO();
+		String sql=" select * from tbl_member where custno = ?";
+		try {
+			conn=DBManager.getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, custno);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				dto.setCustno(rs.getInt("custno"));
+				dto.setCustname(rs.getString("custname"));
+				dto.setPhone(rs.getString("phone"));
+				dto.setGender(rs.getString("gender"));
+				dto.setJoindate(rs.getString("joindate"));
+				dto.setGrade(rs.getString("grade"));
+				dto.setCity(rs.getString("city"));
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt, rs);
+		}return dto;
+	
+	}
+	
+	
 }
