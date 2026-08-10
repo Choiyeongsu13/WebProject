@@ -244,5 +244,25 @@ public class ShopDAO {
 		return row;
 	}
 	
+	public int memberDelete(int custno) {
+		int row=0;
+		String sql="delete from tbl_member where custno=?";
+		
+		try {
+			conn=DBManager.getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			
+			pstmt.setInt(1, custno);
+
+			
+			row=pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt,rs);
+		}
+		return row;
+	}
 	
 }

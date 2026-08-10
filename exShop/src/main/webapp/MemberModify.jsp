@@ -101,8 +101,10 @@
 					
 					<tr>
 						<td colspan="2" class="btn_group">
-							<input type="button" value="등록하기" onClick="send()"> 
-							<input type="reset" value="다시쓰기" onClick="rewrite()">
+							<input type="button" value="수정하기" onClick="send()"> 
+							<input type="button" value="취소" onClick="history.back()">
+							<input type="button" value="삭제" onClick="mem_del('<%=mdto.getCustno()%>')">
+							
 						</td>
 					</tr>
 				</table>
@@ -154,8 +156,13 @@
 		alert("회원정보가 수정되었습니다.");
 		tbl_member_001.submit();
 	}
-	function rewrite(){
-		alert("입력된 모든 정보를 지우고 다시 입력합니다");
+	
+	
+	function mem_del(custno){
+		var flag = confirm("삭제 하시겠습니까?");
+		if(flag){
+			location.href="memberDelete?custno=" + custno;
+		}
 	}
 
 
