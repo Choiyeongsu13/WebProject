@@ -1,4 +1,4 @@
-package com.mun.exshop.servlet;
+package com.mnu.exshop.servlet;
 
 import java.io.IOException;
 

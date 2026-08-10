@@ -29,8 +29,8 @@
 					<ul class="navi">
 						<li><a href="member_write">회원등록</a></li>
 						<li><a href="member_list">회원목록조회</a></li>
-						<li><a href="">회원매출조회</a></li>
-						<li><a href="">회원정보검색</a></li>
+						<li><a href="money_write">매출등록</a></li>
+						<li><a href="member_list">회원정보검색</a></li>
 						<li><a href="index.jsp">홈으로</a></li>
 						<li><a href="menu.jsp">메뉴</a></li>
 						<li><a href="join_write">회원등록2</a></li>
