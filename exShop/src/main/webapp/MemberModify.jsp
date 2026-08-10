@@ -44,7 +44,7 @@
 						<th colspan="2">회원등록</th>
 					</tr>	
 					<tr>
-						<th>회원번호(자동생성)</th>
+						<th>회원번호</th>
 						<td><input type="text" size="10" name="custno" value="<%= mdto.getCustno() %>" readonly></td>
 					</tr>
 					<tr>
@@ -75,12 +75,13 @@
 					</tr>
 					<tr>
 						<th>고객등급</th>
-						<td><select name="grade" style="width:150px;">
-								<option value="">고객등급</option>
-								<option value="A">VIP <%= mdto.getGrade().equals("A") ? "VIP" :"" %></option>
-								<option value="B">일반<%= mdto.getGrade().equals("B") ? "일반" :"" %></option>
-								<option value="C">직원<%= mdto.getGrade().equals("C") ? "직원" :"" %></option>
-							</select>
+						<td>
+						<select name="grade" style="width:150px;">
+					    <option value="">고객등급</option>
+					    <option value="A" <%= mdto.getGrade().equals("A") ? "selected" : "" %>>VIP</option>
+					    <option value="B" <%= mdto.getGrade().equals("B") ? "selected" : "" %>>일반</option>
+					    <option value="C" <%= mdto.getGrade().equals("C") ? "selected" : "" %>>직원</option>
+						</select>
 						</td>
 					</tr>
 					<tr>
@@ -150,7 +151,7 @@
 			tbl_member_001.city.focus();
 			return;
 		}
-		alert("회원정보가 등록되었습니다.");
+		alert("회원정보가 수정되었습니다.");
 		tbl_member_001.submit();
 	}
 	function rewrite(){

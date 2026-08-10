@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mnu.exshop.model.CityDTO;
 import com.mnu.exshop.model.MemberDTO;
+import com.mnu.exshop.model.MoneyDTO;
 import com.mnu.exshop.model.ShopDAO;
 
 /**
@@ -49,8 +50,29 @@ public class MemberModify extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		request.setCharacterEncoding("UTF-8");
+		
+		ShopDAO dao = ShopDAO.getInstance();
+		MemberDTO dto = new MemberDTO();
+		
+	    String p1 = request.getParameter("phone1");
+	    String p2 = request.getParameter("phone2");
+	    String p3 = request.getParameter("phone3");
+	    dto.setPhone(p1 + "-" + p2 + "-" + p3);
+		
+		dto.setCustno(Integer.parseInt(request.getParameter("custno")));
+		dto.setCustname(request.getParameter("custname"));
+		dto.setGender(request.getParameter("gender"));
+		dto.setJoindate(request.getParameter("joindate"));
+		dto.setGrade(request.getParameter("grade"));
+		dto.setCity(request.getParameter("city"));
+		
+		int row = dao.memberModify(dto);
+		
+		
+		response.sendRedirect("member_list");
+		
+	
 	}
 
 }
