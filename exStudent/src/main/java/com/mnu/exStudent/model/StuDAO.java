@@ -3,8 +3,6 @@ package com.mnu.exStudent.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.mnu.exStudent.util.DBManager;
 
@@ -43,6 +41,33 @@ public class StuDAO {
 			DBManager.close(conn, pstmt, rs);
 		}
 		return row;
+	}
+	
+	public int insertScore(StuScoreDTO dto) {
+		String sql = "INSERT INTO tbl_score_201905 (syear, sclass, sno, kor, eng, mat) VALUES (?,?,?,?,?,?)";
+		int row=0;
+		
+		try {
+			conn=DBManager.getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			
+			pstmt.setString(1,dto.getSyear());
+			pstmt.setString(2,dto.getSclass());
+			pstmt.setString(3,dto.getSno());
+			pstmt.setInt(4,dto.getKor());
+			pstmt.setInt(5,dto.getEng());
+			pstmt.setInt(6,dto.getMat());
+			row=pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			
+			e.printStackTrace();
+		}finally {
+				DBManager.close(conn, pstmt, rs);
+		}
+		return row;
+		
 	}
 }
 	

@@ -28,10 +28,10 @@
 			<nav>
 				<ul class="navi">
 					<li><a href="insert.jsp">학생등록</a></li>
-					<li><a href="">성적입력</a></li>
+					<li><a href="score.jsp">성적입력</a></li>
 					<li><a href="">성적조회</a></li>
 					<li><a href="">반별통계</a></li>
-					<li><a href="/">홈으로</a></li>
+					<li><a href="index.jsp">홈으로</a></li>
 				</ul>
 			</nav>
 		</div>
