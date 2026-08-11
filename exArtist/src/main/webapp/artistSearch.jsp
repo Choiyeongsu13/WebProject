@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@page import = "java.util.* , com.mnu.exArtist.model.*"%>
-<%
-	Boolean searched = (Boolean) request.getAttribute("searched");
-	List<ArtistSearchDTO> list = (List<ArtistSearchDTO>) request.getAttribute("list");
-	String artist_id = (String) request.getAttribute("artist_id");
-	if (artist_id == null) artist_id = "";
-%>
+ <%
+ 	Boolean searched = (Boolean) request.getAttribute("searched");
+ 	List<ArtistSearchDTO> list = (List<ArtistSearchDTO>) request.getAttribute("list");
+ 	String artist_id = (String) request.getAttribute("artist_id");
+ 	if (artist_id == null) artist_id = "";
+ %>
 
 <!doctype html>
 <html lang="en">
@@ -17,7 +17,7 @@
 	*{margin:0; padding:0;}
 	ul,li {list-style:none;}
 	a {text-decoration:none; color:#fff;}
-	.logo {color:#fff; text-align:center; background-color:rgb(0, 255, 255); padding:16px 0;}
+	.logo {color:#fff; text-align:center; background-color:#0040FF; padding:16px 0;}
 	.nav{padding:12px 0; overflow:hidden;background-color:#BCA9F5;}
 	.nav ul,li{float:left; padding:0 20px; text-align:center;}
 	.content {background-color:#E6E6E6; padding:16px; }
@@ -29,7 +29,6 @@
 </style>
  </head>
  <body>
- 
 
 	<%@include file="header.jsp" %>
 	<div class="section">
@@ -41,8 +40,8 @@
 					<tr>
 						<td>참가번호</td>
 						<td>
-							<input type="text" name="artist_id" value="<%= artist_id %>" >
-							<input type="submit" value="검색" onclick="send()">
+							<input type="text" name="artist_id" value="<%= artist_id %>">
+							<input type="button" value="검색" onclick="send()">
 						</td>
 					</tr>
 				</table>
@@ -66,7 +65,7 @@
 						<td colspan="5">검색 결과가 없음</td>
 					</tr>
 				<% } else {
-					int tot=0;
+					int tot = 0;
 					for (ArtistSearchDTO dto : list) {
 						tot += dto.getPoint();
 				%>
@@ -79,16 +78,17 @@
 					</tr>
 				<%
 					}
+				%>
+					<tr>
+						<th colspan="4">합계</th>
+						<th><%= tot %></th>
+					</tr>
+					<tr>
+						<th colspan="4">평균</th>
+						<th><%= String.format("%.2f", (double) tot / list.size()) %></th>
+					</tr>
+				<%
 				} %>
-				<tr>
-					<th colspan=4>합계</th>
-					<th> <%=tot %></th>
-				</tr>
-				<tr>
-					<th colspan=4>합계</th>
-					<th> <%=String.format("%.2f"(double)tot/list.size()) %></th>
-				</tr>
-				
 				</table>
 			<% } %>
 			</div>
@@ -110,8 +110,6 @@ function send(){
 	}
 
 	tbl_search.submit();
-	}
+}
 </script>
-
-
 </html>

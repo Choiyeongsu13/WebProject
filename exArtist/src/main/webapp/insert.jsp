@@ -100,7 +100,7 @@
 		}
 		if(!tbl_artist_001.artist_birth1.value || !tbl_artist_001.artist_birth2.value || !tbl_artist_001.artist_birth3.value){
 	        alert("생년월일이  입력되지 않았습니다!");
-	        tbl_member_001.artist_birth1.focus();
+	        tbl_artist_001.artist_birth1.focus();
 	        return;
 	    }
 		if(!tbl_artist_001.talent.selectedIndex === 0){
@@ -119,9 +119,5 @@
 	function rewrite(){
 		alert("입력된 모든 정보를 지우고 다시 입력합니다");
 	}
-
-
-
 </script>
 </html>
-

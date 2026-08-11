@@ -1,6 +1,7 @@
 package com.mnu.exArtist.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,13 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mnu.exArtist.model.ArtDAO;
-import com.mnu.exArtist.model.ArtistSearchDTO;
+import com.mnu.exArtist.model.mentoScoreDTO;
 
-@WebServlet("/artist_Search")
-public class ArtistSearch extends HttpServlet {
+@WebServlet("/mento_score_search")
+public class MentosearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public ArtistSearch() {
+	public MentosearchServlet() {
 		super();
 	}
 
@@ -28,20 +29,29 @@ public class ArtistSearch extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
-		String artist_id = request.getParameter("artist_id");
+		String serial_noStr = request.getParameter("serial_no");
 
-		if (artist_id != null) {
-			artist_id = artist_id.toUpperCase();
+		if (serial_noStr != null) {
+			List<mentoScoreDTO> mlist;
 
-			ArtDAO dao = ArtDAO.getInstance();
-			List<ArtistSearchDTO> list = dao.searchArtist(artist_id);
+			if (serial_noStr.trim().length() > 0) {
+				try {
+					int serial_no = Integer.parseInt(serial_noStr.trim());
+					ArtDAO dao = ArtDAO.getInstance();
+					mlist = dao.mentoScorelist(serial_no);
+				} catch (NumberFormatException e) {
+					mlist = new ArrayList<mentoScoreDTO>();
+				}
+			} else {
+				mlist = new ArrayList<mentoScoreDTO>();
+			}
 
-			request.setAttribute("list", list);
-			request.setAttribute("artist_id", artist_id);
+			request.setAttribute("mlist", mlist);
+			request.setAttribute("serial_no", serial_noStr);
 			request.setAttribute("searched", true);
 		}
 
-		RequestDispatcher rd = request.getRequestDispatcher("/artistSearch.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/mentosearch.jsp");
 		rd.forward(request, response);
 	}
 }

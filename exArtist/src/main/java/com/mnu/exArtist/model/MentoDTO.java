@@ -9,8 +9,6 @@ public class MentoDTO {
 	public MentoDTO(String mento_id , String mento_name) {
 		this.mento_id=mento_id;
 		this.mento_name=mento_name;
-		
-		
 	}
 
 	public String getMento_id() {

@@ -22,8 +22,6 @@ public class ArtistWriteServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
-		
-		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,7 +29,7 @@ public class ArtistWriteServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		ArtDAO dao = ArtDAO.getInstance();
 		artistDTO dto = new artistDTO();
-		
+
 		String artist_id = request.getParameter("artist_id");
 		String artist_name = request.getParameter("artist_name");
 		String artist_gender = request.getParameter("artist_gender");
@@ -42,12 +40,11 @@ public class ArtistWriteServlet extends HttpServlet {
 		String m = request.getParameter("artist_birth2");
 		String d = request.getParameter("artist_birth3");
 
-		
-		String artist_birth = (y != null ? y : "") + (m != null ? m : "") + (d != null ? d : "");
-		
+		if (m != null && m.length() == 1) m = "0" + m;
+		if (d != null && d.length() == 1) d = "0" + d;
 
-		
-		
+		String artist_birth = (y != null ? y : "") + (m != null ? m : "") + (d != null ? d : "");
+
 		dto.setArtist_id(artist_id);
 		dto.setArtist_name(artist_name);
 		dto.setArtist_gender(artist_gender);
@@ -55,12 +52,13 @@ public class ArtistWriteServlet extends HttpServlet {
 		dto.setTalent(talent);
 		dto.setAgency(agency);
 
-		
-		
 		int row = dao.insertArtist(dto);
 
 		if (row > 0) {
-		    response.sendRedirect("artist_list");
+			response.sendRedirect("artist_list");
+		} else {
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('등록 실패! 참가번호 중복 또는 입력값을 확인하세요.'); history.back();</script>");
 		}
 	}
 }

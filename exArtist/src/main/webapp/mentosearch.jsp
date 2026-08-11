@@ -2,15 +2,17 @@
     pageEncoding="UTF-8"%>
  <%@page import = "java.util.* , com.mnu.exArtist.model.*"%>
  <%
- 	List<artistDTO> list = (List<artistDTO>)request.getAttribute("list");
+ 	Boolean searched = (Boolean) request.getAttribute("searched");
+ 	List<mentoScoreDTO> mlist = (List<mentoScoreDTO>) request.getAttribute("mlist");
+ 	String serial_no = (String) request.getAttribute("serial_no");
+ 	if (serial_no == null) serial_no = "";
  %>
-
 
 <!doctype html>
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <title>참가자 목록 조회</title>
+  <title>채점 점수 조회</title>
 <style type="text/css">
 	*{margin:0; padding:0;}
 	ul,li {list-style:none;}
@@ -32,42 +34,65 @@
 	<div class="section">
 		<section>
 			<div class="content">
-				<h2 class="title">참가자 목록 조회</h2>
+				<h2 class="title">채점 점수 조회</h2>
+				<form name="tbl_mento_search" method="get" action="mento_score_search">
 				<table>
 					<tr>
-						<th colspan="6">참가자 목록 조회</th>
+						<td>채점번호</td>
+						<td>
+							<input type="text" name="serial_no" value="<%= serial_no %>">
+							<input type="submit" value="검색">
+						</td>
+					</tr>
+				</table>
+				</form>
+				<br>
+
+			<% if (searched != null && searched) { %>
+				<table>
+					<tr>
+						<th colspan="7">채점 점수 조회 결과</th>
 					</tr>
 					<tr>
+						<th>채점번호</th>
 						<th>참가번호</th>
 						<th>참가자명</th>
 						<th>생년월일</th>
-						<th>성별</th>
-						<th>특기</th>
-						<th>소속사</th>
+						<th>점수</th>
+						<th>평점</th>
+						<th>멘토</th>
 					</tr>
-				<% if(list == null || list.size()==0){ %>
+				<% if (mlist == null || mlist.size() == 0) { %>
 					<tr class="text_center">
-						<td colspan="6">등록된 자료가 없음</td>
+						<td colspan="7">검색 결과가 없음</td>
 					</tr>
-					<%}else{
-						for(artistDTO dto : list){
-					%>
+				<% } else {
+					for (mentoScoreDTO dto : mlist) {
+						String grade;
+						if (dto.getPoint() >= 90) grade = "A";
+						else if (dto.getPoint() >= 80) grade = "B";
+						else if (dto.getPoint() >= 70) grade = "C";
+						else if (dto.getPoint() >= 60) grade = "D";
+						else grade = "F";
+				%>
 					<tr class="text_center">
+						<td><%= dto.getSerial_no() %></td>
 						<td><%= dto.getArtist_id() %></td>
 						<td><%= dto.getArtist_name() %></td>
 						<td><%= dto.getArtist_birth() %></td>
-						<td><%= dto.getArtist_gender() %></td>
-						<td><%= dto.getTalent() %></td>
-						<td><%= dto.getAgency() %></td>
+						<td><%= dto.getPoint() %></td>
+						<td><%= grade %></td>
+						<td><%= dto.getMento_name() %></td>
 					</tr>
-					<%
-						}
+				<%
 					}
-					%>
+				} %>
 				</table>
+			<% } %>
 			</div>
 		</section>
 	</div>
+
 	<div class="footer">
 		<footer>
 			<p>HRDKOREA Copyright@2016 All rights reserve. Human Resources Development Serivce of Korea</p>

@@ -162,7 +162,7 @@ public class ArtDAO {
 				+ "FROM tbl_artist_201905 a "
 				+ "JOIN tbl_point_201905 p ON a.artist_id = p.artist_id "
 				+ "JOIN tbl_mento_201905 m ON p.mento_id = m.mento_id "
-				+ "WHERE a.artist_id=? "
+				+ "WHERE upper(a.artist_id)=? "
 				+ "ORDER BY a.artist_id";
 
 		try {
@@ -173,7 +173,7 @@ public class ArtDAO {
 
 			while (rs.next()) {
 				ArtistSearchDTO dto = new ArtistSearchDTO();
-				dto.setArtist_id(rs.getString("artist_id").toUpperCase());
+				dto.setArtist_id(rs.getString("artist_id"));
 				dto.setArtist_name(rs.getString("artist_name"));
 
 				String birth = rs.getString("artist_birth");
@@ -183,7 +183,47 @@ public class ArtDAO {
 				dto.setArtist_birth(birth);
 
 				dto.setMento_name(rs.getString("mento_name"));
-				dto.setPoint(rs.getString("point"));
+				dto.setPoint(rs.getInt("point"));
+
+				list.add(dto);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return list;
+	}
+	public List<mentoScoreDTO> mentoScorelist(int serial_no) {
+		List<mentoScoreDTO> list = new ArrayList<mentoScoreDTO>();
+
+		String sql = "SELECT p.serial_no, p.artist_id, a.artist_name, a.artist_birth, p.point, m.mento_name "
+				+ "FROM tbl_point_201905 p "
+				+ "JOIN tbl_artist_201905 a ON p.artist_id = a.artist_id "
+				+ "JOIN tbl_mento_201905 m ON p.mento_id = m.mento_id "
+				+ "WHERE p.serial_no = ?";
+
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, serial_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				mentoScoreDTO dto = new mentoScoreDTO();
+				dto.setSerial_no(rs.getInt("serial_no"));
+				dto.setArtist_id(rs.getString("artist_id"));
+				dto.setArtist_name(rs.getString("artist_name"));
+
+				String birth = rs.getString("artist_birth");
+				if (birth != null && birth.length() == 8) {
+					birth = birth.substring(0, 4) + "년" + birth.substring(4, 6) + "월" + birth.substring(6, 8) + "일";
+				}
+				dto.setArtist_birth(birth);
+
+				dto.setMento_name(rs.getString("mento_name"));
+				dto.setPoint(rs.getInt("point"));
 
 				list.add(dto);
 			}

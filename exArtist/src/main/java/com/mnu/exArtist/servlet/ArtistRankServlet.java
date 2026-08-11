@@ -12,45 +12,26 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mnu.exArtist.model.ArtDAO;
 import com.mnu.exArtist.model.ArtistRankDTO;
-import com.mnu.exArtist.model.artistDTO;
 
-/**
- * Servlet implementation class ArtistRankServlet
- */
 @WebServlet("/Artist_Rank")
 public class ArtistRankServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public ArtistRankServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
 		ArtDAO dao = ArtDAO.getInstance();
         List<ArtistRankDTO> list = dao.ArtistRankList();
-        
-        
+
         request.setAttribute("list", list);
-        
+
         RequestDispatcher rd= request.getRequestDispatcher("/ArtistRank.jsp");
         rd.forward(request, response);
-
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

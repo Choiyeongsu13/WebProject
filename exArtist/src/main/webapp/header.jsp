@@ -30,6 +30,7 @@
 					<li><a href="insert.jsp">오디션등록</a></li>
 					<li><a href="artist_list">참가자목록조회</a></li>
 					<li><a href="artist_Search">참가자검색</a></li>
+					<li><a href="mento_score_search">채점점수조회</a></li>
 					<li><a href="mento_score_list">멘토점수조회</a></li>
 					<li><a href="Artist_Rank">참가자등수조회</a></li>
 					<li><a href="index.jsp">홈으로</a></li>
