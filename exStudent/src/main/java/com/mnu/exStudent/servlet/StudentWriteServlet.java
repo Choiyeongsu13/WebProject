@@ -2,6 +2,7 @@ package com.mnu.exStudent.servlet;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mnu.exStudent.model.StuDAO;
-import com.mnu.exStudent.model.StuWriteDTO;
+import com.mnu.exStudent.model.tbl_sutdentDTO;
 
 /**
  * Servlet implementation class StudentWriteServlet
  */
-@WebServlet("/StudentWrite")
+@WebServlet("/studentWrite.do")
 public class StudentWriteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -30,8 +31,8 @@ public class StudentWriteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		
-		doPost(request, response);
 	}
 
 	/**
@@ -43,7 +44,7 @@ public class StudentWriteServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		StuDAO dao = StuDAO.getInstance();
-		StuWriteDTO dto = new StuWriteDTO();
+		tbl_sutdentDTO dto = new tbl_sutdentDTO();
 		
 		String syear = request.getParameter("syear");
 		String sclass = request.getParameter("sclass");
@@ -57,12 +58,6 @@ public class StudentWriteServlet extends HttpServlet {
 		String tel2 = request.getParameter("tel2");
 		String tel3 = request.getParameter("tel3");
 
-		
-		 
-		
-
-		
-		
 		dto.setSyear(syear);
 		dto.setSclass(sclass);
 		dto.setSno(sno);
@@ -76,14 +71,11 @@ public class StudentWriteServlet extends HttpServlet {
 		
 		
 		int row = dao.insertStudent(dto);
-		
-		
+		request.setAttribute("row", row);
 
-		if (row > 0) {
-		    response.sendRedirect("index.jsp");
-		} else {
-		    response.getWriter().println("<script>alert('등록 실패: 입력값을 확인하세요.'); history.back();</script>");
-		}
+		RequestDispatcher rd =request.getRequestDispatcher("student_pro.jsp");
+		rd.forward(request, response);
+		
 	}
 
 }

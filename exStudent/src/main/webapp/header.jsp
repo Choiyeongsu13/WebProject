@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>고교성적관리프로그램</title>
 <style type="text/css">
 	*{margin:0; padding:0;}
 	ul,li {list-style:none;}
@@ -27,11 +27,11 @@
 		<div class="nav">
 			<nav>
 				<ul class="navi">
-					<li><a href="insert.jsp">학생등록</a></li>
-					<li><a href="score.jsp">성적입력</a></li>
-					<li><a href="">성적조회</a></li>
-					<li><a href="">반별통계</a></li>
-					<li><a href="index.jsp">홈으로</a></li>
+					<li><a href="/stuwrtie.jsp">학생등록</a></li>
+					<li><a href="/scoreWrite.do">성적입력</a></li>
+					<li><a href="/scoreList.do">성적조회</a></li>
+					<li><a href="/classTotal.do">반별통계</a></li>
+					<li><a href="/">홈으로</a></li>
 				</ul>
 			</nav>
 		</div>

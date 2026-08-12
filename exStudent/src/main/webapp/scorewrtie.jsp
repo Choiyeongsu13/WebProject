@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>성적등록</title>
 <style type="text/css">
 	*{margin:0; padding:0;}
 	ul,li {list-style:none;}
@@ -27,11 +27,11 @@
 	<div class="section">
 		<section>
 			<div class="content">
-				<h2 class="title">학생 등록</h2>
-			<form name="tbl_student_001" id="form" method="post" action="StudentWrite">
+				<h2 class="title">성적 등록</h2>
+			<form name="tbl_student_001" id="form" method="post" action="/scoreWrite.do">
 				<table>
 					<tr>
-						<th colspan="2">학생등록</th>
+						<th colspan="2">성적등록</th>
 					</tr>	
 					<tr>
 						<th>학년</th>
@@ -46,31 +46,21 @@
 						<td><input type="text" size="10" name="sno">(예)01</td>
 					</tr>
 					<tr>
-						<th>이름</th>
-						<td><input type="text" size="20" name="sname"></td>
+						<th>국어</th>
+						<td><input type="text" size="10" name="kor">점수범위(0~100)</td>
 					</tr>
 					<tr>
-						<th>생년월일</th>
-						<td><input type="data" size="20" name="birth">(예)20190301
-						 </td>
+						<th>영어</th>
+						<td><input type="text" size="10" name="eng">점수범위(0~100)</td>
 					</tr>
 					<tr>
-						<th>성별</th>
-					<td> 
-					<input type="radio" name="gender" value="M" checked>남자 
-					<input type="radio" name="gender" value="F">여자
-					</td>
+						<th>수학</th>
+						<td><input type="text" size="10" name="mat">점수범위(0~100)</td>
 					</tr>
-					<tr>
-						<th>전화번호</th>
-						<td><input type="tel" size="5" name="tel1"> -
-						<input type="tel" size="5" name="tel2"> -
-						<input type="tel" size="5" name="tel3">
-						 </td>
-					</tr>
+
 					<tr>
 						<td colspan="2" class="btn_group">
-							<input type="button" value="학생등록" onClick="send()"> 
+							<input type="button" value="성적저장" onClick="send()"> 
 							<input type="reset" value="다시쓰기" onClick="rewrite()">
 						</td>
 					</tr>
@@ -104,19 +94,19 @@
 			tbl_student_001.sno.focus();
 			return;
 		}
-		if(!tbl_student_001.sname.value){
-			alert("이름이 입력되지 않았습니다!");
-			tbl_student_001.sname.focus();
+		if(!tbl_student_001.kor.value){
+			alert("국어점수가 입력되지 않았습니다!");
+			tbl_student_001.kor.focus();
 			return;
 		}
-		if(!tbl_student_001.birth.value){
-			alert("생년월일 입력되지 않았습니다!");
-			tbl_student_001.birth.focus();
+		if(!tbl_student_001.eng.value){
+			alert("영어점수가 입력되지 않았습니다!");
+			tbl_student_001.eng.focus();
 			return;
 		}
-		if(!tbl_student_001.tel1.value || !tbl_student_001.tel2.value || !tbl_student_001.tel3.value){
-	        alert("전화번호가  입력되지 않았습니다!");
-	        tbl_student_001.tel1.focus();
+		if(!tbl_student_001.mat.value){
+	        alert("수학점수가 입력되지 않았습니다!");
+	        tbl_student_001.mat.focus();
 	        return;
 	    }
 

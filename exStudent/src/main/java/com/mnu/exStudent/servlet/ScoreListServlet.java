@@ -1,6 +1,7 @@
 package com.mnu.exStudent.servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,17 +10,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mnu.exStudent.model.StuDAO;
+import com.mnu.exStudent.model.studentscoreDTO;
+
 /**
- * Servlet implementation class ScoreWriteServlet
+ * Servlet implementation class ScoreListServlet
  */
-@WebServlet("/scoreWrite.do")
-public class ScoreWriteServlet extends HttpServlet {
+@WebServlet("/scoreList.do")
+public class ScoreListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ScoreWriteServlet() {
+    public ScoreListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,8 +32,13 @@ public class ScoreWriteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		RequestDispatcher rd = request.getRequestDispatcher("scorewrtie.jsp");
+		StuDAO studentDAO = StuDAO.getInstance();
+		
+		List<studentscoreDTO> list = studentDAO.scoreList();
+		
+		request.setAttribute("list", list);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("scorelist.jsp");
 		rd.forward(request, response);
 
 	}

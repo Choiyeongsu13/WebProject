@@ -1,6 +1,6 @@
 package com.mnu.exStudent.model;
 
-public class StuScoreDTO {
+public class tbl_scoreDTO {
 	private int kor;
 	private int eng;
 	private int mat;
