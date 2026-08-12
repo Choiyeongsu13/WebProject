@@ -105,5 +105,44 @@ public class StuDAO {
 		}
 		return list;
 	}
+
+	public List<WrapperDTO> classTotalList() {
+		List<WrapperDTO> list = new ArrayList<WrapperDTO>();
+		String sql = "select t1.syear, t1.sclass, d.tname, count(*) cnt, \r\n"
+				+ "       sum(t1.kor) skor, sum(t1.eng) seng, sum(t1.mat) smat \r\n"
+				+ "from tbl_score_201905 t1 left join tbl_dept_201905 d\r\n"
+				+ "        on t1.syear=d.syear and t1.sclass=d.sclass\r\n"
+				+ "group by t1.syear, t1.sclass, d.tname\r\n"
+				+ "order by t1.syear, t1.sclass";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+
+			rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+
+				WrapperDTO dto = new WrapperDTO();
+				dto.getTbl_dept().setSyear(rs.getString("syear"));
+				dto.getTbl_dept().setSclass(rs.getString("sclass"));
+				dto.getTbl_dept().setTname(rs.getString("tname"));
+				dto.getTbl_score().setKor(rs.getInt("skor"));
+				dto.getTbl_score().setEng(rs.getInt("seng"));
+				dto.getTbl_score().setMat(rs.getInt("smat"));
+				dto.setScnt(rs.getInt("cnt"));
+
+				list.add(dto);
+			}
+
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt, rs);//select
+		}
+		return list;
+	}
 }
 

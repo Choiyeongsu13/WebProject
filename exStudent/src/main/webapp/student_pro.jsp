@@ -10,7 +10,7 @@
 <body>
 <c:if test="${row == 1}">
 	<h1> 성공 메시지</h1>
-	<h3><a href="/">홈으로</a></h3>
+	<h3><a href="<%= request.getContextPath() %>/">홈으로</a></h3>
 </c:if>
 <c:if test="${row != 1}">
 	<h1> 실패 메시지</h1>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -28,7 +29,7 @@
 		<section>
 			<div class="content">
 				<h2 class="title">반 별 통계</h2>
-			<form name="tbl_student_001" id="form" method="post" action="/classTotal.do">
+			<form name="tbl_student_001" id="form" method="post" action="<%= request.getContextPath() %>/classTotal.do">
 				<table>
 					<tr>
 						<th colspan="20" >반 별 통계</th>
@@ -44,7 +45,24 @@
 						<th>영어평균</th>
 						<th>수학평균</th>
 					</tr>
-
+				<c:if test="${empty list}">
+					<tr>
+						<td colspan="9">등록된 자료가 없음</td>
+					</tr>
+				</c:if>
+				<c:forEach var="dto" items="${list}">
+					<tr>
+						<td>${dto.tbl_dept.syear}</td>
+						<td>${dto.tbl_dept.sclass}</td>
+						<td>${dto.tbl_dept.tname}</td>
+						<td>${dto.tbl_score.kor}</td>
+						<td>${dto.tbl_score.eng}</td>
+						<td>${dto.tbl_score.mat}</td>
+						<td><fmt:formatNumber pattern="#.00" value="${dto.korAvg}"/></td>
+						<td><fmt:formatNumber pattern="#.00" value="${dto.engAvg}"/></td>
+						<td><fmt:formatNumber pattern="#.00" value="${dto.matAvg}"/></td>
+					</tr>
+				</c:forEach>
 				</table>
 			</form>
 			</div>

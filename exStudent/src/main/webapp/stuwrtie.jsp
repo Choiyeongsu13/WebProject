@@ -28,7 +28,7 @@
 		<section>
 			<div class="content">
 				<h2 class="title">학생 등록</h2>
-			<form name="tbl_student_001" id="form" method="post" action="/studentWrite.do">
+			<form name="tbl_student_001" id="form" method="post" action="<%= request.getContextPath() %>/studentWrite.do">
 				<table>
 					<tr>
 						<th colspan="2">학생등록</th>

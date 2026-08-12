@@ -27,11 +27,11 @@
 		<div class="nav">
 			<nav>
 				<ul class="navi">
-					<li><a href="/stuwrtie.jsp">학생등록</a></li>
-					<li><a href="/scoreWrite.do">성적입력</a></li>
-					<li><a href="/scoreList.do">성적조회</a></li>
-					<li><a href="/classTotal.do">반별통계</a></li>
-					<li><a href="/">홈으로</a></li>
+					<li><a href="<%= request.getContextPath() %>/stuwrtie.jsp">학생등록</a></li>
+					<li><a href="<%= request.getContextPath() %>/scoreWrite.do">성적입력</a></li>
+					<li><a href="<%= request.getContextPath() %>/scoreList.do">성적조회</a></li>
+					<li><a href="<%= request.getContextPath() %>/classTotal.do">반별통계</a></li>
+					<li><a href="<%= request.getContextPath() %>/">홈으로</a></li>
 				</ul>
 			</nav>
 		</div>
