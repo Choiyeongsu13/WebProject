@@ -33,7 +33,7 @@
 					<li><a href="mento_score_search">채점점수조회</a></li>
 					<li><a href="mento_score_list">멘토점수조회</a></li>
 					<li><a href="Artist_Rank">참가자등수조회</a></li>
-					<li><a href="index.jsp">홈으로</a></li>
+					<li><a href="/">홈으로</a></li>
 				</ul>
 			</nav>
 		</div>

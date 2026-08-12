@@ -34,6 +34,7 @@ public class DBManager {
 		
 		pstmt.close();
 		conn.close();
+		rs.close();
 		
 	}catch(Exception e) {
 		e.printStackTrace();
