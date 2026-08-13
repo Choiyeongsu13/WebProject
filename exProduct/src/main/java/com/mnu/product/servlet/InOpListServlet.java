@@ -1,0 +1,52 @@
+package com.mnu.product.servlet;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.mnu.product.model.ProductDAO;
+import com.mnu.product.model.wrapperDTO;
+
+/**
+ * Servlet implementation class InOpListServlet
+ */
+@WebServlet("/InOpList")
+public class InOpListServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public InOpListServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ProductDAO dao = ProductDAO.getInstance();
+
+		List<wrapperDTO> list = dao.inOpList();
+		request.setAttribute("list", list);
+
+		RequestDispatcher rd = request.getRequestDispatcher("InOpList.jsp");
+		rd.forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

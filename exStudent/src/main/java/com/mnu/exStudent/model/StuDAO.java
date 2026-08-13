@@ -140,7 +140,7 @@ public class StuDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			DBManager.close(conn, pstmt, rs);//select
+			DBManager.close(conn, pstmt, rs);
 		}
 		return list;
 	}
