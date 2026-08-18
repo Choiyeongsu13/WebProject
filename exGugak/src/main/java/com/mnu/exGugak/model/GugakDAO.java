@@ -16,9 +16,9 @@ public class GugakDAO {
 	}
 	
 	public int getscorewrite(tbl_recordDTO dto) {
-	
-		String sql=" insert into tbl_record_202106 values(?,?,?,?,?,?)";
-	
+
+		String sql=" insert into tbl_record_202106 (entry_no, score1, score2, score3, score4, score5) values(?,?,?,?,?,?)";
+
 	int row=0;
 	Connection conn= null;
 	PreparedStatement pstmt=null;
@@ -46,7 +46,7 @@ public class GugakDAO {
 
 	public int getscorewriteArray(tbl_recordDTO dto) {
 
-		String sql=" insert into tbl_record_202106 values(?,?,?,?,?,?)";
+		String sql=" insert into tbl_record_202106 (entry_no, score1, score2, score3, score4, score5) values(?,?,?,?,?,?)";
 
 		int row=0;
 		Connection conn= null;

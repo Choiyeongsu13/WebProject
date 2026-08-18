@@ -13,28 +13,34 @@ import com.mnu.exGugak.model.GugakDAO;
 import com.mnu.exGugak.model.tbl_recordDTO;
 
 /**
- * Servlet implementation class ScoreWrite
+ * Servlet implementation class ScoreWrite2Servlet
  */
-@WebServlet("/ScoreWrite")
-public class ScoreWriteServlet extends HttpServlet {
+@WebServlet("/ScoreWrite2")
+public class ScoreWrite2Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ScoreWriteServlet() {
+    public ScoreWrite2Servlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		RequestDispatcher rd = request.getRequestDispatcher("ScoreWrite.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("ScoreWrite2.jsp");
 		rd.forward(request, response);
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
@@ -42,25 +48,27 @@ public class ScoreWriteServlet extends HttpServlet {
 		GugakDAO dao = GugakDAO.getInstance();
 		tbl_recordDTO dto = new tbl_recordDTO();
 
+		
+		
+		
+		
+		
 		String entry_no = request.getParameter("entry_no");
-		int score1 = Integer.parseInt(request.getParameter("score1"));
-		int score2 = Integer.parseInt(request.getParameter("score2"));
-		int score3 = Integer.parseInt(request.getParameter("score3"));
-		int score4 = Integer.parseInt(request.getParameter("score4"));
-		int score5 = Integer.parseInt(request.getParameter("score5"));
+		String[] scoreParams = request.getParameterValues("score");
+
+		int[] scores = new int[scoreParams.length];
+		for (int i = 0; i < scoreParams.length; i++) {
+			scores[i] = Integer.parseInt(scoreParams[i]);
+		}
 
 		dto.setEntry_no(entry_no);
-		dto.setScore1(score1);
-		dto.setScore2(score2);
-		dto.setScore3(score3);
-		dto.setScore4(score4);
-		dto.setScore5(score5);
+		dto.setScore(scores);
 
-		dao.getscorewrite(dto);
+		dao.getscorewriteArray(dto);
 
 		request.setAttribute("dto", dto);
 
-		RequestDispatcher rd = request.getRequestDispatcher("ScoreWrite.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("ScoreWrite2.jsp");
 		rd.forward(request, response);
 	}
 
