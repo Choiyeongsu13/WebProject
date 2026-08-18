@@ -27,11 +27,11 @@
 			<div class="nav">
 				<nav>
 					<ul class="navi">
-						<li><a href="shopwrite.jsp">회원등록</a></li>
-						<li><a href="">회원목록조회</a></li>
-						<li><a href="">회원매출조회</a></li>
-						<li><a href="">회원정보검색</a></li>
-						<li><a href="/">홈으로</a></li>
+						<li><a href="${pageContext.request.contextPath}/Shop?cmd=ShopWrite">회원등록</a></li>
+						<li><a href="${pageContext.request.contextPath}/Shop?cmd=ShopList">회원목록조회</a></li>
+						<li><a href="${pageContext.request.contextPath}/Shop?cmd=ShopSaleList">회원매출조회</a></li>
+						<li><a href="${pageContext.request.contextPath}/Shop?cmd=ShopSearch">회원정보검색</a></li>
+						<li><a href="${pageContext.request.contextPath}/">홈으로</a></li>
 					</ul>
 				</nav>			
 			</div>

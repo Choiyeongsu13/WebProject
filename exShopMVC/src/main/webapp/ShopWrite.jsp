@@ -26,7 +26,7 @@
 		<section>
 			<div class="content">
 				<h2 class="title">회원 등록</h2>
-			<form name="tbl_member_001" id="form" method="post" action="">
+			<form name="tbl_member_001" id="form" method="post" action="/Shop?cmd=ShopWritePro">
 				<table>
 					<tr>
 						<th colspan="2">회원 기본 정보</th>

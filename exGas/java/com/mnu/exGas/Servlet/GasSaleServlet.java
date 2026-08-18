@@ -66,7 +66,7 @@ public class GasSaleServlet extends HttpServlet {
 		dto.setCustno(custno);
 		dto.setCreditcart(creditcart);
 		dto.setOilcost(Integer.parseInt(oilcost));
-		
+		 
 		request.setAttribute("dto", dto);
 
 		List<OilInfoDTO> list = dao.getOilList();
