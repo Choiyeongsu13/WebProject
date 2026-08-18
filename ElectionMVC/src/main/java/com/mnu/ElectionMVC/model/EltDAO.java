@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.mnu.ElectionMVC.util.DBManager;
 
+
 public class EltDAO {
 	private EltDAO() {}
 	public static EltDAO instance = new EltDAO();
@@ -86,6 +87,7 @@ public class EltDAO {
 
 
 	public int voteWrite(tbl_voteDTO dto) {
+		
 		int row = 0;
 		String sql = "INSERT INTO TBL_VOTE_202005 (v_jumin, v_name, m_no, v_time, v_area, v_confirm) "
 				+ "VALUES (?, ?, ?, ?, ?, ?)";

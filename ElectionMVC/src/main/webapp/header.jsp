@@ -18,7 +18,7 @@
 	.content table{width:1000px;margin:0 auto;}
 	.content table th, td{border:1px solid #bbb;}
 	.content table .btn_group {text-align:center;}
-	.footer {padding:16px 0; text-align:center; background-color:rgb(0, 0, 0);}
+	.footer {padding:16px 0; text-align:center; background-color:rgb(0, 128, 128);}
 </style>
 </head>
 <body>

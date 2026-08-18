@@ -23,7 +23,7 @@ public class VoteService implements Action {
 
 		String v_jumin = request.getParameter("v_jumin");
 
-		if (v_jumin != null && !v_jumin.isEmpty()) {
+		
 			tbl_voteDTO dto = new tbl_voteDTO();
 			dto.setV_jumin(v_jumin);
 			dto.setV_name(request.getParameter("v_name"));
@@ -35,7 +35,7 @@ public class VoteService implements Action {
 			dao.voteWrite(dto);
 			request.setAttribute("dao",dao);
 				
-		}
+		
 
 		List<tbl_memberDTO> list = dao.memberList();
 		request.setAttribute("list", list);
