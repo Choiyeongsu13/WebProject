@@ -40,10 +40,38 @@ public class GugakDAO {
 	}finally {
 		DBManager.close(conn, pstmt);
 	}return row;
-	
-	
+
+
 	}
-	
+
+	public int getscorewriteArray(tbl_recordDTO dto) {
+
+		String sql=" insert into tbl_record_202106 values(?,?,?,?,?,?)";
+
+		int row=0;
+		Connection conn= null;
+		PreparedStatement pstmt=null;
+
+		try {
+			conn=DBManager.getConnection();
+			pstmt=conn.prepareStatement(sql);
+
+			pstmt.setString(1, dto.getEntry_no());
+
+			int[] scores = dto.getScore();
+			for (int i = 0; i < scores.length; i++) {
+				pstmt.setInt(i + 2, scores[i]);
+			}
+
+			row=pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt);
+		}return row;
+
+	}
+
 	public List<wrapperDTO> getTotalScoreList(){
 		List<wrapperDTO> list= new ArrayList();
 		String sql="select e.entry_no, entry_name, entry_jumin, entry_type, entry_area,s_tot,s_ave \r\n"

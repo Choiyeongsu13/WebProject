@@ -28,6 +28,7 @@
 			<nav>
 				<ul class="navi">
 					<li><a href="/ScoreWrite">경연점수등록</a></li>
+					<li><a href="/ScoreWrite2">경연점수등록(배열)</a></li>
 					<li><a href="/ScoreSearch">경연결과조회</a></li>
 					<li><a href="/TotalScore">최종등수조회</a></li>
 					<li><a href="/">홈으로</a></li>

@@ -8,7 +8,9 @@ public class tbl_recordDTO {
 	private int score3;
 	private int score4;
 	private int score5;
-	
+
+	private int[] score;
+
 	private int s_max;
 	private int s_min;
 	private int s_tot;
@@ -73,6 +75,11 @@ public class tbl_recordDTO {
 	public void setS_ave(double s_ave) {
 		this.s_ave = s_ave;
 	}
-	
+	public int[] getScore() {
+		return score;
+	}
+	public void setScore(int[] score) {
+		this.score = score;
+	}
 
 }
