@@ -1,4 +1,5 @@
-package exSampleservlet;
+package com.mnu.sample.controller;
+
 
 import java.io.IOException;
 
@@ -10,16 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class testServlet
+ * Servlet implementation class indexController
  */
-@WebServlet("/testServlet")
-public class testServlet extends HttpServlet {
+@WebServlet("/")
+public class indexController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public testServlet() {
+    public indexController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,10 +29,8 @@ public class testServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		request.setAttribute("score", 70);
-		request.setAttribute("a", 'A');
-		RequestDispatcher rd = request.getRequestDispatcher("/Exam/exam03.jsp");
+		// TODO Auto-generated method stub
+		RequestDispatcher rd= request.getRequestDispatcher("");
 		rd.forward(request, response);
 	}
 

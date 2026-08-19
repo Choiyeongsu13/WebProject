@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
  <title>Login</title>
@@ -25,15 +25,17 @@
          <input type="password" size="10" name="passwd">
        </td>
      </tr>
+    
      <tr>
        <td><input type="image" src="/Images/img/login1.gif" border="0" onClick="return check_login()"></td>
 			 <td>
            <a href=""><img src="/Images/img/regist.gif" border="0"></a>
        </td>
      </tr>
+     
  </form>
  </table>
- 
+  <c:if test="${!empty user }"> 
  <table width="100%" height="120" border="0">
    <tr>
      <td bgcolor="#6FA0E" align="center" height="20">
@@ -41,6 +43,7 @@
      </td>
    </tr>
    <tr>
+  
      <td align="center">
        <font size="2">
        <a href="adminpage.jsp">관리자 페이지</a><br>
@@ -48,9 +51,11 @@
        <a href="userinfo_view.jsp">회원정보수정</a><br>
        </font>
      </td>
+     
    </tr>
  </table>
- 
+ </c:if>
+ <c:if test="${!empty user }"> 
  <table width="100%" height="120" border="0">
    <tr>
      <td bgcolor="#6FA0E" align="center" height="20">
@@ -58,16 +63,18 @@
      </td>
    </tr>
    <tr>
+  
      <td align="center">
        <font size="2">
        <a href="logout.jsp">로그오프</a><br>
        <a href="userinfo_view.jsp">회원정보수정</a>
        <a href="userinfo_del.jsp">회원탈퇴</a>
-
        </font>
      </td>
+     
    </tr>
- </table>
 
+ </table>
+</c:if>
  </body>
  </html>

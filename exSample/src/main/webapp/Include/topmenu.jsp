@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
  <head><title>Web Programming Test</title>
@@ -20,13 +21,23 @@
        </b></font>
      </td>
      <td bgcolor="#9966ff" width="10%" height="25" onmouseover="style.backgroundColor='#2772D3'" onmouseout="style.backgroundColor=''">
+    <c:if test="${empty user}"> 
      <p align="center"><font color="white" size="2"><b><a href="/User/user_login.jsp" class="white">로그인</A></b></font></p>
+    </c:if>
+    <c:if test="${!empty user}">
      <p align="center"><font color="white" size="2"><b><a href="" class="white">로그아웃</A></b></font></p>
+    </c:if>
      </td>
+     
      <td bgcolor="#9966ff" width="10%" onmouseover="style.backgroundColor='#2772D3'" onmouseout="style.backgroundColor=''">
+     <c:if test="${empty user}">
      <p align="center"><font color="white" size="2"><b><a href="/User/user_insert.jsp" class="white">회원가입</a></b></font></p>
+     </c:if>
+     <c:if test="${!empty user}">
      <p align="center"><font color="white" size="2"><b><a href="/User/user_modify.jsp" class="white">정보수정</a></b></font></p>
+     </c:if>
      </td>
+     
      <td bgcolor="#9966ff" width="10%" onmouseover="style.backgroundColor='#2772D3'" onmouseout="style.backgroundColor=''">
      <p align="center"><font color="white" size="2"><b><a href="/Notice/notice_list.jsp" class="white">공지사항</a></b></font></p>
      </td>
