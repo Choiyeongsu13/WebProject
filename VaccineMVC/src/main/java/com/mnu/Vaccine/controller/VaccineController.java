@@ -1,4 +1,4 @@
-package com.mnu.sample.controller;
+package com.mnu.Vaccine.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,20 +7,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mnu.sample.service.Action;
-import com.mnu.sample.service.BoardPhoto.BoardPhotoService;
+import com.mnu.Vaccine.Service.Action;
+import com.mnu.Vaccine.Service.VaccresvService;
 
 /**
- * Servlet implementation class BoardPhotoController
+ * Servlet implementation class VaccineController
  */
-@WebServlet("/BoardPhoto")
-public class BoardPhotoController extends HttpServlet {
+@WebServlet("/Vaccresv")
+public class VaccineController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardPhotoController() {
+    public VaccineController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,12 +29,18 @@ public class BoardPhotoController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String cmd = request.getParameter("cmd");
-		System.out.println("포토게시판 요청" +  cmd);
+		
+		System.out.println("사용자 요청 : " + cmd);
+		
 		Action action = null;
-		if(cmd.equals("board_list")) {
-			action = new BoardPhotoService();
+		
+		if(cmd.equals("Vaccresv")) {
+			action = new VaccresvService();
 		}
+		
+		
 		action.process(request, response);
 	}
 
@@ -43,6 +49,9 @@ public class BoardPhotoController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
 		doGet(request, response);
 	}
 

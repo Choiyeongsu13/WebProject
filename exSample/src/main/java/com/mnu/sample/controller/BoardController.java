@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mnu.sample.service.Action;
+import com.mnu.sample.service.Board.BoardListService;
+
 /**
  * Servlet implementation class BoardController
  */
@@ -29,6 +32,11 @@ public class BoardController extends HttpServlet {
 		// TODO Auto-generated method stub
 		String cmd = request.getParameter("cmd");
 		System.out.println("자유게시판 요청" +  cmd);
+		Action action =null;
+		if(cmd.equals("board_list")) {
+			action = new BoardListService();
+		}
+		action.process(request		, response);
 		
 	}
 

@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mnu.sample.service.Action;
+import com.mnu.sample.service.Pds.PdsListService;
+
 /**
  * Servlet implementation class PdsController
  */
@@ -29,6 +32,12 @@ public class PdsController extends HttpServlet {
 		
 		String cmd = request.getParameter("cmd");
 		System.out.println("자료실 요청" +  cmd);
+		Action action = null;
+		
+		if(cmd.equals("pds_list")) {
+			action =new PdsListService();
+		}
+		action.process(request, response);
 		
 	}
 

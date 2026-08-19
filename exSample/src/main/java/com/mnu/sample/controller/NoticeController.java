@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mnu.sample.service.Action;
+import com.mnu.sample.service.Notice.NoticeListService;
+
 /**
  * Servlet implementation class NoticeController
  */
@@ -29,9 +32,12 @@ public class NoticeController extends HttpServlet {
 		
 		String cmd = request.getParameter("cmd");
 		System.out.println("공지사항 요청" +  cmd);
-		if(cmd.equals("")) {
-			
+		Action action = null;
+		if(cmd.equals("notice_list")) {
+			action = new NoticeListService();
 		}
+		
+		action.process(request, response);
 	}
 
 	/**

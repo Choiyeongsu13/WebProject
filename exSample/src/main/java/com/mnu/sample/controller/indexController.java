@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class indexController
  */
-@WebServlet("/")
+@WebServlet("")
 public class indexController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -30,7 +30,7 @@ public class indexController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		RequestDispatcher rd= request.getRequestDispatcher("");
+		RequestDispatcher rd= request.getRequestDispatcher("/index.jsp");
 		rd.forward(request, response);
 	}
 

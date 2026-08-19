@@ -1,26 +1,25 @@
-package com.mnu.sample.controller;
+package com.mnu.Vaccine.controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mnu.sample.service.Action;
-import com.mnu.sample.service.BoardPhoto.BoardPhotoService;
-
 /**
- * Servlet implementation class BoardPhotoController
+ * Servlet implementation class IndexController
  */
-@WebServlet("/BoardPhoto")
-public class BoardPhotoController extends HttpServlet {
+@WebServlet("/")
+public class IndexController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardPhotoController() {
+    public IndexController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,13 +28,9 @@ public class BoardPhotoController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String cmd = request.getParameter("cmd");
-		System.out.println("포토게시판 요청" +  cmd);
-		Action action = null;
-		if(cmd.equals("board_list")) {
-			action = new BoardPhotoService();
-		}
-		action.process(request, response);
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+		rd.forward(request, response);
+	
 	}
 
 	/**

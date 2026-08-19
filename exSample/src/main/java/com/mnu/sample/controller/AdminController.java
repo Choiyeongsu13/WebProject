@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mnu.sample.service.Action;
+import com.mnu.sample.service.Admin.AdminLoginService;
+
 /**
  * Servlet implementation class AdminController
  */
@@ -29,6 +32,12 @@ public class AdminController extends HttpServlet {
 		
 		String cmd= request.getParameter("cmd");
 		System.out.println("관리자 요청" +  cmd);
+		Action action=null;
+		if(cmd.equals("admin_login")) {
+			action= new AdminLoginService();
+		}
+		
+		action.process(request, response);
 	}
 
 	/**
