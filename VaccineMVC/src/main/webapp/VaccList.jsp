@@ -39,6 +39,7 @@
 						<th>병원코드</th>
 						<th>병원명</th>
 						<th>접종건수</th>
+						
 					</tr>
 			<c:forEach var="dto" items="${list}">
 				<tr>

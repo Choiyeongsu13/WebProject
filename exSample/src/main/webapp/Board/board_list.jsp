@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-
+<%@taglib uri ="http://java.sun.com/jsp/jstl/core"   prefix="c" %>
+<%@taglib uri ="http://java.sun.com/jsp/jstl/functions"   prefix="fn" %>
 <%@ include file="/Include/topmenu.jsp" %>
 
 <html>
@@ -28,7 +29,7 @@
         <img src="/Images/img/bullet-01.gif"> <b>자 유 게 시 판</b></font></td></tr>
       <tr>
         <td colspan="5" align="right" valign="middle" height="20">
-		<font size="2" face="고딕">전체 : <b>15</b>건 - 1/ 2 Pages</font></td></tr>
+		<font size="2" face="고딕">전체 : <b>${totcount}</b>건 - 1/ 2 Pages</font></td></tr>
  	   <tr bgcolor="e3e9ff">
  	      <td width="10%" align="center" height="20"><font face="돋움" size="2">번 호</font></td>
  	      <td width="50%" align="center" height="20"><font face="돋움" size="2">제 목</font></td>
@@ -36,33 +37,29 @@
  	      <td width="15%" align="center" height="20"><font face="돋움" size="2">작성일</font></td>
  	      <td width="10%" align="center" height="20"><font face="돋움" size="2">조회수</font></td>
  	   </tr>
+<c:if test="${empty bList}">
+    <tr>
+        <td colspan="5" align="center" height="25">
+            <font face="돋움" size="2" color="#000000">등록된 자료가없음</font>
+        </td>
+    </tr>
+</c:if>
 
+	<c:if test="${!empty bList}">
+	<c:forEach var="board" items="${bList}">
 		<tr onMouseOver="style.backgroundColor='#D1EEEE'" onMouseOut="style.backgroundColor=''">
 			<td align="center" height="25">
-			<font face="돋움" size="2" color="#000000">5</font></td>
+			<font face="돋움" size="2" color="#000000">${board.idx}</font></td>
 			<td align="left" height="20">&nbsp;
 				<font face="돋움" size="2" color="#000000">
-				<a class="list" href="">제목부분입니다</a></td>
+				<a class="list" href="/Board?cmd=boardView&idx=${board.idx}">${board.subject}</a></td>
 					<td align="center" height="20"><font face="돋움" size="2">
-					<a class="list" href="mailto:ein1027@nate.com">나종민</a></font></td>
-				<td align="center" height="20"><font face="돋움" size="2">2007-10-22</font></td>
-				<td align="center" height="20"><font face="돋움" size="2">
-				3</font></td>
+					<a class="list" href="mailto:ein1027@nate.com">${board.name }</a></font></td>
+				<td align="center" height="20"><font face="돋움" size="2">${fn:substring(board.regdate,0,10) }</font></td>
+				<td align="center" height="20"><font face="돋움" size="2">${board.readcnt}</font></td>
 		</tr>
-		<tr onMouseOver="style.backgroundColor='#D1EEEE'" onMouseOut="style.backgroundColor=''">
-			<td align="center" height="25">
-			<font face="돋움" size="2" color="#000000">5</font></td>
-			<td align="left" height="20">&nbsp;
-				<font face="돋움" size="2" color="#000000">
-				<a class="list" href="">제목부분입니다</a></td>
-					<td align="center" height="20"><font face="돋움" size="2">
-					<a class="list" href="mailto:ein1027@nate.com">나종민</a></font></td>
-				<td align="center" height="20"><font face="돋움" size="2">2007-10-22</font></td>
-				<td align="center" height="20"><font face="돋움" size="2">
-				3</font></td>
-		</tr>
-
-
+	</c:forEach>
+	</c:if>
 	 <div align="center">
         <table width="700" border="0" cellspacing="0" cellpadding="5">
           <tr>&nbsp;</tr><tr>
@@ -94,7 +91,7 @@
 				</table>
 			</td>
 			<td width="25%" align="right">
-			<a href="#"><img src="/Images/img/write.gif" border="0"></a>
+			<a href="/Board?cmd=boardWrite"><img src="/Images/img/write.gif" border="0"></a>
 			</td>
 		</tr>
 	</table>

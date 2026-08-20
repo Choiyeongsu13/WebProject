@@ -4,7 +4,7 @@
 <%@ include file="/Include/topmenu.jsp" %>
 
 <html>
-   <head><title>게시판 작성</title>
+   <head><title>게시판 수정</title>
     <link rel="stylesheet" type="text/css" href="/stylesheet.css">
 
 </head>
@@ -14,133 +14,98 @@
    <td width="20%" height="500" bgcolor="#ecf1ef" valign="top">
 
    <!-- 다음에 추가할 부분 -->
-	<jsp:include page="/Include/login_form.jsp" /> 
+	<jsp:include page="/Include/login_form.jsp" />
    </td>
 
    <td width="80%" valign="top">&nbsp;<br>
      <img src="/Images/img/bullet-01.gif"><font size="3" face="돋움" color="blue"> <b>반갑습니다</b></font>
-     <font size="2"> - 글쓰기</font><p>
+     <font size="2"> - 글 수정</font><p>
      <img src="/Images/img/bullet-03.gif"><font size="2" face="돋움" color="orange"> 잠깐</font> &nbsp;
      <img src="/Images/img/bullet-02.gif"><font size="2" face="돋움">는 필수 입력 사항입니다.</font><p>
-     <form id="board"name="board" method="post" action="/Board">
-	  <input type="hidden" name="cmd" value="boardWritepro">
+     <form id="board" name="board" method="post" action="/Board">
+	  <input type="hidden" name="cmd" value="boardModifyPro">
+	  <input type="hidden" name="idx" value="${dto.idx}">
 
 	  <table border="0">
        <tr>
          <td width="5%" align="right"><img src="/Images/img/bullet-02.gif"></td>
          <td width="15%"><font size="2" face="돋움">글쓴이</font></td>
          <td width="80%">
-         <input type="text" size="20" id="name"name="name"></td>
+         <input type="text" size="20" id="name" name="name" value="${dto.name}" readonly></td>
        </tr>
        <tr>
          <td align="right">&nbsp;</td>
          <td ><font size="2" face="돋움">메일주소</font></td>
          <td>
-          <input type="text" size="20" id="email"name="email"></td>
+          <input type="text" size="20" id="email" name="email" value="${dto.email}"></td>
        </tr>
 	   <tr>
          <td align="right"><img src="/Images/img/bullet-02.gif"></td>
          <td><font size="2" face="돋움">제목</font></td>
-         <td><input type="text" size="60" id="subject"name="subject" ></td>
+         <td><input type="text" size="60" id="subject" name="subject" value="${dto.subject}"></td>
        </tr>
        <tr>
          <td align="right"><img src="/Images/img/bullet-02.gif"></td>
          <td><font size="2" face="돋움">내용</font></td>
-         <td><textarea wrap="physical" rows="10" id="contents"name="contents" cols="60"></textarea></td>
+         <td><textarea wrap="physical" rows="10" id="contents" name="contents" cols="60">${dto.contents}</textarea></td>
        </tr>
 	   <tr>
          <td align="right"><img src="/Images/img/bullet-02.gif"></td>
          <td><font size="2" face="돋움">비밀번호</font></td>
-          <td><input type="password" size="10" id="pass"name="pass" ><font size="2" face="돋움">*.수정과 삭제시 꼭 입력하셔야 합니다.</font></td>
+          <td><input type="password" size="10" id="pass" name="pass" ><font size="2" face="돋움">*.글 작성시 입력한 비밀번호를 다시 입력하셔야 합니다.</font></td>
         </tr>
         <tr></tr>
 		<tr>
           <td align="right">&nbsp;</td>
           <td><font size="2">&nbsp;</font></td>
           <td>
-                     <a href="javascript:board_send()"><img src="/Images/img/save.gif" border=0></a>&nbsp;&nbsp;&nbsp;
-                     <a href="javascript:history.back()"><img src="/Images/img/cancle.gif" border=0></a>
-    						[<img src="/Images/img/save.gif" border=0 id="btn_send"> ]
-          			[<img src="/Images/img/cancle.gif" border=0 id="btn_cancle">]
-               
-	
-
-		</td>
+          			[<img src="/Images/img/save.gif" border=0 id="btn_send" style="cursor:pointer;"> ]
+          			[<img src="/Images/img/cancle.gif" border=0 id="btn_cancel" style="cursor:pointer;">]
+          </td>
         </tr>
       </table>
       </form>
     </td>
   </tr>
   </table>
-  
-  <script type="text/javascript" 
+
+  <script type="text/javascript"
   src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
   </script>
-  
+
   <script>
-  //Jquery를 이용한 유효성 검사
+  //jQuery를 이용한 유효성 검사
   $(function(){
 	 $("#btn_send").click(function(){
-		 if($("#name").val()==''){
+		 if($("#name").val().trim() == ''){
 			 alert("이름을 입력하세요");
 			 $("#name").focus();
-			 return;	 }
-		 if($("#subject").val()==''){
+			 return;
+		 }
+		 if($("#subject").val().trim() == ''){
 			 alert("제목을 입력하세요");
-			 $("#subjcet").focus();
-			 return;	 }
-		 if($("#contents").val()==''){
+			 $("#subject").focus();
+			 return;
+		 }
+		 if($("#contents").val().trim() == ''){
 			 alert("내용을 입력하세요");
 			 $("#contents").focus();
-			 return;	 }
-		 if($("#pass").val()==''){
+			 return;
+		 }
+		 if($("#pass").val().trim() == ''){
 			 alert("비밀번호를 입력하세요");
 			 $("#pass").focus();
-			 return;	 }
-	 	
-	 	$("#board").submit();
+			 return;
+		 }
+
+		 $("#board").submit();
 	 });
-	 
-	$("#btn_cancel").click(function(){
+
+	 $("#btn_cancel").click(function(){
 		 history.back();
 	 });
-	  
-	  
   });
-  
-  
-  //전통적 유효성 검사
-  
-  
-  <!--유효성 체크 -->
-  function board_send(){
-	  var frm = document.frm;
-
-	  if(frm.name.value.trim().length === 0){
-		  alert("이름이 비어있습니다");
-		  frm.name.focus();
-		  return false;
-	  }
-	  if(frm.subject.value.trim().length === 0){
-		  alert("제목이 비어있습니다");
-		  frm.subject.focus();
-		  return false;
-	  }
-	  if(frm.contents.value.trim().length === 0){
-		  alert("내용이 비어있습니다");
-		  frm.contents.focus();
-		  return false;
-	  }
-	  if(frm.pass.value.trim().length === 0){
-		  alert("비밀번호가 비어있습니다");
-		  frm.pass.focus();
-		  return false;
-	  }
-
-	  frm.submit();
-	  return true;
-  }
   </script>
-  
+
   </body>
   </html>
