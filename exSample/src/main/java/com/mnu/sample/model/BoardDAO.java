@@ -112,6 +112,7 @@ public class BoardDAO {
 		}return row;
 	}
 
+	
 	// 글 1개 상세조회
 	public BoardDTO boardSearch(int idx){
 		BoardDTO dto = new BoardDTO();
@@ -138,20 +139,27 @@ public class BoardDAO {
 		}return dto;
 	}
 	// 글 삭제
-	public int boardDelete(int idx, String pass){
-		int row = 0;
-		String sql = "delete from tbl_board where idx=? and pass=?";
+	
+	public int boardDelete(int idx , String pass) {
+		int row=0;
+		String sql="delete from tbl_board where idx=? and pass=?";
+		
 		try {
+			conn=DBManager.getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
 			conn=DBManager.getConnection();
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			pstmt.setString(2, pass);
-			row = pstmt.executeUpdate();
+			row =pstmt.executeUpdate();
+			
 		}catch(Exception e) {
 			e.printStackTrace();
-		}finally {
+		}finally{
 			DBManager.close(conn, pstmt);
 		}return row;
+	
 	}
 
 }

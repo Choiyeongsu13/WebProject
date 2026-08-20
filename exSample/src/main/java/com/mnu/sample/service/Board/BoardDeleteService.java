@@ -13,6 +13,11 @@ public class BoardDeleteService implements Action {
 
 	@Override
 	public void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		
+		request.setAttribute("idx", idx);
 		RequestDispatcher rd = request.getRequestDispatcher("/Board/board_delete.jsp");
 		rd.forward(request, response);
 	}

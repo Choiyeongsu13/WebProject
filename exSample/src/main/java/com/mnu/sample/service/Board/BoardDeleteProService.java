@@ -2,6 +2,7 @@ package com.mnu.sample.service.Board;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,11 +21,13 @@ public class BoardDeleteProService implements Action {
 
 		BoardDAO dao = BoardDAO.getInstance();
 		int row = dao.boardDelete(idx, pass);
+		
+		request.setAttribute("row", row);
+		RequestDispatcher rd = request.getRequestDispatcher("/Board/board_deletepro.jsp");
+		rd.forward(request, response);
+			
 
-	
-	
-
-		response.sendRedirect(request.getContextPath() + "/Board?cmd=board_list");
+//		response.sendRedirect(request.getContextPath() + "/Board?cmd=board_list");
 	}
 
 }
