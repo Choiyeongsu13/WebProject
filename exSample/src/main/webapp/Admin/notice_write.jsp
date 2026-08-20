@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@taglib uri ="http://java.sun.com/jsp/jstl/core"   prefix="c" %>
+
+
 
 <html>
 <head>
@@ -29,16 +32,19 @@ body {
 					</b></td>
 				</tr>
 			</table><br>
+			<form action="/Admin/Notice" method="post" name="notice_write_form">
+			<input type="hidden" name="cmd" value="${empty param.idx ? 'noticeWritepro' : 'noticeModifypro'}">
+			<input type="hidden" name="idx" value="${dto.idx}">
 			<table width="60%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td><table width="100%" border="0" cellpadding="6" cellspacing="1" bgcolor="DDDDDD">
 							<tr>
 								<td width="20%" align="center" bgcolor="EcECEC"><strong>제목</strong></td>
-								<td bgcolor="ffffff"><input name="subject" type="text" value=""  style="width:450; height:18; padding:2; border:1 solid slategray" size="120"></td>
+								<td bgcolor="ffffff"><input name="subject" type="text" value="${dto.subject}"  style="width:450; height:18; padding:2; border:1 solid slategray" size="120"></td>
 							</tr>
 							<tr bgcolor="EcECEC">
 								<td align="center" bgcolor="EcECEC"><strong>내용</strong></td>
-								<td bgcolor="ffffff"><textarea name="contents" cols="10" rows="10" style="width:490; height:200; padding:2; border:1 solid slategray" tabindex="2"></textarea></td>
+								<td bgcolor="ffffff"><textarea name="contents" cols="10" rows="10" style="width:490; height:200; padding:2; border:1 solid slategray" tabindex="2">${dto.contents}</textarea></td>
 							</tr>
 						</table>
 					</td>
@@ -47,9 +53,10 @@ body {
 			</table><br>
 			<table width="60%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td align=center><a href=""><b>[수정] [등록]</b></a>&nbsp; <a href=""><b>[취소]</b></a></td>
+					<td align=center><input type="submit" value="${empty dto.idx ? '등록' : '수정'}">&nbsp; <a href="/Admin/Notice?cmd=noticeList"><b>[취소]</b></a></td>
 				</tr>
 			</table>
+			</form>
 		</td>
 	</tr>
 </table>			

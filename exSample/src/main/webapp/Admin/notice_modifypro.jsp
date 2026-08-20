@@ -4,13 +4,7 @@
 
 <c:if test="${row==1}">
 	<script>
-	//opener.location.href="/board?cmd=boardList"; //객체
-	//새로운 페이지 이동
-	
-	
-	//기존 페이지를 새로운 페이지로 변경 (뒤로가기가안됌) 
-		opener.location.href="/Board?cmd=board_list"; //메소드
-		self.close();
+		location.href="/Board?cmd=board_list";
 	</script>
 </c:if>
 
