@@ -27,7 +27,8 @@ public class admin_notice_modifyproService implements Action {
 
 		Andao.AdminNoticeModify(Andto);
 
-		response.sendRedirect("/Admin/Notice?cmd=noticeView&idx=" + idx);
+//		response.sendRedirect("/Admin/Notice?cmd=noticeView&idx=" + idx);
+		response.sendRedirect("/Admin/Notice?cmd=noticeList");
 
 	}
 

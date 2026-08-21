@@ -54,10 +54,11 @@ public class AdminBoardDAO {
 		DBManager.close(conn	, pstmt, rs);
 		}return count;
 	}
+	//tbl_board.idx 는 시퀀스/트리거가 없어 MAX(idx)+1 로 직접 채번한다
 	public int boardwrite(BoardDTO dto){
 		int row=0;
-		String sql = "insert into tbl_board(name,email,subject,contents,pass)\r\n"
-				+ "values(?,?,?,?,?)";
+		String sql = "insert into tbl_board(idx,name,email,subject,contents,pass)\r\n"
+				+ "values((select nvl(max(idx),0)+1 from tbl_board),?,?,?,?,?)";
 		try {
 			conn=DBManager.getConnection();
 			pstmt=conn.prepareStatement(sql);

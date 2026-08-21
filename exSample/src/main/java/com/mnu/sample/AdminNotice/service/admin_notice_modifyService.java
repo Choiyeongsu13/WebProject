@@ -22,7 +22,8 @@ public class admin_notice_modifyService implements Action {
 		AdminNoticeDTO Andto = Andao.AdminNoticeSearch(idx);
 
 		request.setAttribute("dto", Andto);
-
+		
+		
 		RequestDispatcher rd = request.getRequestDispatcher("/Admin/notice_modify.jsp");
 		rd.forward(request, response);
 

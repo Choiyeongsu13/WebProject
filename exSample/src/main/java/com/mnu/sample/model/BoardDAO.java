@@ -37,6 +37,40 @@ public class BoardDAO {
 		DBManager.close(conn	, pstmt, rs);
 		}return Blist;
 	}
+	
+	//총 게시글 수 카운트(검색기능  추가
+	public int boardcountList(String search, String key){
+		int count = 0;
+		String sql="select count(*) from tbl_board where " + search + " like ?";
+
+//		if(search.equals("name")){
+//			sql="select count(*) from tbl_board where name like ?";	
+//		}else if(search.equals("subject")) {
+//			sql="select count(*) from tbl_board where subjcet like ?";	
+//		}else {
+//			sql="select count(*) from tbl_board where contents like ?";	
+//		}
+//		
+
+		
+		
+		try {
+			conn=DBManager.getConnection();
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+key+"%");
+			
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+		DBManager.close(conn	, pstmt, rs);
+		}return count;
+	}
+	
 	//총 게시글 수 카운트
 	public int boardcountList(){
 		int count = 0;
@@ -54,10 +88,37 @@ public class BoardDAO {
 		DBManager.close(conn	, pstmt, rs);
 		}return count;
 	}
+	
+	//전체 게시글 목록(list) 검색조건 추가
+	public List<BoardDTO> boardList(String search, String key){
+		List<BoardDTO> Blist = new ArrayList();
+		String sql="select * from tbl_board where " + search + " like ? order by regdate desc";
+		try {
+			conn=DBManager.getConnection();
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+key+"%");
+			
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				BoardDTO Bdto = new BoardDTO();
+				Bdto.setIdx(rs.getInt("idx"));
+				Bdto.setName(rs.getString("name"));
+				Bdto.setRegdate(rs.getString("regdate"));
+				Bdto.setSubject(rs.getString("subject"));
+				Bdto.setReadcnt(rs.getInt("readcnt"));
+				Blist.add(Bdto);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+		DBManager.close(conn	, pstmt, rs);
+		}return Blist;
+	}
+	//tbl_board.idx 는 시퀀스/트리거가 없어 MAX(idx)+1 로 직접 채번한다
 	public int boardwrite(BoardDTO dto){
 		int row=0;
-		String sql = "insert into tbl_board(name,email,subject,contents,pass)\r\n"
-				+ "values(?,?,?,?,?)";
+		String sql = "insert into tbl_board(idx,name,email,subject,contents,pass)\r\n"
+				+ "values((select nvl(max(idx),0)+1 from tbl_board),?,?,?,?,?)";
 		try {
 			conn=DBManager.getConnection();
 			pstmt=conn.prepareStatement(sql);

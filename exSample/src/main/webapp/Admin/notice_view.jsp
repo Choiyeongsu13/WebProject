@@ -52,7 +52,10 @@ A:hover {font-family:tahoma;font-size:9pt;color:#009900;text-decoration:underlin
 			</table><br>
 			<table width="60%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td align=center><a href="/Admin/Notice?cmd=noticeModify&idx=${dto.idx}"><b>[수정]</b></a>&nbsp; <a href="javascript:void(0)" onclick="if(confirm('정말 삭제하시겠습니까?')) location.href='/Admin/Notice?cmd=noticeDeletepro&idx=${dto.idx}'"><b>[삭제]</b></a>&nbsp; <a href="/Admin/Notice?cmd=noticeList"><b>[목록]</b></a></td>
+					<td align=center><a href="/Admin/Notice?cmd=noticeModify&idx=${dto.idx}"><b>[수정]</b></a>&nbsp; <a href="javascript:notice_delete()"><b>[삭제]</b></a>&nbsp; <a href="/Admin/Notice?cmd=noticeList"><b>[목록]</b></a></td>
+			<!-- 		<td align=center><a href="/Admin/Notice?cmd=noticeModify&idx=${dto.idx}"><b>[수정]</b></a>&nbsp; <a href="javascript:notice_delete()" onclick="if(confirm('정말 삭제하시겠습니까?')) location.href='/Admin/Notice?cmd=noticeDeletepro&idx=${dto.idx}'"><b>[삭제]</b></a>&nbsp; <a href="/Admin/Notice?cmd=noticeList"><b>[목록]</b></a></td>
+			 -->
+				
 				</tr>
 			</table>
 		</td>
@@ -60,3 +63,14 @@ A:hover {font-family:tahoma;font-size:9pt;color:#009900;text-decoration:underlin
 </table>			
 </body>
 </html>
+
+<script>
+	function notice_delete(){
+		var bool = confirm("삭제할까요?")
+		
+		if(bool){
+			location.href="/Admin/Notice?cmd=noticeDelete&idx=" + ${dto.idx}
+		}
+	}
+
+</script>

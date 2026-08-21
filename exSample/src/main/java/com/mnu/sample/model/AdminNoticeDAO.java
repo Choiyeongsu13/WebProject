@@ -46,6 +46,65 @@ public class AdminNoticeDAO {
 	}return ANlist;
 	}
 	
+	//관리자 전용 공지 글 목록(검색조건)
+	public List<AdminNoticeDTO> AdminNoticeList(String search, String key){
+		List<AdminNoticeDTO> ANlist = new ArrayList<AdminNoticeDTO>();
+		String sql="select idx, adid, subject, contents, regdate, readcnt from tbl_notice where "+search +" like ? order by regdate desc";
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+	try {
+		conn=DBManager.getConnection();
+		pstmt=conn.prepareStatement(sql);
+		
+		pstmt.setString(1, "%"+key+"%");
+		
+		rs=pstmt.executeQuery();
+
+		while(rs.next()) {
+			AdminNoticeDTO Andto = new AdminNoticeDTO();
+			Andto.setIdx(rs.getInt("idx"));
+			Andto.setAdid(rs.getString("adid"));
+			Andto.setSubject(rs.getString("subject"));
+			Andto.setContents(rs.getString("contents"));
+			Andto.setRegdate(rs.getString("regdate"));
+			Andto.setReadcnt(rs.getString("readcnt"));
+			ANlist.add(Andto);
+		}
+	
+		
+	}catch(Exception e) {
+		e.printStackTrace();
+	}finally {
+		DBManager.close(conn, pstmt, rs);
+	}return ANlist;
+	}
+	//총 게시글 수 카운트(검색조건)	
+	public int AdminNoticecountList(String search, String key) {
+		int count=0;
+		String sql="select count(*) from tbl_notice where " + search + " like ?";
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+
+		try {
+			conn=DBManager.getConnection();
+			pstmt=conn.prepareStatement(sql);
+
+			pstmt.setString(1, "%"+key+"%");
+
+			rs=pstmt.executeQuery();
+
+			if(rs.next()) {
+				count =rs.getInt(1);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt, rs);
+		}return count;
+	}
+
 	//총 게시글 수 카운트
 	
 	public int AdminNoticecountList() {

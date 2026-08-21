@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mnu.sample.AdminNotice.service.admin_notice_deleteproService;
+import com.mnu.sample.AdminNotice.service.admin_notice_deleteService;
 import com.mnu.sample.AdminNotice.service.admin_notice_listService;
 import com.mnu.sample.AdminNotice.service.admin_notice_modifyService;
 import com.mnu.sample.AdminNotice.service.admin_notice_modifyproService;
@@ -66,9 +66,9 @@ public class AdminNoticeController extends HttpServlet {
 		{
 			action = new admin_notice_modifyService();
 		}
-		else if(cmd.equals("noticeDeletepro"))
+		else if(cmd.equals("noticeDelete"))
 		{
-			action = new admin_notice_deleteproService();
+			action = new admin_notice_deleteService();
 		}
 		else
 		{

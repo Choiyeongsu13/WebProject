@@ -32,6 +32,7 @@ public class BoardController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String cmd = request.getParameter("cmd");
+        if (cmd == null) cmd = "";
         System.out.println("자유게시판 요청 " + cmd);
 
         Action action = null;
@@ -54,8 +55,9 @@ public class BoardController extends HttpServlet {
             action = new BoardDeleteService();
         } else if (cmd.equals("boardDeletePro")) { //삭제처리
             action = new BoardDeleteProService();
+        } else {
+            action = new BoardListService();
         }
-
 
         action.process(request, response);
     }

@@ -61,6 +61,7 @@ A:hover {font-family:tahoma;font-size:9pt;color:#009900;text-decoration:underlin
                               <td width=80% height="30" colspan="2" align="right">
 								<select name="search" class="textfield">
 									<option>제목</option>
+									<option>글쓴이</option>
 								</select>
 								<input name="key" type="text" class="textfield" size="30"></td>
                               <td width=20% align="right"><a href="/Admin/Board?cmd=boardList"><b>[검색]</b>  &nbsp;<a href="/Admin/Board?cmd=boardWrite"><b>[글쓰기]</b></a></td>

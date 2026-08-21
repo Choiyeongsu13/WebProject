@@ -14,7 +14,7 @@
    <td width="20%" height="500" bgcolor="#ecf1ef" valign="top">
 
    <!-- 다음에 추가할 부분 -->
-	<jsp:include page="/Include/login_form.jsp" /> 
+	<jsp:include page="/Include/login_form.jsp" />
    </td>
 
    <td width="80%" valign="top">&nbsp;<br>
@@ -22,7 +22,7 @@
      <font size="2"> - 글쓰기</font><p>
      <img src="/Images/img/bullet-03.gif"><font size="2" face="돋움" color="orange"> 잠깐</font> &nbsp;
      <img src="/Images/img/bullet-02.gif"><font size="2" face="돋움">는 필수 입력 사항입니다.</font><p>
-     <form id="board"name="board" method="post" action="/Board">
+     <form id="board" name="board" method="post" action="/Board">
 	  <input type="hidden" name="cmd" value="boardWritepro">
 
 	  <table border="0">
@@ -30,28 +30,28 @@
          <td width="5%" align="right"><img src="/Images/img/bullet-02.gif"></td>
          <td width="15%"><font size="2" face="돋움">글쓴이</font></td>
          <td width="80%">
-         <input type="text" size="20" id="name"name="name"></td>
+         <input type="text" size="20" id="name" name="name"></td>
        </tr>
        <tr>
          <td align="right">&nbsp;</td>
          <td ><font size="2" face="돋움">메일주소</font></td>
          <td>
-          <input type="text" size="20" id="email"name="email"></td>
+          <input type="text" size="20" id="email" name="email"></td>
        </tr>
 	   <tr>
          <td align="right"><img src="/Images/img/bullet-02.gif"></td>
          <td><font size="2" face="돋움">제목</font></td>
-         <td><input type="text" size="60" id="subject"name="subject" ></td>
+         <td><input type="text" size="60" id="subject" name="subject" ></td>
        </tr>
        <tr>
          <td align="right"><img src="/Images/img/bullet-02.gif"></td>
          <td><font size="2" face="돋움">내용</font></td>
-         <td><textarea wrap="physical" rows="10" id="contents"name="contents" cols="60"></textarea></td>
+         <td><textarea wrap="physical" rows="10" id="contents" name="contents" cols="60"></textarea></td>
        </tr>
 	   <tr>
          <td align="right"><img src="/Images/img/bullet-02.gif"></td>
          <td><font size="2" face="돋움">비밀번호</font></td>
-          <td><input type="password" size="10" id="pass"name="pass" ><font size="2" face="돋움">*.수정과 삭제시 꼭 입력하셔야 합니다.</font></td>
+          <td><input type="password" size="10" id="pass" name="pass" ><font size="2" face="돋움">*.수정과 삭제시 꼭 입력하셔야 합니다.</font></td>
         </tr>
         <tr></tr>
 		<tr>
@@ -60,11 +60,6 @@
           <td>
                      <a href="javascript:board_send()"><img src="/Images/img/save.gif" border=0></a>&nbsp;&nbsp;&nbsp;
                      <a href="javascript:history.back()"><img src="/Images/img/cancle.gif" border=0></a>
-    						[<img src="/Images/img/save.gif" border=0 id="btn_send"> ]
-          			[<img src="/Images/img/cancle.gif" border=0 id="btn_cancle">]
-               
-	
-
 		</td>
         </tr>
       </table>
@@ -72,49 +67,10 @@
     </td>
   </tr>
   </table>
-  
-  <script type="text/javascript" 
-  src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-  </script>
-  
+
   <script>
-  //Jquery를 이용한 유효성 검사
-  $(function(){
-	 $("#btn_send").click(function(){
-		 if($("#name").val()==''){
-			 alert("이름을 입력하세요");
-			 $("#name").focus();
-			 return;	 }
-		 if($("#subject").val()==''){
-			 alert("제목을 입력하세요");
-			 $("#subjcet").focus();
-			 return;	 }
-		 if($("#contents").val()==''){
-			 alert("내용을 입력하세요");
-			 $("#contents").focus();
-			 return;	 }
-		 if($("#pass").val()==''){
-			 alert("비밀번호를 입력하세요");
-			 $("#pass").focus();
-			 return;	 }
-	 	
-	 	$("#board").submit();
-	 });
-	 
-	$("#btn_cancel").click(function(){
-		 history.back();
-	 });
-	  
-	  
-  });
-  
-  
-  //전통적 유효성 검사
-  
-  
-  <!--유효성 체크 -->
   function board_send(){
-	  var frm = document.frm;
+	  var frm = document.board;
 
 	  if(frm.name.value.trim().length === 0){
 		  alert("이름이 비어있습니다");
@@ -141,6 +97,6 @@
 	  return true;
   }
   </script>
-  
+
   </body>
   </html>

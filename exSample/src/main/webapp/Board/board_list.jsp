@@ -74,18 +74,18 @@
 			<td width="25%"> &nbsp;</td>
 			<td width="50%" align="center">
 				<table>
-					<form>	
+					<form id="bsearch" name ="bsearch" method="post" action="/Board?cmd=board_list">
 					<!-- 검색어를 이용하여 글제목, 작성자, 글내용 중에 하나를 입력 받아 처리하기 위한 부분 -->
 						<tr>
 							<td>
 								<select name="search">
-									<option value="">글제목</option>
-									<option value="">작성자</option>
-									<option value="">글내용</option>
+									<option value="subject" ${search=='subjcet' ? 'selected':''}>글제목</option>
+									<option value="name" ${search=='name' ? 'selected':''}>작성자</option>
+									<option value="contents" ${search=='contents' ? 'selected':''}>글내용</option>
 								</select>
 							</td>
-							<td> <input type="text" size=20 name=""></td>
-							<td> <a href="#"><img src="/Images/img/search2.gif" border="0"></a></td>
+							<td> <input type="text" size=20 name="key" value="${key }"></td>
+							<td> <img src="/Images/img/search2.gif" border="0" onClick="board_search()"></td>
 						</tr>
 					</form>
 				</table>
@@ -97,4 +97,15 @@
 	</table>
 </body>
 </html>
+<script>
+	function board_search(){
+		if(bsearch.key.value==""){
+			alert("검색어를입력하세요");
+			bsearch.key.focus();
+			return;
+		}
+		bsearch.submit();
+	}
 
+
+</script>
