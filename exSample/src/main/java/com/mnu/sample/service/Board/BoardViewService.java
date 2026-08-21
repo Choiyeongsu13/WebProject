@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,6 +21,29 @@ public class BoardViewService implements Action {
 		BoardDAO dao = BoardDAO.getInstance();
 		
 		BoardDTO dto = dao.boardSearch(idx); // 상세 내용 조회
+		
+		boolean bool = false;
+		Cookie info = null;
+		Cookie[] cookies = request.getCookies();
+		
+		for(int i =0; i<cookies.length; i++) {
+			info = cookies[i];
+			if(info.getName().equals("Board_milk" + idx)) {
+				bool = true;
+				break;
+			}
+		}
+		String newValue = ""+ System.currentTimeMillis();
+		if(!bool) {
+			dao.boardCount(idx);
+			
+			//쿠키 생성
+			info = new Cookie("Board_milk" +idx, newValue);
+			
+			info.setMaxAge(60*60);
+			response.addCookie(info);
+		}
+		
 		dao.boardCount(idx);            // 조회수 +1
 		dto.setContents(dto.getContents().replace("\n", "<br>"));
 		request.setAttribute("dto", dto);

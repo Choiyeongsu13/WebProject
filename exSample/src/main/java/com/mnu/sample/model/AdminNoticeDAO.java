@@ -108,6 +108,48 @@ public class AdminNoticeDAO {
 		}return row;
 	}
 
+	//글 수정
+	public int AdminNoticeModify(AdminNoticeDTO dto) {
+		int row=0;
+		String sql= "update tbl_notice set subject=?, contents=? where idx=?";
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+
+		try {
+			conn=DBManager.getConnection();
+			pstmt=conn.prepareStatement(sql);
+
+			pstmt.setString(1, dto.getSubject());
+			pstmt.setString(2, dto.getContents());
+			pstmt.setInt(3, dto.getIdx());
+
+			row=pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt);
+		}return row;
+	}
+
+	//글 삭제
+	public int AdminNoticeDelete(int idx) {
+		int row=0;
+		String sql="delete from tbl_notice where idx=?";
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+
+		try {
+			conn=DBManager.getConnection();
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			row=pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt);
+		}return row;
+	}
+
 	//글 1개 상세조회
 	public AdminNoticeDTO AdminNoticeSearch(int idx) {
 		AdminNoticeDTO Andto = new AdminNoticeDTO();

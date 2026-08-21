@@ -15,16 +15,15 @@ public class admin_notice_modifyService implements Action {
 
 	@Override
 	public void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		request.setCharacterEncoding("UTF-8");
 		int idx =Integer.parseInt(request.getParameter("idx"));
-		
+
 		AdminNoticeDAO Andao = AdminNoticeDAO.getInstance();
-//		AdminNoticeDTO Andto= Andao.
-		
-		
-//		request.setAttribute("Andto", Andto);
-		
-		RequestDispatcher rd = request.getRequestDispatcher("/Admin/notice_write.jsp");
+		AdminNoticeDTO Andto = Andao.AdminNoticeSearch(idx);
+
+		request.setAttribute("dto", Andto);
+
+		RequestDispatcher rd = request.getRequestDispatcher("/Admin/notice_modify.jsp");
 		rd.forward(request, response);
 
 	}

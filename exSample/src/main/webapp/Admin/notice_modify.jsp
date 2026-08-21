@@ -2,109 +2,63 @@
 <%@taglib uri ="http://java.sun.com/jsp/jstl/core"   prefix="c" %>
 
 
+
 <html>
-   <head><title>게시판 수정</title>
-    <link rel="stylesheet" type="text/css" href="/stylesheet.css">
-
+<head>
+<title>공지사항 관리 - 관리자페이지</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+body,td,th {
+	font-size: 12px;
+	color: #606060;
+}
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+}
+-->
+</style>
 </head>
- <body topmargin="0" leftmargin="0">
- <table border="0" width="800">
- <tr>
-   <td width="20%" height="500" bgcolor="#ecf1ef" valign="top">
 
-   <!-- 다음에 추가할 부분 -->
-	<jsp:include page="/Include/login_form.jsp" />
-   </td>
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr><td><jsp:include page="top_menu.jsp" flush="true" /></td></tr>
+	<tr>
+		<td align="center" height="100%" valign=middle><br>
+			<table width="30%" border="1" cellspacing="0" cellpadding="3" bgcolor="#FFCC66" bordercolor="#FFFFFF" bordercolorlight="#000000">
+				<tr>
+					<td height=40 align="center" style="font-size: 15px;"><b>공지사항 [수정]</b></a>
+					</b></td>
+				</tr>
+			</table><br>
+			<form action="/Admin/Notice" method="post" name="notice_modify_form">
+			<input type="hidden" name="cmd" value="noticeModifypro">
+			<input type="hidden" name="idx" value="${dto.idx}">
+			<table width="60%" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td><table width="100%" border="0" cellpadding="6" cellspacing="1" bgcolor="DDDDDD">
+							<tr>
+								<td width="20%" align="center" bgcolor="EcECEC"><strong>제목</strong></td>
+								<td bgcolor="ffffff"><input name="subject" type="text" value="${dto.subject}" style="width:450; height:18; padding:2; border:1 solid slategray" size="120"></td>
+							</tr>
+							<tr bgcolor="EcECEC">
+								<td align="center" bgcolor="EcECEC"><strong>내용</strong></td>
+								<td bgcolor="ffffff"><textarea name="contents" cols="10" rows="10" style="width:490; height:200; padding:2; border:1 solid slategray" tabindex="2">${dto.contents}</textarea></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
 
-   <td width="80%" valign="top">&nbsp;<br>
-     <img src="/Images/img/bullet-01.gif"><font size="3" face="돋움" color="blue"> <b>반갑습니다</b></font>
-     <font size="2"> - 글 수정</font><p>
-     <img src="/Images/img/bullet-03.gif"><font size="2" face="돋움" color="orange"> 잠깐</font> &nbsp;
-     <img src="/Images/img/bullet-02.gif"><font size="2" face="돋움">는 필수 입력 사항입니다.</font><p>
-     <form id="board" name="board" method="post" action="/Board">
-	  <input type="hidden" name="cmd" value="boardModifyPro">
-	  <input type="hidden" name="idx" value="${dto.idx}">
-
-	  <table border="0">
-       <tr>
-         <td width="5%" align="right"><img src="/Images/img/bullet-02.gif"></td>
-         <td width="15%"><font size="2" face="돋움">글쓴이</font></td>
-         <td width="80%">
-         <input type="text" size="20" id="name" name="name" value="${dto.name}" readonly></td>
-       </tr>
-       <tr>
-         <td align="right">&nbsp;</td>
-         <td ><font size="2" face="돋움">메일주소</font></td>
-         <td>
-          <input type="text" size="20" id="email" name="email" value="${dto.email}"></td>
-       </tr>
-	   <tr>
-         <td align="right"><img src="/Images/img/bullet-02.gif"></td>
-         <td><font size="2" face="돋움">제목</font></td>
-         <td><input type="text" size="60" id="subject" name="subject" value="${dto.subject}"></td>
-       </tr>
-       <tr>
-         <td align="right"><img src="/Images/img/bullet-02.gif"></td>
-         <td><font size="2" face="돋움">내용</font></td>
-         <td><textarea wrap="physical" rows="10" id="contents" name="contents" cols="60">${dto.contents}</textarea></td>
-       </tr>
-	   <tr>
-         <td align="right"><img src="/Images/img/bullet-02.gif"></td>
-         <td><font size="2" face="돋움">비밀번호</font></td>
-          <td><input type="password" size="10" id="pass" name="pass" ><font size="2" face="돋움">*.글 작성시 입력한 비밀번호를 다시 입력하셔야 합니다.</font></td>
-        </tr>
-        <tr></tr>
-		<tr>
-          <td align="right">&nbsp;</td>
-          <td><font size="2">&nbsp;</font></td>
-          <td>
-          			[<img src="/Images/img/save.gif" border=0 id="btn_send" style="cursor:pointer;"> ]
-          			[<img src="/Images/img/cancle.gif" border=0 id="btn_cancel" style="cursor:pointer;">]
-          </td>
-        </tr>
-      </table>
-      </form>
-    </td>
-  </tr>
-  </table>
-
-  <script type="text/javascript"
-  src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-  </script>
-
-  <script>
-  //jQuery를 이용한 유효성 검사
-  $(function(){
-	 $("#btn_send").click(function(){
-		 if($("#name").val().trim() == ''){
-			 alert("이름을 입력하세요");
-			 $("#name").focus();
-			 return;
-		 }
-		 if($("#subject").val().trim() == ''){
-			 alert("제목을 입력하세요");
-			 $("#subject").focus();
-			 return;
-		 }
-		 if($("#contents").val().trim() == ''){
-			 alert("내용을 입력하세요");
-			 $("#contents").focus();
-			 return;
-		 }
-		 if($("#pass").val().trim() == ''){
-			 alert("비밀번호를 입력하세요");
-			 $("#pass").focus();
-			 return;
-		 }
-
-		 $("#board").submit();
-	 });
-
-	 $("#btn_cancel").click(function(){
-		 history.back();
-	 });
-  });
-  </script>
-
-  </body>
-  </html>
+			</table><br>
+			<table width="60%" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td align=center><input type="submit" value="수정">&nbsp; <a href="/Admin/Notice?cmd=noticeList"><b>[취소]</b></a></td>
+				</tr>
+			</table>
+			</form>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

@@ -29,12 +29,14 @@ public class AdminController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		request.setCharacterEncoding("UTF-8");
 		String cmd= request.getParameter("cmd");
 		System.out.println("관리자 요청" +  cmd);
 		Action action=null;
 		if(cmd.equals("admin_login")) {
 			action= new AdminLoginService();
+		}else if(cmd.equals("adminList")) {
+			
 		}
 		
 		action.process(request, response);
@@ -45,6 +47,7 @@ public class AdminController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		request.setCharacterEncoding("UTF-8");
 		doGet(request, response);
 	}
 

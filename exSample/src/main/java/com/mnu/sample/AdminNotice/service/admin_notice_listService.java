@@ -17,6 +17,7 @@ public class admin_notice_listService implements Action {
 	@Override
 	public void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		request.setCharacterEncoding("UTF-8");
 		AdminNoticeDAO Andao = AdminNoticeDAO.getInstance();
 		
 		int totcount = Andao.AdminNoticecountList(); //총 게시글수

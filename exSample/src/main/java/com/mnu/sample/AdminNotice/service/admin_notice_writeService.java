@@ -14,7 +14,7 @@ public class admin_notice_writeService implements Action {
 	@Override
 	public void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		request.setCharacterEncoding("UTF-8");
 		RequestDispatcher rd = request.getRequestDispatcher("/Admin/notice_write.jsp");
 		rd.forward(request, response);
 

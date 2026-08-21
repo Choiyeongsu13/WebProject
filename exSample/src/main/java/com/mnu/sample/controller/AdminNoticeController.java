@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mnu.sample.AdminNotice.service.admin_notice_deleteproService;
 import com.mnu.sample.AdminNotice.service.admin_notice_listService;
 import com.mnu.sample.AdminNotice.service.admin_notice_modifyService;
 import com.mnu.sample.AdminNotice.service.admin_notice_modifyproService;
@@ -35,7 +36,7 @@ public class AdminNoticeController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		request.setCharacterEncoding("UTF-8");
 		String cmd= request.getParameter("cmd");
 		if(cmd==null) cmd="";
 		System.out.println("관리자 요청" +  cmd);
@@ -65,6 +66,10 @@ public class AdminNoticeController extends HttpServlet {
 		{
 			action = new admin_notice_modifyService();
 		}
+		else if(cmd.equals("noticeDeletepro"))
+		{
+			action = new admin_notice_deleteproService();
+		}
 		else
 		{
 			action = new admin_notice_listService();
@@ -78,6 +83,7 @@ public class AdminNoticeController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		request.setCharacterEncoding("UTF-8");
 		doGet(request, response);
 	}
 

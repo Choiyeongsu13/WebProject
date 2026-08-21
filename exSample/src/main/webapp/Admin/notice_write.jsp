@@ -27,24 +27,23 @@ body {
 	<tr>
 		<td align="center" height="100%" valign=middle><br>
 			<table width="30%" border="1" cellspacing="0" cellpadding="3" bgcolor="#FFCC66" bordercolor="#FFFFFF" bordercolorlight="#000000">
-				<tr> 
-					<td height=40 align="center" style="font-size: 15px;"><b>공지사항 [쓰기][수정]</b></a>
+				<tr>
+					<td height=40 align="center" style="font-size: 15px;"><b>공지사항 [쓰기]</b></a>
 					</b></td>
 				</tr>
 			</table><br>
 			<form action="/Admin/Notice" method="post" name="notice_write_form">
-			<input type="hidden" name="cmd" value="${empty param.idx ? 'noticeWritepro' : 'noticeModifypro'}">
-			<input type="hidden" name="idx" value="${dto.idx}">
+			<input type="hidden" name="cmd" value="noticeWritepro">
 			<table width="60%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td><table width="100%" border="0" cellpadding="6" cellspacing="1" bgcolor="DDDDDD">
 							<tr>
 								<td width="20%" align="center" bgcolor="EcECEC"><strong>제목</strong></td>
-								<td bgcolor="ffffff"><input name="subject" type="text" value="${dto.subject}"  style="width:450; height:18; padding:2; border:1 solid slategray" size="120"></td>
+								<td bgcolor="ffffff"><input name="subject" type="text" style="width:450; height:18; padding:2; border:1 solid slategray" size="120"></td>
 							</tr>
 							<tr bgcolor="EcECEC">
 								<td align="center" bgcolor="EcECEC"><strong>내용</strong></td>
-								<td bgcolor="ffffff"><textarea name="contents" cols="10" rows="10" style="width:490; height:200; padding:2; border:1 solid slategray" tabindex="2">${dto.contents}</textarea></td>
+								<td bgcolor="ffffff"><textarea name="contents" cols="10" rows="10" style="width:490; height:200; padding:2; border:1 solid slategray" tabindex="2"></textarea></td>
 							</tr>
 						</table>
 					</td>
@@ -53,12 +52,12 @@ body {
 			</table><br>
 			<table width="60%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td align=center><input type="submit" value="${empty dto.idx ? '등록' : '수정'}">&nbsp; <a href="/Admin/Notice?cmd=noticeList"><b>[취소]</b></a></td>
+					<td align=center><input type="submit" value="등록">&nbsp; <a href="/Admin/Notice?cmd=noticeList"><b>[취소]</b></a></td>
 				</tr>
 			</table>
 			</form>
 		</td>
 	</tr>
-</table>			
+</table>
 </body>
 </html>
