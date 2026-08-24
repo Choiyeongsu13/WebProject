@@ -12,6 +12,27 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
       BACKGROUND-POSITION: left top; BACKGROUND-REPEAT: no-repeat;}
 //-->
 </STYLE>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+
+<script>
+	$(function(){
+		$("#btn_loging").click(function(e){
+			e.preventDefault();
+			if($("#userid").val() == ''){
+				alert("아이디를 입력하세요");
+				$("#userid").focus();
+				return;
+			}
+			if($("#passwd").val() == ''){
+				alert("비밀번호를 입력하세요");
+				$("#passwd").focus();
+				return;
+			}
+			$("#user").submit();
+		});
+	});
+
+</script>
 </HEAD>
 <body bgcolor="#FFFFFF" text="#000000" leftmargin=0 
   topmargin=0 onLoad='document.fname.user_id.focus();'>
@@ -29,7 +50,7 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
   <TD width=100>&nbsp;</td>
   <TD>
     <table width="583" border="0" cellspacing="0" cellpadding="0" height="265">
-	  <form name=fname method=post action=""">
+	  <form id="user" name="user" method=post action="/User?cmd=UserLoginPro">
 	    <tr>
 		  <td height="298"> 
 		    <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -52,7 +73,7 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
 							  <td width="21"><img src="/Images/img/h_bl02.gif" width="18" height="16"></td>
 							  <td width="55" nowrap>아 이 디</td>
 							  <td width="175">: 
-								<input type=text name="userid" size=16 maxlength=16 STYLE="WIDTH:155">
+								<input type=text id="userid" name="userid" size=16 maxlength=16 STYLE="WIDTH:155">
 							  </td>
 							  <td width="79"></td>
 							</tr>
@@ -60,15 +81,22 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
 							  <td><img src="/Images/img/h_bl02.gif" width="18" height="16"></td>
 							  <td nowrap>비밀번호</td>
 							  <td>: 
-								<input type=password name="passwd" size=14 maxlength=12 STYLE="WIDTH:155">
+								<input type=password id="passwd" name="passwd" size=14 maxlength=12 STYLE="WIDTH:155">
 							  </td>
-							  <td><input type=image src="/Images/img/login.gif" border=0 align=absmiddle></td>
+							  <td><input type=image src="/Images/img/login.gif" border=0 align=absmiddle id="btn_loging"></td>
 							</tr>
 						  </table>
 						</td>
 					  </tr>
-					  <tr bgcolor="#FFFFFF"> 
-						<td bgcolor="#ffffff" align=CENTER height="138"> 
+					  <% if(request.getAttribute("loginError") != null) { %>
+					  <tr bgcolor="#FFFFFF">
+						<td align=CENTER>
+							<font color="red"><%= request.getAttribute("loginError") %></font>
+						</td>
+					  </tr>
+					  <% } %>
+					  <tr bgcolor="#FFFFFF">
+						<td bgcolor="#ffffff" align=CENTER height="138">
 							[아이디찾기] &nbsp;&nbsp; [비밀번호찾기]
 						</td>
 					  </tr>

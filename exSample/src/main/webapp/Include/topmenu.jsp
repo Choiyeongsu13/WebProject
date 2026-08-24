@@ -25,16 +25,17 @@
      <p align="center"><font color="white" size="2"><b><a href="/User?cmd=user_login" class="white">로그인</A></b></font></p>
     </c:if>
     <c:if test="${!empty user}">
-     <p align="center"><font color="white" size="2"><b><a href="" class="white">로그아웃</A></b></font></p>
+     <p align="center"><font color="white" size="2"><b><a href="/User?cmd=UserLogout" class="white">로그아웃</A></b></font></p>
     </c:if>
      </td>
      
      <td bgcolor="#9966ff" width="10%" onmouseover="style.backgroundColor='#2772D3'" onmouseout="style.backgroundColor=''">
+     <!-- FIX: UserController의 cmd 매핑("userInsert","userModify")과 달라 동작하지 않던 링크 수정 -->
      <c:if test="${empty user}">
-     <p align="center"><font color="white" size="2"><b><a href="/User?cmd=user_insert" class="white">회원가입</a></b></font></p>
+     <p align="center"><font color="white" size="2"><b><a href="/User?cmd=userInsert" class="white">회원가입</a></b></font></p>
      </c:if>
      <c:if test="${!empty user}">
-     <p align="center"><font color="white" size="2"><b><a href="/User?cmd=user_modify" class="white">정보수정</a></b></font></p>
+     <p align="center"><font color="white" size="2"><b><a href="/User?cmd=userModify" class="white">정보수정</a></b></font></p>
      </c:if>
      </td>
      

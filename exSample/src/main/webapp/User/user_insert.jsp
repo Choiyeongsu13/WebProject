@@ -17,10 +17,80 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 <script type="text/javascript">
 $(function(){
-	$(#smscheck).hide();
-	
-	
+	//아이디 중복 체크 함수
+	//$(#smscheck).hide();
+	//$("input[name='userid']").on("change",function(){
+	$("#userid").on("change",function(){
+		var userid=$('#userid').val();
+		//alert(userid);
+		$.ajax({
+			// FIX: UserController의 cmd 매핑이 "userIdcheck"로 바뀌어 있어 미동작하던 요청 경로 수정
+			url:'/User?cmd=userIdcheck',
+			type : 'post',
+			data: {'userid': userid},
+			success:function(result){
+					if(result==0){
+						//중복된 아이디가 없는경우
+						userID_c.innerHTML='사용가능한 아이디 입니다'
+					}else{
+						//ID 중복시
+						userID_c.innerHTML='중복된 아이디 입니다'	
+						$('#userid').val('');
+						$('#userid').focus();
+						
+					}
+				}
+		});		
+	});	
+	//비번확인
+	$("#repasswd").on("change",function(){
+		var passwd = $('#passwd').val();
+		var repasswrd = $('#repasswd').val();
+		if(passwd==repasswrd){
+			repasswd_c.innerHTML="확인되었습니다"
+		}else{
+			repasswd_c.innerHTML="비밀번호가 다릅니다"
+			$("#repasswd").val('');
+			$("#repasswd").focus();
+		}
+	});
+	//유효성검사
+	$('#btn_write').click(function(){
+		//이름검사
+		if($("#name").val() == ''){
+			alert("이름을 입력해주세요");	
+			$("#name").focus();
+			return ;
+		}
+		if($("#userid").val() == ''){
+			alert("아이디를 입력해주세요");	
+			$("#userid").focus();
+			return ;
+		}
+		if($("#passwd").val() == ''){
+			alert("비밀번호를 입력해주세요");	
+			$("#passwd").focus();
+			return ;
+		}
+		if($("#repasswd").val() == ''){
+			alert("비밀번호 확인을 입력해주세요");	
+			$("#repasswd").focus();
+			return ;
+		}
+		if($("#tel").val() == ''){
+			alert("전화번호를 입력해주세요");
+			$("#tel").focus();
+			return ;
+		}
+
+		user.submit();
+	});
 });
+	
+	
+	
+	
+	
 </script>
 </head>
 
@@ -38,7 +108,7 @@ $(function(){
 	
   </td>
   <td width="80%" valign="top">&nbsp;<img src="/Images/img/title1.gif" ><br>    
-	<form name="user" method=post action="user_insert">
+	<form name="user" method=post action="/User?cmd=UserWritePro">
 	<table border=0 cellpadding=0 cellspacing=0 width=730 valign=top>
 		<tr><td align=center><br>                            
 			<table cellpadding=0 cellspacing=0 border=0 width=650 align=center>       
@@ -134,8 +204,8 @@ $(function(){
 							</tr>
 							<tr bgcolor=#ffffff>
 								<td colspan=3 align=center>
-									<img src="/Images/img/u_bt06.gif" vspace=3 border=0 name=img3>
-									<img src="/Images/img/u_bt05.gif" border=0 hspace=10 vspace=3 name=img4>
+									<img src="/Images/img/u_bt06.gif" vspace=3 border=0 id=btn_write>
+									<img src="/Images/img/u_bt05.gif" border=0 hspace=10 vspace=3 id=btn_cancle>
 								</td>
 							</tr>
 						</table> 

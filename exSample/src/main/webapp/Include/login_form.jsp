@@ -47,7 +47,7 @@
      <td align="center">
        <font size="2">
        <a href="adminpage.jsp">관리자 페이지</a><br>
-       <a href="logout.jsp">로그오프</a><br>
+       <a href="/User?cmd=UserLogout">로그오프</a><br>
        <a href="userinfo_view.jsp">회원정보수정</a><br>
        </font>
      </td>
@@ -66,7 +66,7 @@
   
      <td align="center">
        <font size="2">
-       <a href="logout.jsp">로그오프</a><br>
+       <a href="/User?cmd=UserLogout">로그오프</a><br>
        <a href="userinfo_view.jsp">회원정보수정</a>
        <a href="userinfo_del.jsp">회원탈퇴</a>
        </font>

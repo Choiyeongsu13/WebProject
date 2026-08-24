@@ -1,11 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:if test="${row==0}">
+<c:if test="${empty user}">
 	<script>
-		alert("아이디 또는 비빌번호가 맞지 않습니다");
+		alert("아이디 또는 비밀번호가 맞지 않습니다");
 		history.back();
 	</script>
 </c:if>
+
 <HTML>
 
 <TITLE>본 사이트에 오신 것을 환영합니다..</TITLE>
@@ -48,9 +49,11 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
 <table cellpadding=0 cellspacing=0 border=0 width=330>
   <tr>
     <td align="center">
-      <a href="#">[자기정보수정]</a>
-      <a href="#">[로그아웃]</a>
-      <a href="/">[홈으로]</a>
+      <!-- FIX: UserController의 cmd 매핑("userModify","UserLogout")과 달라 동작하지 않던 링크 수정 -->
+      <a href="/User?cmd=userModify">[자기정보수정]</a>
+      <a href="/User?cmd=UserLogout">[로그아웃]
+      <a href="/">[홈으로]
+      
 
 	</td>
   </tr>
