@@ -1,0 +1,56 @@
+package com.profill.post.service;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.profill.model.PostDTO;
+import com.profill.model.ProfillDAO;
+import com.profill.service.Action;
+
+/** 글 상세 + 그 글의 댓글 목록. */
+public class PostViewService implements Action {
+
+	@Override
+	public void process(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		int postId = toInt(request.getParameter("id"));
+
+		
+		if (postId <= 0) {
+			response.sendRedirect(request.getContextPath() + "/Post?cmd=post_list");
+			return;
+		}
+
+		ProfillDAO dao = ProfillDAO.getInstance();
+		PostDTO post = dao.postView(postId);
+
+		
+		if (post == null) {
+			response.sendRedirect(request.getContextPath() + "/Post?cmd=post_list");
+			return;
+		}
+
+		
+		dao.postCountUp(postId);
+
+		request.setAttribute("post", post);
+		request.setAttribute("comments", dao.commentList(postId));
+
+		RequestDispatcher rd = request.getRequestDispatcher("/post.jsp");
+		rd.forward(request, response);
+	}
+
+	
+	private int toInt(String value) {
+		try {
+			return Integer.parseInt(value.trim());
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+}

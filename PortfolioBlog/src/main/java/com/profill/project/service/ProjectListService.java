@@ -1,4 +1,4 @@
-package com.profill.adminlogin.service;
+package com.profill.project.service;
 
 import java.io.IOException;
 
@@ -7,20 +7,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.profill.model.ProfillDAO;
 import com.profill.service.Action;
 
-public class AdminLoginService implements Action {
+
+public class ProjectListService implements Action {
 
 	@Override
 	public void process(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		if (request.getSession().getAttribute("loginUser") != null) {
-			response.sendRedirect(request.getContextPath() + "/Home?cmd=home");
-			return;
-		}
+		ProfillDAO dao = ProfillDAO.getInstance();
 
-		RequestDispatcher rd = request.getRequestDispatcher("/admin/login.jsp");
+		request.setAttribute("projects", dao.projectList());
+
+		RequestDispatcher rd = request.getRequestDispatcher("/projects.jsp");
 		rd.forward(request, response);
 	}
 }

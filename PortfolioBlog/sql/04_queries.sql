@@ -172,23 +172,11 @@ SELECT ph.photo_id,
 
 /* ---------------------------------------------------------------------------
    [관리자] 글 등록
-   post_id 는 적지 않습니다. IDENTITY 라서 오라클이 넣어 줍니다.
-   태그를 연결하려면 방금 생긴 번호가 필요한데, 자바에서는 이렇게 받습니다.
-
-     PreparedStatement ps = con.prepareStatement(sql, new String[]{"POST_ID"});
-     ...
-     ps.executeUpdate();
-     ResultSet rs = ps.getGeneratedKeys();
-     rs.next();
-     int postId = rs.getInt(1);
-
-   SQL Developer 에서 손으로 확인할 때는 아래처럼 돌려받을 수 있습니다.
-     INSERT INTO post (...) VALUES (...) RETURNING post_id INTO :id;
-   --------------------------------------------------------------------------- */
+ 
 INSERT INTO post (category_id, title, slug, summary, content,
                   read_minutes, status, published_at)
 VALUES (?, ?, ?, ?, ?, ?, 'PUBLISHED', SYSDATE);
-
+  --------------------------------------------------------------------------- */
 
 /* ---------------------------------------------------------------------------
    [관리자] 태그 연결
