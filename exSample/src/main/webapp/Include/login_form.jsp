@@ -9,7 +9,8 @@
  <body>
  
    <table width="100%" height="120" border="0">
-   <form name="login_form" action="" method="post" >
+   <!-- FIX: action=""가 현재 페이지 URL로 그대로 제출되어 cmd가 없거나 다른 컨트롤러로 잘못 전달되던 문제 + 정의되지 않은 check_login() 호출 제거 -->
+   <form name="login_form" action="/User?cmd=UserLoginPro" method="post" >
      <tr>
        <td colspan="2" bgcolor="#6FA0E" height="20" align="center">
          <font size="2" color="white"><b>Member Login</b></font>
@@ -27,7 +28,7 @@
      </tr>
     
      <tr>
-       <td><input type="image" src="/Images/img/login1.gif" border="0" onClick="return check_login()"></td>
+       <td><input type="image" src="/Images/img/login1.gif" border="0"></td>
 			 <td>
            <a href=""><img src="/Images/img/regist.gif" border="0"></a>
        </td>

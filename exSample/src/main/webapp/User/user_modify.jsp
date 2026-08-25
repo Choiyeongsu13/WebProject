@@ -31,7 +31,7 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
   </td>
   <td width="80%" valign="top">&nbsp;<img src="/Images/img/title1.gif" ><br>
 	<!-- FIX: action의 쿼리스트링 cmd=user_modify와 아래 hidden cmd=UserModifyPro가 중복/충돌 -> 서블릿이 쿼리스트링 값을 먼저 채택해 제출해도 폼이 다시 표시되기만 하던 문제. hidden 필드 하나로 통일 -->
-	<form name=modify method=post action="/User">
+	<form name=modify method=post action="/User?cmd=UserModify">
 	<input type="hidden" name="cmd" value="UserModifyPro">
 	<table border=0 cellpadding=0 cellspacing=0 width=730 valign=top>
 		<tr><td align=center><br>

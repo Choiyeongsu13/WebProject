@@ -14,7 +14,7 @@ public class AdminLoginService implements Action {
 	@Override
 	public void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/Admin/admin_login.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/Admin/admin/login.jsp");
 		rd.forward(request, response);
 
 	}

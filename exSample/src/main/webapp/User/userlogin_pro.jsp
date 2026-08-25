@@ -49,8 +49,8 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
 <table cellpadding=0 cellspacing=0 border=0 width=330>
   <tr>
     <td align="center">
-      <!-- FIX: UserController의 cmd 매핑("userModify","UserLogout")과 달라 동작하지 않던 링크 수정 -->
-      <a href="/User?cmd=userModify">[자기정보수정]</a>
+      <!-- FIX: UserController의 cmd 매핑("UserModify","UserLogout")과 달라 동작하지 않던 링크 수정 -->
+      <a href="/User?cmd=UserModify">[자기정보수정]</a>
       <a href="/User?cmd=UserLogout">[로그아웃]
       <a href="/">[홈으로]
       

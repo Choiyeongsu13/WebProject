@@ -30,12 +30,12 @@
      </td>
      
      <td bgcolor="#9966ff" width="10%" onmouseover="style.backgroundColor='#2772D3'" onmouseout="style.backgroundColor=''">
-     <!-- FIX: UserController의 cmd 매핑("userInsert","userModify")과 달라 동작하지 않던 링크 수정 -->
+     <!-- FIX: UserController의 cmd 매핑("UserInsert","UserModify")과 달라 동작하지 않던 링크 수정 -->
      <c:if test="${empty user}">
-     <p align="center"><font color="white" size="2"><b><a href="/User?cmd=userInsert" class="white">회원가입</a></b></font></p>
+     <p align="center"><font color="white" size="2"><b><a href="/User?cmd=UserInsert" class="white">회원가입</a></b></font></p>
      </c:if>
      <c:if test="${!empty user}">
-     <p align="center"><font color="white" size="2"><b><a href="/User?cmd=userModify" class="white">정보수정</a></b></font></p>
+     <p align="center"><font color="white" size="2"><b><a href="/User?cmd=UserModify" class="white">정보수정</a></b></font></p>
      </c:if>
      </td>
      

@@ -19,42 +19,12 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
 $(function(){
 	//아이디 중복 체크 함수
 	$("#smscheck").hide();
-
-	
-	$(".telArea, .emailArea").hide();
-	
-	$("#smsemail").hide();
-
-	
-	$("input[name='btn']").on("change",function(){
-		var selected = $(this).val();
-		if(selected=="tel"){
-			$(".telArea").show();
-			$(".emailArea").hide();
-			$("#smscheck").hide(); 
-		}else if(selected=="email"){
-			$(".emailArea").show();
-			$(".telArea").hide();
-			$("#smsemail").hide();
-		}
-	});
-
-
-	$("#email2select").on("change",function(){
-		var v = $(this).val();
-		if(v=="0"){
-			$("#email2").val('').prop("readonly",false).focus();
-		}else{
-			$("#email2").val(v).prop("readonly",true);
-		}
-	});
-
 	//$("input[name='userid']").on("change",function(){
 	$("#userid").on("change",function(){
 		var userid=$('#userid').val();
 		//alert(userid);
 		$.ajax({
-			
+			// FIX: UserController의 cmd 매핑이 "UserIdcheck"로 되어 있어 미동작하던 요청 경로 수정
 			url:'/User?cmd=UserIdcheck',
 			type : 'post',
 			data: {'userid': userid},
@@ -107,108 +77,23 @@ $(function(){
 			$("#repasswd").focus();
 			return ;
 		}
-		
-		var auth = $("input[name='btn']:checked").val();
-		if(auth == 'tel'){
-			if($("#tel").val() == ''){
-				alert("전화번호를 입력해주세요");
-				$("#tel").focus();
-				return ;
-			}
-			if($("#resms").val() == ''){
-				alert("본인 인증번호를 입력해주세요");
-				$("#resms").focus();
-				return ;
-			}
-		}else if(auth == 'email'){
-			if(($("#email1").val() == '') || ($("#email2").val() == '')){
-				alert("이메일을 입력해주세요");
-				$("#email1").focus();
-				return ;
-			}
-			if($("#resemail").val() == ''){
-				alert("본인 인증번호를 입력해주세요");
-				$("#resemail").focus();
-				return ;
-			}
-		}else{
-			alert("인증 방법을 선택해주세요");
+		if($("#tel").val() == ''){
+			alert("전화번호를 입력해주세요");
+			$("#tel").focus();
 			return ;
 		}
-
 
 		user.submit();
 		});
 	
 		$("#phoneBtn1").click(function(){
-			//전화번호 체크
-			if($('#tel').val()==''){
-			alert("전화번호가 입력되지 않았습니다.");
-			$('#tel').focus();
-			return;
-			}
-			var phone = $("#tel").val();
-			//AJXA 통신
-			$.ajax({
-				url:'/User?cmd=UserSMSCheck',
-				type:'post',
-				data:{'phone':phone},
-				success:function(result){
-					phone_c.innerHTML="인증번호가 전송되었습니다";
-					$("#usersms").val(result);
-				}
-				
-			});
-			
-			
 			$("#smscheck").show();
 	});
-	//SMS 인증하기
-	$("#phoneBtn3").click(function(){
-		if($("#usersms").val()==$("#resms").val()){
-			resms_c.innerHTML="인증되었습니다";
-			$("#resms").prop("readonly",true);
-		}else{
-			resms_c.innerHTML="인증번호가 맞지 않습니다";
-		$("#resms").val('');
-		$("#resms").focus();
-		}
-	});
-
-	$("#emailBtn1").click(function(){
-		//이메일 체크
-		if(($('#email1').val()=='') || ($('#email2').val()=='')){
-		alert("이메일이 입력되지 않았습니다.");
-		$('#email1').focus();
-		return;
-		}
-		var email = $("#email1").val() + "@" + $("#email2").val();
-		//AJXA 통신
-		$.ajax({
-			url:'/User?cmd=UserEmailCheck',
-			type:'post',
-			data:{'email':email},
-			success:function(result){
-				email_c.innerHTML="인증번호가 전송되었습니다";
-				$("#useremail").val(result);
-			}
-
-		});
-		
-		$("#smsemail").show();
-	});
-	
-	$("#emailBtn3").click(function(){
-		if($("#useremail").val()==$("#resemail").val()){
-			resemail_c.innerHTML="인증되었습니다";
-			$("#resemail").prop("readonly",true);
-		}else{
-			resemail_c.innerHTML="인증번호가 맞지 않습니다";
-			$("#resemail").val('');
-			$("#resemail").focus();
-		}
-	});
 });
+	
+	
+	
+	
 	
 </script>
 </head>
@@ -228,8 +113,6 @@ $(function(){
   </td>
   <td width="80%" valign="top">&nbsp;<img src="/Images/img/title1.gif" ><br>    
 	<form name="user" method=post action="/User?cmd=UserWritePro">
-	<input type="hidden" id="usersms" name="usersms">
-	<input type="hidden" id="useremail" name="useremail">
 	<table border=0 cellpadding=0 cellspacing=0 width=730 valign=top>
 		<tr><td align=center><br>                            
 			<table cellpadding=0 cellspacing=0 border=0 width=650 align=center>       
@@ -238,7 +121,7 @@ $(function(){
 						<table cellpadding=0 cellspacing=0 border=0 width=100%>
 							<tr bgcolor=#7AAAD5>
 								<td align=left BORDER="0" HSPACE="0" VSPACE="0"><img src="/Images/img/u_b02.gif"></td>
-								<td align=center bgcolor="#7AAAD5"><FONT COLOR="#FFFFFF"><b>사용자등록&nbsp;</b><font color=black>(</font><font color=red>&nbsp;*&nbsp;</font><font color=black>표시항목은 반드시 입력하십시요.)</font></FONT></td>
+								<td align=center bgcolor="#7AAAD5"><FONT COLOR="#FFFFFF"><b>사용자등록(Email 본인인증)&nbsp;</b><font color=black>(</font><font color=red>&nbsp;*&nbsp;</font><font color=black>표시항목은 반드시 입력하십시요.)</font></FONT></td>
 								<td align=right BORDER="0" HSPACE="0" VSPACE="0"><img src="/Images/img/u_b03.gif"></td>
 							</tr>
 						</table>
@@ -277,16 +160,7 @@ $(function(){
 									<font id=repasswd_c color=red>&nbsp;*비밀번호 확인을 위해서 비밀번호를 한번 더 입력해주세요. </font> 
 								</td>
 							</tr>
-					
-						
-						
 							<tr>
-								<TD BGCOLOR="#EFF4F8">&nbsp;인증 방법 선택<font color=red>&nbsp;*</font></td>
-								<td BGCOLOR=WHITE> <input type="radio" name="btn" value="tel">핸드폰
-									<input type="radio" name="btn" value="email">이메일</td>
-							</tr>
-	
-							<tr class="telArea">
 								<TD BGCOLOR="#EFF4F8">&nbsp;전화번호<font color=red>&nbsp;*</font></td>
 								<TD BGCOLOR=WHITE>
 									<input type=text id=tel name=tel size=13 maxlength=13 value="" placeholder="휴대전화번호 (-제외)">
@@ -294,7 +168,7 @@ $(function(){
 									<font id="phone_c" size="2" color="red">&nbsp;</font>
 								</td>
 							</tr>
-							<tr id="smscheck" class="telArea">
+							<tr id="smscheck">
 								<TD BGCOLOR="#EFF4F8">&nbsp;인증번호<font color=red>&nbsp;*</font></td>
 								<TD BGCOLOR=WHITE>
 									<input type=text id=resms name="resms" size=13 maxlength=13 placeholder="인증번호를 입력하세요">
@@ -303,39 +177,25 @@ $(function(){
                     				<input type="button" value="인증" id="phoneBtn3">
                     				<font id="resms_c" size="2" color="red">&nbsp;</font>
 								</td>
-							</tr>
-							<tr class="emailArea">
-								<TD BGCOLOR="#EFF4F8">&nbsp;E-mail<font color=red>&nbsp;*</font>
+							</tr>							
+							<tr>
+								<TD BGCOLOR="#EFF4F8">&nbsp;E-mail
+                					<font color=red>&nbsp;</font>
 								</td>
 								<td bgcolor=WHITE valign=middle>
-									
-									<input type="text" id="email1" name="email1" size=13 maxlength="15">
-									@ <input type="text" id="email2" name="email2" size=13 maxlength="15">
-									<select id="email2select">
+									<input type="text" name="email1" size=13 maxlength="15">
+									@ <input type="text" name="email2" size=13 maxlength="15">
+									<select name="email2">
 		      							<option value="0">직접입력</option>
 		      							<option value="naver.com">naver.com</option>
 		      							<option value="daum.net">daum.net</option>
 		      							<option value="nate.com">nate.com</option>
 		      							<option value="gmail.com">gmail.com</option>
 		  							   </select>
-								
-									<input type="button" id="emailBtn1" value="인증하기">
-									<font id="email_c" size="2" color="red">&nbsp;</font>
-								</td>
-							</tr>
-						
-							<tr id="smsemail" class="emailArea">
-								<TD BGCOLOR="#EFF4F8">&nbsp;인증번호<font color=red>&nbsp;*</font></td>
-								<TD BGCOLOR=WHITE>
-									<input type=text id="resemail" name="resemail" size=13 maxlength=13 placeholder="인증번호를 입력하세요">
-									<input type="button" id="emailBtn2" value="재발송">
-									<font id="resemail_r" size="2" color="red">&nbsp;</font>
-									<input type="button" value="인증" id="emailBtn3">
-									<font id="resemail_c" size="2" color="red">&nbsp;</font>
+									 <input type="button"  value="인증하기">
 								</td>
 							</tr>
 						</table>
-						
 						<table cellpadding=0 cellspacing=0 border=0 width=100%>
 							<tr bgcolor=#7AAAD5>
 								<td valign=bottom>

@@ -17,6 +17,7 @@ import com.mnu.sample.service.User.UserLogoutService;
 import com.mnu.sample.service.User.UserModifyProService;
 import com.mnu.sample.service.User.UserModifyService;
 import com.mnu.sample.service.User.UserWriteProService;
+import com.mnu.sample.service.User.UserWriteSMSService;
 import com.mnu.sample.service.User.UserWriteService;
 
 /**
@@ -38,7 +39,7 @@ public class UserController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// FIX: text/plain으로 고정되어 있어 forward된 JSP가 HTML이 아닌 순수 텍스트로 렌더링되던 문제
+		
 		response.setContentType("text/html; charset=UTF-8");
 		String cmd= request.getParameter("cmd");
 		System.out.println("회원관리 요청" +  cmd);
@@ -48,22 +49,28 @@ public class UserController extends HttpServlet {
 			action= new UserLoginService();
 		}else if(cmd.equals("UserLoginPro")) { //로그인처리
 			action = new UserLoginProService();
-		}	
-		else if(cmd.equals("UserLogout")) { //로그아웃
+		}else if(cmd.equals("UserLogout")) { //로그아웃
 			action = new UserLogoutService();
-		}else if(cmd.equals("userInsert")) { //회원가입
+		}else if(cmd.equals("UserInsert")) { //회원가입
 			action = new UserWriteService();
-		}else if(cmd.equals("userIdcheck")){	//ID중복검사
+		}else if(cmd.equals("UserIdcheck")){	//ID중복검사
 			action = new UserIdcheckService();
-		}else if(cmd.equals("userModify")) { //수정
+		}else if(cmd.equals("UserSMSCheck")) { //SMS인증
+			action = new UserWriteSMSService();
+		}else if(cmd.equals("UserModify")) { //수정
 			action = new UserModifyService();
 		}else if(cmd.equals("UserModifyPro")) { //수정처리
 			action = new UserModifyProService();
 		}else if(cmd.equals("UserWritePro")) { //회원가입 처리
 			action = new UserWriteProService();
 		}
-		
-		
+
+		if(action == null) {
+			
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "알 수 없는 요청입니다: " + cmd);
+			return;
+		}
+
 		action.process(request,response);
 		
 	}
@@ -74,7 +81,7 @@ public class UserController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
-		// FIX: text/plain으로 고정되어 있어 forward된 JSP가 HTML이 아닌 순수 텍스트로 렌더링되던 문제
+		
 		response.setContentType("text/html; charset=UTF-8");
 		doGet(request, response);
 	}
