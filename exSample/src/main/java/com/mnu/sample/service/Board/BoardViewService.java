@@ -48,7 +48,7 @@ public class BoardViewService implements Action {
 		dto.setContents(dto.getContents().replace("\n", "<br>"));
 		request.setAttribute("dto", dto);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/Board/board_view.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/BoardPhoto/board_view.jsp");
 		rd.forward(request, response);
 	}
 

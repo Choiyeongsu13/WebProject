@@ -10,7 +10,7 @@ import com.mnu.sample.model.BoardDAO;
 import com.mnu.sample.model.BoardDTO;
 import com.mnu.sample.service.Action;
 
-public class BoardWrtieProService implements Action {
+public class BoardWriteProService implements Action {
 
 	@Override
 	public void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

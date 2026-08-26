@@ -30,8 +30,8 @@
 	<div class="section-body" style="padding-top:26px;">
 		<span class="label section-label" style="padding-top:0;"><fmt:message key="label.stack" /></span>
 		<div class="section-main stackrow">
-			<span>Java</span>
-			<span>JSP / Servlet</span>
+			<span>Java / Python</span>
+			<span>JSP / Servlet / YOLO</span>
 			<span>Oracle</span>
 			<span>JavaScript</span>
 			<span>Git</span>

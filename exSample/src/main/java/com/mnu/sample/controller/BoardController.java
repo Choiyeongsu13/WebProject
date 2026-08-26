@@ -15,8 +15,8 @@ import com.mnu.sample.service.Board.BoardListService;
 import com.mnu.sample.service.Board.BoardModifyProService;
 import com.mnu.sample.service.Board.BoardModifyService;
 import com.mnu.sample.service.Board.BoardViewService;
-import com.mnu.sample.service.Board.BoardWrtieProService;
-import com.mnu.sample.service.Board.BoardWrtieService;
+import com.mnu.sample.service.Board.BoardWriteProService;
+import com.mnu.sample.service.Board.BoardWriteService;
 
 /**
  * Servlet implementation class BoardController
@@ -42,9 +42,9 @@ public class BoardController extends HttpServlet {
         if (cmd.equals("board_list")) {
             action = new BoardListService();
         } else if (cmd.equals("boardWrite")) {
-            action = new BoardWrtieService();
+            action = new BoardWriteService();
         } else if (cmd.equals("boardWritepro")) {
-            action = new BoardWrtieProService();
+            action = new BoardWriteProService();
         } else if (cmd.equals("boardView")) {
             action = new BoardViewService(); //상세보기
         } else if (cmd.equals("boardModify")) { //수정 폼
@@ -63,6 +63,7 @@ public class BoardController extends HttpServlet {
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		doGet(request, response);
 	}
 

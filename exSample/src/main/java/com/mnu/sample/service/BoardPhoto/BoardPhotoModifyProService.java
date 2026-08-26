@@ -1,4 +1,4 @@
-package com.mnu.sample.service.Board;
+package com.mnu.sample.service.BoardPhoto;
 
 import java.io.IOException;
 
@@ -9,11 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mnu.sample.service.Action;
 
-public class BoardWrtieService implements Action {
+public class BoardPhotoModifyProService implements Action {
+
 	@Override
 	public void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/Board/board_write.jsp");
+
+		RequestDispatcher rd = request.getRequestDispatcher("/BoardPhoto/board_list.jsp");
 		rd.forward(request, response);
+
 	}
 
 }
