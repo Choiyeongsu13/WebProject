@@ -10,11 +10,9 @@
 <%--
 	관리자 로그인
 
-	[연결 지점]
-	  action 을 실제 서블릿 주소로 바꾸고, 서블릿에서 blog_user 를 조회합니다.
-	    SELECT user_id, name, password FROM blog_user WHERE login_id = ?
-	  비밀번호는 해시를 비교하세요. 평문 비교는 절대 금지입니다.
-	  성공하면 session.setAttribute("loginUser", ...) 를 넣고 write.jsp 로 보냅니다.
+	AdminController 의 cmd=admin_loginpro 로 보냅니다.
+	비밀번호 비교는 ProfillDAO.userLogin 이 DB 안에서 합니다.
+	성공하면 세션에 loginUser 가 들어가고 홈으로 돌아갑니다.
 --%>
 
 <div class="auth">
@@ -23,7 +21,9 @@
 		<span class="label"><fmt:message key="admin.login" /></span>
 		<h1 class="auth-title">${isJa ? '管理者' : '관리자'}</h1>
 
-		<form class="auth-form" method="post" action="#">
+		<form class="auth-form" method="post" action="${ctx}/Admin">
+
+			<input type="hidden" name="cmd" value="admin_loginpro">
 
 			<label class="field">
 				<span class="field-label"><fmt:message key="admin.id" /></span>
@@ -35,8 +35,14 @@
 				<input type="password" name="password" autocomplete="current-password" required>
 			</label>
 
-			<%-- 로그인 실패 시 이 자리에 메시지를 넣습니다 --%>
-			<p class="auth-error" hidden>${isJa ? 'IDまたはパスワードが違います。' : '아이디 또는 비밀번호가 맞지 않습니다.'}</p>
+			<%--
+				로그인 실패 메시지.
+				AdminLoginProService 가 error 라는 이름으로 담아 보냅니다.
+				아이디가 틀렸는지 비밀번호가 틀렸는지는 구분해서 알려주지 않습니다.
+			--%>
+<c:if test="${not empty error}">
+			<p class="auth-error"><c:out value="${error}" /></p>
+</c:if>
 
 			<div class="auth-actions">
 				<button type="submit" class="btn-line"><fmt:message key="admin.signin" /></button>

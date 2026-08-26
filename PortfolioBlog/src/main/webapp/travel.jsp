@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="/common/lang.jsp" %>
 <c:set var="active"    value="travel" />
 <c:set var="pageTitle"><fmt:message key="title.travel" /></c:set>
@@ -14,69 +15,68 @@
 	<p class="page-lead"><fmt:message key="travel.lead" /></p>
 </div>
 
+<%--
+	앨범 목록.
+
+	albums : album 테이블의 목록            (TravelListService)
+	photos : album_id -> 그 앨범의 사진 목록 (TravelListService)
+
+	사진 파일은 DB 에 넣지 않습니다. file_name 만 넣고
+	파일 자체는 webapp/images/travel 폴더에 둡니다.
+--%>
 <!-- ================= 앨범 ================= -->
 <div class="section sp-2">
 
-	<!-- 앨범 1 -->
+<c:forEach var="a" items="${albums}" varStatus="st">
+	<c:set var="shots" value="${photos[a.albumid]}" />
+
 	<article class="album">
 		<div class="album-head">
-			<span class="album-no">01</span>
+			<span class="album-no"><fmt:formatNumber value="${st.count}" minIntegerDigits="2" /></span>
 			<div class="album-title-wrap">
-				<h2 class="album-title">${isJa ? '大阪の四日間' : '오사카 나흘'}</h2>
-				<p class="album-meta">${isJa ? '大阪 · 日本' : '오사카 · 일본'} &nbsp;/&nbsp; 2026.07.18 &ndash; 07.21 &nbsp;/&nbsp; 12<fmt:message key="travel.photos" /></p>
+				<h2 class="album-title"><c:out value="${a.title}" /></h2>
+				<p class="album-meta">
+					<c:out value="${a.place}" /><c:if test="${not empty a.country}"> · <c:out value="${a.country}" /></c:if>
+					<c:if test="${not empty a.travelfrom}">
+						&nbsp;/&nbsp; ${a.travelfrom}<c:if test="${not empty a.travelto}"> &ndash; ${a.travelto}</c:if>
+					</c:if>
+					<c:if test="${not empty shots}">
+						&nbsp;/&nbsp; ${fn:length(shots)}<fmt:message key="travel.photos" />
+					</c:if>
+				</p>
 			</div>
-			<a class="album-link" href="${ctx}/post.jsp"><fmt:message key="travel.readpost" /></a>
+	<c:if test="${a.postid > 0}">
+			<a class="album-link" href="${ctx}/Journal?cmd=journal_view&amp;id=${a.postid}"><fmt:message key="travel.readpost" /></a>
+	</c:if>
 		</div>
 
 		<div class="gallery">
+	<c:choose>
+		<c:when test="${empty shots}">
 			<div class="ph shot shot-wide">
 				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" stroke="#1A1A18" stroke-width="1.2"/><path d="M21 15L16 10L5 21" stroke="#1A1A18" stroke-width="1.2"/></svg>
 			</div>
-			<div class="ph shot">
-				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" stroke="#1A1A18" stroke-width="1.2"/><path d="M21 15L16 10L5 21" stroke="#1A1A18" stroke-width="1.2"/></svg>
-			</div>
-			<div class="ph shot">
-				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" stroke="#1A1A18" stroke-width="1.2"/><path d="M21 15L16 10L5 21" stroke="#1A1A18" stroke-width="1.2"/></svg>
-			</div>
-			<div class="ph shot">
-				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" stroke="#1A1A18" stroke-width="1.2"/><path d="M21 15L16 10L5 21" stroke="#1A1A18" stroke-width="1.2"/></svg>
-			</div>
-			<div class="ph shot">
-				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" stroke="#1A1A18" stroke-width="1.2"/><path d="M21 15L16 10L5 21" stroke="#1A1A18" stroke-width="1.2"/></svg>
-			</div>
-			<div class="ph shot shot-wide">
-				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" stroke="#1A1A18" stroke-width="1.2"/><path d="M21 15L16 10L5 21" stroke="#1A1A18" stroke-width="1.2"/></svg>
-			</div>
+		</c:when>
+		<c:otherwise>
+			<c:forEach var="ph" items="${shots}" varStatus="ps">
+			<img class="shot ${ps.first or ps.last ? 'shot-wide' : ''}"
+			     src="${ctx}/images/travel/<c:out value="${ph.filename}" />"
+			     alt="<c:out value="${ph.caption}" />">
+			</c:forEach>
+		</c:otherwise>
+	</c:choose>
 		</div>
 
-		<p class="album-caption">${isJa ? '道頓堀の夜、大阪城へ向かう道' : '도톤보리의 밤, 오사카성 가는 길'}</p>
+	<c:if test="${not empty a.description}">
+		<p class="album-caption"><c:out value="${a.description}" /></p>
+	</c:if>
 	</article>
 
-	<!-- 앨범 2 -->
-	<article class="album">
-		<div class="album-head">
-			<span class="album-no">02</span>
-			<div class="album-title-wrap">
-				<h2 class="album-title">${isJa ? '京都の桜' : '교토 벚꽃'}</h2>
-				<p class="album-meta">${isJa ? '京都 · 日本' : '교토 · 일본'} &nbsp;/&nbsp; 2026.04.02 &ndash; 04.04 &nbsp;/&nbsp; 8<fmt:message key="travel.photos" /></p>
-			</div>
-			<a class="album-link" href="${ctx}/post.jsp"><fmt:message key="travel.readpost" /></a>
-		</div>
+</c:forEach>
 
-		<div class="gallery">
-			<div class="ph shot">
-				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" stroke="#1A1A18" stroke-width="1.2"/><path d="M21 15L16 10L5 21" stroke="#1A1A18" stroke-width="1.2"/></svg>
-			</div>
-			<div class="ph shot shot-wide">
-				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" stroke="#1A1A18" stroke-width="1.2"/><path d="M21 15L16 10L5 21" stroke="#1A1A18" stroke-width="1.2"/></svg>
-			</div>
-			<div class="ph shot">
-				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" stroke="#1A1A18" stroke-width="1.2"/><path d="M21 15L16 10L5 21" stroke="#1A1A18" stroke-width="1.2"/></svg>
-			</div>
-		</div>
-
-		<p class="album-caption">${isJa ? '哲学の道を歩く' : '철학의 길을 걷다'}</p>
-	</article>
+<c:if test="${empty albums}">
+	<p class="filter-empty"><fmt:message key="travel.empty" /></p>
+</c:if>
 
 	<!-- 다음 앨범 자리 -->
 	<div class="album-next">

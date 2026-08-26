@@ -18,8 +18,8 @@
 	<p class="hero-lead hero-indent"><fmt:message key="hero.lead" /></p>
 
 	<div class="hero-actions hero-indent">
-		<a class="link-u" href="${ctx}/projects.jsp"><fmt:message key="hero.cta1" /></a>
-		<a class="link-u-off" href="${ctx}/posts.jsp"><fmt:message key="hero.cta2" /></a>
+		<a class="link-u" href="${ctx}/Work?cmd=work_list"><fmt:message key="hero.cta1" /></a>
+		<a class="link-u-off" href="${ctx}/Journal?cmd=journal_list"><fmt:message key="hero.cta2" /></a>
 	</div>
 
 </div>
@@ -30,8 +30,8 @@
 	<div class="section-body" style="padding-top:26px;">
 		<span class="label section-label" style="padding-top:0;"><fmt:message key="label.stack" /></span>
 		<div class="section-main stackrow">
-			<span>Java / Python</span>
-			<span>JSP / Servlet / YOLO</span>
+			<span>Java</span>
+			<span>JSP / Servlet</span>
 			<span>Oracle</span>
 			<span>JavaScript</span>
 			<span>Git</span>
@@ -46,36 +46,27 @@
 
 		<div class="section-main worklist">
 
+<c:choose>
+	<c:when test="${empty featured}">
 			<div class="rule"></div>
-			<a class="work" href="${ctx}/projects.jsp">
-				<span class="work-no">01</span>
+			<p class="filter-empty"><fmt:message key="works.empty" /></p>
+			<div class="rule"></div>
+	</c:when>
+	<c:otherwise>
+		<c:forEach var="p" items="${featured}" varStatus="st">
+			<div class="rule"></div>
+			<a class="work" href="${ctx}/Work?cmd=work_list">
+				<span class="work-no"><fmt:formatNumber value="${st.count}" minIntegerDigits="2" /></span>
 				<span class="work-main">
-					<span class="work-title" style="display:block;">[프로젝트명]</span>
-					<span class="work-desc" style="display:block;">${isJa ? 'JSP と Oracle でつくった学内コミュニティサービス。4人チームで画面開発を担当しました。' : 'JSP와 Oracle로 만든 학내 커뮤니티 서비스. 4인 팀에서 화면 개발을 담당했습니다.'}</span>
+					<span class="work-title" style="display:block;"><c:out value="${p.title}" /></span>
+					<span class="work-desc" style="display:block;"><c:out value="${p.description}" /></span>
 				</span>
-				<span class="work-tech">JSP · ORACLE</span>
+				<span class="work-tech"><c:out value="${empty langs[p.project_id] ? p.category_code : langs[p.project_id]}" /></span>
 			</a>
-
+		</c:forEach>
 			<div class="rule"></div>
-			<a class="work" href="${ctx}/projects.jsp">
-				<span class="work-no">02</span>
-				<span class="work-main">
-					<span class="work-title" style="display:block;">${isJa ? '選挙結果の照会' : '선거 결과 조회'}</span>
-					<span class="work-desc" style="display:block;">${isJa ? 'Model2 MVC パターンで実装した選挙データ照会アプリケーション。' : 'Model2 MVC 패턴으로 구현한 선거 데이터 조회 웹 애플리케이션.'}</span>
-				</span>
-				<span class="work-tech">SERVLET · MVC</span>
-			</a>
-
-			<div class="rule"></div>
-			<a class="work" href="${ctx}/projects.jsp">
-				<span class="work-no">03</span>
-				<span class="work-main">
-					<span class="work-title" style="display:block;">${isJa ? 'ポートフォリオブログ' : '포트폴리오 블로그'}</span>
-					<span class="work-desc" style="display:block;">${isJa ? 'いまご覧いただいているこのサイトを、自分で設計して実装しました。' : '지금 보고 계신 이 사이트를 직접 설계하고 구현했습니다.'}</span>
-				</span>
-				<span class="work-tech">JSP · MVC</span>
-			</a>
-			<div class="rule"></div>
+	</c:otherwise>
+</c:choose>
 
 		</div>
 	</div>
@@ -94,14 +85,19 @@
 					<span class="label label-on"><fmt:message key="cat.tech" /></span>
 				</div>
 				<div class="postlist">
-					<a href="${ctx}/post.jsp">
-						<span class="post-title" style="display:block;">JSP 프로젝트에서 DAO 패턴 정리하기</span>
-						<span class="post-date">2026.08.10</span>
+<c:choose>
+	<c:when test="${empty techPosts}">
+					<p class="filter-empty"><fmt:message key="journal.empty" /></p>
+	</c:when>
+	<c:otherwise>
+		<c:forEach var="p" items="${techPosts}">
+					<a href="${ctx}/Journal?cmd=journal_view&amp;id=${p.postid}">
+						<span class="post-title" style="display:block;"><c:out value="${p.title}" /></span>
+						<span class="post-date">${empty p.publishedat ? p.creadtedat : p.publishedat}</span>
 					</a>
-					<a href="${ctx}/post.jsp">
-						<span class="post-title" style="display:block;">Oracle 연동하며 겪은 커넥션 관리 문제</span>
-						<span class="post-date">2026.07.28</span>
-					</a>
+		</c:forEach>
+	</c:otherwise>
+</c:choose>
 				</div>
 			</div>
 
@@ -111,14 +107,19 @@
 					<span class="label"><fmt:message key="cat.travel" /></span>
 				</div>
 				<div class="postlist">
-					<a href="${ctx}/travel.jsp">
-						<span class="post-title" style="display:block;">오사카에서 보낸 나흘</span>
-						<span class="post-date">2026.07.22</span>
+<c:choose>
+	<c:when test="${empty travelPosts}">
+					<p class="filter-empty"><fmt:message key="journal.empty" /></p>
+	</c:when>
+	<c:otherwise>
+		<c:forEach var="p" items="${travelPosts}">
+					<a href="${ctx}/Journal?cmd=journal_view&amp;id=${p.postid}">
+						<span class="post-title" style="display:block;"><c:out value="${p.title}" /></span>
+						<span class="post-date">${empty p.publishedat ? p.creadtedat : p.publishedat}</span>
 					</a>
-					<a href="${ctx}/travel.jsp">
-						<span class="post-title" style="display:block;">종강 후 떠난 교토 벚꽃 산책</span>
-						<span class="post-date">2026.04.05</span>
-					</a>
+		</c:forEach>
+	</c:otherwise>
+</c:choose>
 				</div>
 			</div>
 

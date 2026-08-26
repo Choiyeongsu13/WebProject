@@ -26,7 +26,7 @@
 	<div class="section-body" style="padding-top:26px;">
 		<span class="label section-label" style="padding-top:0;">GO</span>
 		<div class="section-main">
-			<a class="link-u" href="${ctx}/index.jsp">${isJa ? 'ホームに戻る' : '홈으로 돌아가기'}</a>
+			<a class="link-u" href="${ctx}/Home?cmd=home">${isJa ? 'ホームに戻る' : '홈으로 돌아가기'}</a>
 		</div>
 	</div>
 </div>

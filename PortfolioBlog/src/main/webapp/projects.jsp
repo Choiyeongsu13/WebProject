@@ -8,20 +8,10 @@
 <%@ include file="/common/header.jsp" %>
 
 <%--
-	필터에 보일 언어 목록.
-
-	쉼표로 나눠 적습니다. 여기만 고치면 아래 필터 버튼이 알아서 바뀝니다.
-	새 작업을 추가하면서 쓴 언어가 없으면 여기에 이름을 하나 더 넣으세요.
-
-	[연결 지점] 나중에 DAO 를 붙이면 이 값 자리에 아래 쿼리 결과를 넣으면 됩니다.
-	   SELECT DISTINCT t.name
-	     FROM tag t JOIN project_tag pt ON pt.tag_id = t.tag_id
-	    ORDER BY t.name
-	   컨트롤러에서 request.setAttribute("filterLangs", 목록) 으로 넘기고
-	   아래 c:set 한 줄을 지우면 그대로 돌아갑니다.
+	필터에 보일 언어 목록은 WorkListService 가 filterLangs 로 넘겨 줍니다.
+	project_tag 에 실제로 붙어 있는 태그 이름을 모아 만든 것이라,
+	글쓰기 화면에서 태그를 새로 적으면 여기 버튼도 저절로 늘어납니다.
 --%>
-<c:set var="filterLangs" value="Java,JSP,Oracle,JavaScript" />
-
 <!-- ================= 페이지 제목 ================= -->
 <div class="page-head">
 	<span class="label"><fmt:message key="label.works" /></span>
@@ -42,73 +32,43 @@
 
 <!-- ================= 작업 목록 ================= -->
 <%--
-	data-langs 에 그 작업에서 쓴 언어를 띄어쓰기로 나열합니다.
-	위 filterLangs 에 적은 이름과 철자를 맞춰주세요.
+	data-langs 에는 그 작업에 붙은 태그 이름이 띄어쓰기로 들어갑니다.
+	WorkListService 가 langs 라는 이름으로 project_id -> "Java JSP Oracle" 를 넘겨 줍니다.
+	썸네일은 파일 이름만 DB 에 넣고, 파일 자체는 webapp/images/works 폴더에 둡니다.
 --%>
 <div class="section sp-1">
 	<div class="workgrid" id="workGrid">
 
-		<article data-langs="Java JSP Oracle">
+<c:forEach var="p" items="${projects}">
+		<article data-langs="<c:out value="${langs[p.project_id]}" />">
+	<c:choose>
+		<c:when test="${not empty p.thumbnail}">
+			<img class="ph-4x3" src="${ctx}/images/works/<c:out value="${p.thumbnail}" />"
+			     alt="<c:out value="${p.title}" />" style="width:100%;display:block;">
+		</c:when>
+		<c:otherwise>
 			<div class="ph ph-4x3">
 				<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" stroke="#1A1A18" stroke-width="1.2"/><path d="M21 15L16 10L5 21" stroke="#1A1A18" stroke-width="1.2"/></svg>
 				<span><fmt:message key="works.shot" /></span>
 			</div>
-			<h2 class="card-title">[프로젝트명]</h2>
-			<p class="card-desc">JSP와 Oracle로 만든 학내 커뮤니티 서비스입니다. 4인 팀에서 화면 개발을 담당했습니다.</p>
+		</c:otherwise>
+	</c:choose>
+			<h2 class="card-title"><c:out value="${p.title}" /></h2>
+			<p class="card-desc"><c:out value="${p.description}" /></p>
 			<div class="card-meta">
-				<span class="card-tech">JAVA · JSP · ORACLE</span>
+				<span class="card-tech"><c:out value="${empty langs[p.project_id] ? p.category_code : langs[p.project_id]}" /></span>
+	<c:if test="${not empty p.github_url}">
+				<a class="link-u" href="<c:out value="${p.github_url}" />" target="_blank" rel="noopener">GitHub</a>
+	</c:if>
 			</div>
 		</article>
-
-		<article data-langs="Java JSP">
-			<div class="ph ph-4x3">
-				<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" stroke="#1A1A18" stroke-width="1.2"/><path d="M21 15L16 10L5 21" stroke="#1A1A18" stroke-width="1.2"/></svg>
-				<span><fmt:message key="works.shot" /></span>
-			</div>
-			<h2 class="card-title">선거 결과 조회</h2>
-			<p class="card-desc">Model2 MVC 패턴으로 구현한 선거 데이터 조회 웹 애플리케이션입니다.</p>
-			<div class="card-meta">
-				<span class="card-tech">JAVA · JSP</span>
-			</div>
-		</article>
-
-		<article data-langs="Java Oracle">
-			<div class="ph ph-4x3">
-				<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" stroke="#1A1A18" stroke-width="1.2"/><path d="M21 15L16 10L5 21" stroke="#1A1A18" stroke-width="1.2"/></svg>
-				<span><fmt:message key="works.shot" /></span>
-			</div>
-			<h2 class="card-title">[프로젝트명]</h2>
-			<p class="card-desc">백신 접종 데이터를 조회하고 통계를 시각화한 프로젝트입니다.</p>
-			<div class="card-meta">
-				<span class="card-tech">JAVA · ORACLE</span>
-			</div>
-		</article>
-
-		<article data-langs="Java">
-			<div class="ph ph-4x3">
-				<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" stroke="#1A1A18" stroke-width="1.2"/><path d="M21 15L16 10L5 21" stroke="#1A1A18" stroke-width="1.2"/></svg>
-				<span><fmt:message key="works.shot" /></span>
-			</div>
-			<h2 class="card-title">[프로젝트명]</h2>
-			<p class="card-desc">캠퍼스 길찾기 앱입니다. 팀 발표에서 좋은 평가를 받았습니다.</p>
-			<div class="card-meta">
-				<span class="card-tech">JAVA</span>
-			</div>
-		</article>
-
-		<article data-langs="Java JSP Oracle JavaScript">
-			<div class="ph ph-4x3">
-				<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" stroke="#1A1A18" stroke-width="1.2"/><path d="M21 15L16 10L5 21" stroke="#1A1A18" stroke-width="1.2"/></svg>
-				<span><fmt:message key="works.shot" /></span>
-			</div>
-			<h2 class="card-title">포트폴리오 블로그</h2>
-			<p class="card-desc">지금 보고 계신 이 사이트를 직접 설계하고 구현했습니다. 화면 설계부터 DB 설계까지 혼자 진행했습니다.</p>
-			<div class="card-meta">
-				<span class="card-tech">JAVA · JSP · ORACLE · JAVASCRIPT</span>
-			</div>
-		</article>
+</c:forEach>
 
 	</div>
+
+<c:if test="${empty projects}">
+	<p class="filter-empty"><fmt:message key="works.empty" /></p>
+</c:if>
 
 	<p class="filter-empty" id="filterEmpty" hidden>${isJa ? 'この言語の作品はまだありません。' : '이 언어로 만든 작업이 아직 없습니다.'}</p>
 </div>
