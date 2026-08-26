@@ -500,7 +500,139 @@ public class ProfillDAO {
 	
 	//글 저장
 	
+	public int postInsert(PostDTO dto , String[] tags) {
+		int postId = 0;
+		String sql = "insert into post (category_id,title,slug,summary,content,thumbnaill,read_minutes,status,published_at)\r\n"
+				+ "values(?,?,?,?,?,?,?,?, case when ? = 'PUBLISHED' then sysdate else null end);";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DBManager.getConnection();
+			conn.setAutoCommit(false);
+
+			pstmt = conn.prepareStatement(sql, new String[] { "POST_ID" });
+
+			pstmt.setInt(1, dto.getCategoryid());
+			pstmt.setString(2, dto.getTitle());
+			setText(pstmt, 3, dto.getSlug());
+			setText(pstmt, 4, dto.getSummary());
+			pstmt.setString(5, dto.getContent());
+			setText(pstmt, 6, dto.getThumbnail());
+
+			if (dto.getReadminutes() > 0) {
+				pstmt.setInt(7, dto.getReadminutes());
+			} else {
+				pstmt.setNull(7, Types.NUMERIC);
+			}
+
+			pstmt.setString(8, dto.getStatus());
+			pstmt.setString(9, dto.getStatus());
+
+			pstmt.executeUpdate();
+
+			rs = pstmt.getGeneratedKeys();
+			if (rs.next()) {
+				postId = rs.getInt(1);
+			}
+			rs.close();
+			rs = null;
+			pstmt.close();
+			pstmt = null;
+
+			if (postId == 0) {
+				conn.rollback();
+				return 0;
+			}
+
+			if (tags != null) {
+				for (int i = 0; i < tags.length; i++) {
+					String name = tags[i].trim();
+					if (name.length() == 0) {
+						continue;
+					}
+					int tagId = findOrCreateTag(conn, name);
+					if (tagId == 0) {
+						conn.rollback();
+						return 0;
+					}
+					pstmt = conn.prepareStatement(
+						"insert into post_tag (post_id, tag_id) values (?, ?)");
+					pstmt.setInt(1, postId);
+					pstmt.setInt(2, tagId);
+					pstmt.executeUpdate();
+					pstmt.close();
+					pstmt = null;
+				}
+			}
+
+			conn.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			postId = 0;
+			try {
+				if (conn != null) {
+					conn.rollback();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		} finally {
+			try {
+				if (conn != null) {
+					conn.setAutoCommit(true);
+				}
+			} catch (Exception e3) {
+				e3.printStackTrace();
+			}
+			DBManager.close(conn, pstmt, rs);
+		}
+		return postId;
+
 	
+	}
+	
+	private int findOrCreateTag(Connection conn, String name) throws Exception {
+		int tagId = 0;
+
+		PreparedStatement pstmt = conn.prepareStatement(
+			"select tag_id from tag where name = ?");
+		pstmt.setString(1, name);
+		ResultSet rs = pstmt.executeQuery();
+		if (rs.next()) {
+			tagId = rs.getInt(1);
+		}
+		rs.close();
+		pstmt.close();
+
+		if (tagId > 0) {
+			return tagId;
+		}
+
+		pstmt = conn.prepareStatement(
+			"insert into tag (name) values (?)", new String[] { "TAG_ID" });
+		pstmt.setString(1, name);
+		pstmt.executeUpdate();
+		rs = pstmt.getGeneratedKeys();
+		if (rs.next()) {
+			tagId = rs.getInt(1);
+		}
+		rs.close();
+		pstmt.close();
+
+		return tagId;
+	}
+
+	private void setText(PreparedStatement pstmt, int index, String value) throws Exception {
+		if (value == null || value.trim().length() == 0) {
+			pstmt.setNull(index, Types.VARCHAR);
+		} else {
+			pstmt.setString(index, value.trim());
+		}
+	}
+
 	
 	
 }
