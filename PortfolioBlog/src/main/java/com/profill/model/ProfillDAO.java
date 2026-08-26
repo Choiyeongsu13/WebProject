@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.profill.util.DBManager;
 
@@ -632,6 +634,141 @@ public class ProfillDAO {
 			pstmt.setString(index, value.trim());
 		}
 	}
+
+
+	public Map<Integer, String> projectTagMap() {
+		Map<Integer, String> map = new LinkedHashMap<Integer, String>();
+		String sql = "select pt.project_id, "
+		           + "       listagg(t.name, ' ') within group (order by t.name) as tags "
+		           + "  from project_tag pt join tag t on t.tag_id = pt.tag_id "
+		           + " group by pt.project_id";
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				map.put(Integer.valueOf(rs.getInt("project_id")), rs.getString("tags"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return map;
+	}
+	
+	public Map<Integer, String> categoryList(String lang) {
+		Map<Integer, String> map = new LinkedHashMap<Integer, String>();
+		String sql = "select category_id, code, name_ko, name_ja "
+		           + "  from category "
+		           + " order by sort_order, category_id";
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				String name = rs.getString("name_ko");
+
+				if ("ja".equals(lang)) {
+					String ja = rs.getString("name_ja");
+					if (ja != null && ja.trim().length() > 0) {
+						name = ja;
+					}
+				}
+
+				if (name == null || name.trim().length() == 0) {
+					name = rs.getString("code");
+				}
+
+				map.put(Integer.valueOf(rs.getInt("category_id")), name);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return map;
+	}
+	
+	public List<String> postTagList(int postId) {
+		List<String> list = new ArrayList<String>();
+		String sql = "select t.name "
+		           + "  from post_tag pt join tag t on t.tag_id = pt.tag_id "
+		           + " where pt.post_id = ? "
+		           + " order by t.name";
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, postId);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				list.add(rs.getString("name"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return list;
+	}
+	
+	public List<PostDTO> postRelated(int postId, int limit) {
+		List<PostDTO> list = new ArrayList<PostDTO>();
+		String sql = "select * from ( "
+		           + "  select p.post_id, p.title, "
+		           + "         to_char(p.created_at,'YYYY.MM.DD')   as created_at, "
+		           + "         to_char(p.published_at,'YYYY.MM.DD') as published_at "
+		           + "    from post p "
+		           + "   where p.status = 'PUBLISHED' "
+		           + "     and p.post_id <> ? "
+		           + "     and p.category_id = (select category_id from post where post_id = ?) "
+		           + "   order by p.published_at desc, p.post_id desc "
+		           + ") where rownum <= ?";
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, postId);
+			pstmt.setInt(2, postId);
+			pstmt.setInt(3, limit);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				PostDTO dto = new PostDTO();
+				dto.setPostid(rs.getInt("post_id"));
+				dto.setTitle(rs.getString("title"));
+				dto.setCreadtedat(rs.getString("created_at"));
+				dto.setPublishedat(rs.getString("published_at"));
+				list.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return list;
+	}
+
+
+
 
 	
 	
