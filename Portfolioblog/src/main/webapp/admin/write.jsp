@@ -66,21 +66,6 @@
 			<textarea name="content" rows="18" required><c:out value="${post.content}" /></textarea>
 		</label>
 
-		<div class="write-row">
-			<label class="field">
-				<span class="field-label"><fmt:message key="admin.f.read" /></span>
-				<input type="number" name="readMinutes" min="0" max="999"
-				       value="${post.readminutes > 0 ? post.readminutes : ''}">
-			</label>
-
-			<label class="field">
-				<span class="field-label"><fmt:message key="admin.f.slug" /></span>
-				<input type="text" name="slug" maxlength="200"
-				       placeholder="<fmt:message key="admin.f.slug.h" />"
-				       value="<c:out value="${post.slug}" />">
-			</label>
-		</div>
-
 		<label class="field">
 			<span class="field-label"><fmt:message key="admin.f.thumb" /></span>
 			<input type="text" name="thumbnail" placeholder="osaka-01.jpg"
