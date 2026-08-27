@@ -19,6 +19,7 @@
        <td width="20%"  height="500" bgcolor="#ecf1ef" valign="top">
 		 <!--  다음에 추가할 부분 -->
 		<jsp:include page="/Include/login_form.jsp" /> 
+		
 	   </td>
        <td width="80%" valign="top">&nbsp;<br>
        

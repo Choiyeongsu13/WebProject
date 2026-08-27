@@ -1,5 +1,4 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@taglib uri ="http://java.sun.com/jsp/jstl/core"   prefix="c" %>
 
 <%@ include file="/Include/topmenu.jsp" %>
  <html>
@@ -33,15 +32,14 @@
          <tr bgcolor="e3e9ff">
            <td class="title">
              <img src="/Images/img/bullet-04.gif"> <font size="2" face="돋움">
-                  ${dto.subject }</font>
+                 ${bDTO.subject}</font>
            </td>
          </tr>
          <tr>
            <td class="content">
              <p align="right"><font size="2" face="돋움">
-              <a class="list" href="mailto:">${dto.name }</a> / <font size="2" face="돋움">${dto.regdate} /${dto.readcnt}번 읽음 </font>
-             <p>
-             ${dto.contents }<p>
+              <a class="list" href="mailto:ein1027@nate.com">${bDTO.name}</a> / <font size="2" face="돋움">${bDTO.regdate} / ${bDTO.readcnt}번 읽음</font>
+             <p>${bDTO.contents}<p><!--contents의 내용을 <BR>태그로 처리-->
            </td>
          </tr>
        </table>
@@ -50,31 +48,22 @@
       <p align="center">
       <font size="2">
        <!-- 새글쓰기 -->
-       <a href="/BoardPhoto?cmd=boardPhotoWrite">
+       <a href="">
        <img src="/Images/img/write.jpg" border="0"></a>&nbsp;&nbsp;
 	   <!-- 답글쓰기 -->
        <a href="">
        <img src="/Images/img/reply.gif" border="0"></a>&nbsp;&nbsp;
 	   <!-- 수정하기 -->
-       <a href="/BoardPhoto?cmd=boardPhotoModify&idx=${dto.idx }">
+       <a href="">
        <img src="/Images/img/edit.gif" border="0"></a>&nbsp;&nbsp;
          <!-- 삭제하기 -->
-       <a href="javascript:board_delete()"><img src="/Images/img/del.gif" border="0"></a>&nbsp;&nbsp;
+       <a href=""><img src="/Images/img/del.gif" border="0"></a>&nbsp;&nbsp;
        <!-- 목록보기 -->
-       <a href="/BoardPhoto?cmd=boardPhotoList"><img src="/Images/img/list-2.gif" border="0"></a>&nbsp;&nbsp;
+       <a href=""><img src="/Images/img/list-2.gif" border="0"></a>&nbsp;&nbsp;
       </font>
     </td>
   </tr>
   </table>
   </body>
   </html>
-  <script>
-  	function board_delete(){
-  		var url="/BoardPhoto?cmd=boardPhotoDelete&idx=${dto.idx}"
- 		window.open(url,"boardDelete","width=300 , height=200"); 
-  		if(${dto.idx}==false){
-  			window.close();
-  		}	
-  	}
-  
-  </script>
+

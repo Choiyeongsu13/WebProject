@@ -8,17 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mnu.sample.AdminGallery.service.admin_gallery_deleteproService;
-import com.mnu.sample.AdminGallery.service.admin_gallery_listService;
-import com.mnu.sample.AdminGallery.service.admin_gallery_modifyService;
-import com.mnu.sample.AdminGallery.service.admin_gallery_modifyproService;
-import com.mnu.sample.AdminGallery.service.admin_gallery_viewService;
-import com.mnu.sample.AdminGallery.service.admin_gallery_writeService;
-import com.mnu.sample.AdminGallery.service.admin_gallery_writeproService;
 import com.mnu.sample.service.Action;
+import com.mnu.sample.service.admin.galley.GalleryListService;
+import com.mnu.sample.service.admin.galley.GalleryViewService;
 
 /**
- * Servlet implementation class AdminGalleryController
+ * Servlet implementation class AdminController
  */
 @WebServlet("/Admin/Gallery")
 public class AdminGalleryController extends HttpServlet {
@@ -36,44 +31,17 @@ public class AdminGalleryController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		String cmd= request.getParameter("cmd");
-		if(cmd==null) cmd="";
-		System.out.println("관리자 요청" +  cmd);
-		Action action=null;
 
+		String cmd = request.getParameter("cmd");
+		System.out.println("관리자 요청 : " + cmd);
+		
+		Action action = null;
 		if(cmd.equals("galleryList")) {
-			action= new admin_gallery_listService();
+			action = new GalleryListService();
+		}else if(cmd.equals("galleryView")) {
+			action = new GalleryViewService();
 		}
-		else if(cmd.equals("galleryWrite"))
-		{
-			action = new admin_gallery_writeService();
-		}
-		else if(cmd.equals("galleryWritepro"))
-		{
-			action = new admin_gallery_writeproService();
-		}
-		else if(cmd.equals("galleryView"))
-		{
-			action = new admin_gallery_viewService();
-		}
-		else if(cmd.equals("galleryModifypro"))
-		{
-			action = new admin_gallery_modifyproService();
-		}
-		else if(cmd.equals("galleryModify"))
-		{
-			action = new admin_gallery_modifyService();
-		}
-		else if(cmd.equals("galleryDeletepro"))
-		{
-			action = new admin_gallery_deleteproService();
-		}
-		else
-		{
-			action = new admin_gallery_listService();
-		}
-
+		
 		action.process(request, response);
 	}
 
@@ -81,8 +49,7 @@ public class AdminGalleryController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		request.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("utf-8");
 		doGet(request, response);
 	}
 

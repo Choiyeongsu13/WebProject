@@ -1,8 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <c:if test="${row==0}">
 	<script>
-		alert("아이디 또는 비빌번호가 맞지 않습니다");
+		alert("아이디 또는 비밀번호가 맞지않습니다");
 		history.back();
 	</script>
 </c:if>
@@ -18,9 +19,9 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
 </STYLE>
 <TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0 WIDTH=330>
   <TR BGCOLOR=#7AAAD5>
-    <td align=left><img src=./Member/img/h_b02.gif></td>
+    <td align=left><img src=/Images/img/h_b02.gif></td>
     <td align=center><FONT COLOR="#FFFFFF"><b>로그인 성공</b></FONT></td>
-    <td align=right><img src=./Member/img/f_b03.gif></td>
+    <td align=right><img src=/Images/img/f_b03.gif></td>
   </tr>
 </table>
 <TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0 WIDTH=330>
@@ -29,7 +30,7 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
     <TABLE CELLPADDING=4 CELLSPACING=1 BORDER=0 WIDTH=330>
   	  <TR BGCOLOR="#FFFFFF">
         <TD ALIGN="center">
-         님 환영합니다.<br><br>
+          ${user.name}님 환영합니다.<br><br>
         </TD>
       </TR>
     </TABLE>
@@ -39,8 +40,8 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
 
 <TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0 WIDTH=330>
   <TR BGCOLOR=#7AAAD5>
-    <td align=left><img src=./Member/img/h_b04.gif></td>
-    <td align=right><img src=./Member/img/h_b05.gif></td>
+    <td align=left><img src=/Images/img/h_b04.gif></td>
+    <td align=right><img src=/Images/img/h_b05.gif></td>
   </tr>
 </table>
 
@@ -49,8 +50,7 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
   <tr>
     <td align="center">
       <a href="#">[자기정보수정]</a>
-      <a href="#">[로그아웃]</a>
-      <a href="/">[홈으로]</a>
+      <a href="#">[로그아웃]
 
 	</td>
   </tr>

@@ -8,14 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mnu.sample.AdminNotice.service.admin_notice_deleteService;
-import com.mnu.sample.AdminNotice.service.admin_notice_listService;
-import com.mnu.sample.AdminNotice.service.admin_notice_modifyService;
-import com.mnu.sample.AdminNotice.service.admin_notice_modifyproService;
-import com.mnu.sample.AdminNotice.service.admin_notice_viewService;
-import com.mnu.sample.AdminNotice.service.admin_notice_writeService;
-import com.mnu.sample.AdminNotice.service.admin_notice_writeproService;
 import com.mnu.sample.service.Action;
+import com.mnu.sample.service.admin.notice.NoticeDeleteService;
+import com.mnu.sample.service.admin.notice.NoticeListService;
+import com.mnu.sample.service.admin.notice.NoticeModifyProService;
+import com.mnu.sample.service.admin.notice.NoticeModifyService;
+import com.mnu.sample.service.admin.notice.NoticeViewService;
+import com.mnu.sample.service.admin.notice.NoticeWriteProService;
+import com.mnu.sample.service.admin.notice.NoticeWriteService;
 
 /**
  * Servlet implementation class AdminController
@@ -36,45 +36,27 @@ public class AdminNoticeController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		String cmd= request.getParameter("cmd");
-		if(cmd==null) cmd="";
-		System.out.println("관리자 요청" +  cmd);
-		Action action=null;
 
+		String cmd = request.getParameter("cmd");
+		System.out.println("관리자 요청 : " + cmd);
+		
+		Action action = null;
 		if(cmd.equals("noticeList")) {
-			action= new admin_notice_listService();
-		}
-		else if(cmd.equals("noticeWrite")) 
-		{
-			action = new admin_notice_writeService();
-		}
-		else if(cmd.equals("noticeWritepro")) 
-		{
-			action = new admin_notice_writeproService();
+			action = new NoticeListService();
+		}else if(cmd.equals("noticeWrite")) {
+			action = new NoticeWriteService();
+		}else if(cmd.equals("noticeWritePro")) {
+			action = new NoticeWriteProService();
+		}else if(cmd.equals("noticeView")) {
+			action = new NoticeViewService();
+		}else if(cmd.equals("noticeModify")) {
+			action = new NoticeModifyService();
+		}else if(cmd.equals("noticeModifyPro")) {
+			action = new NoticeModifyProService();
+		}else if(cmd.equals("noticeDelete")) {
+			action = new NoticeDeleteService();
 		}
 		
-		else if(cmd.equals("noticeView")) 
-		{
-			action = new admin_notice_viewService();
-		}
-		else if(cmd.equals("noticeModifypro")) 
-		{
-			action = new admin_notice_modifyproService();
-		}
-		else if(cmd.equals("noticeModify"))
-		{
-			action = new admin_notice_modifyService();
-		}
-		else if(cmd.equals("noticeDelete"))
-		{
-			action = new admin_notice_deleteService();
-		}
-		else
-		{
-			action = new admin_notice_listService();
-		}
-
 		action.process(request, response);
 	}
 
@@ -82,8 +64,7 @@ public class AdminNoticeController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		request.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("utf-8");
 		doGet(request, response);
 	}
 

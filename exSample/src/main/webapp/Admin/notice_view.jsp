@@ -1,5 +1,4 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@taglib uri ="http://java.sun.com/jsp/jstl/core"   prefix="c" %>
 
 <html>
 <head>
@@ -15,6 +14,15 @@ A:active {font-family:tahoma;font-size:9pt;color:#666666;text-decoration:none;}
 A:hover {font-family:tahoma;font-size:9pt;color:#009900;text-decoration:underline;} 
 --> 
 </style> 
+<script>
+	function notice_delete(){
+		var bool = confirm("삭제할가요?");
+		//alert("bool :" + bool);//true, flase
+		if(bool){
+			location.href="/Admin/Notice?cmd=noticeDelete&idx="+${nDTO.idx}
+		}
+	}
+</script>
 </head>
 
 <body>
@@ -33,17 +41,17 @@ A:hover {font-family:tahoma;font-size:9pt;color:#009900;text-decoration:underlin
 					<td><table width="100%" border="0" cellpadding="6" cellspacing="1" bgcolor="DDDDDD">
 							<tr>
 								<td align="center" bgcolor="EcECEC"><strong>제목</strong></td>
-								<td colspan=3 bgcolor="ffffff">${dto.subject}</td>
+								<td colspan=3 bgcolor="ffffff">${nDTO.subject}</td>
 							</tr>
 							<tr>
 								<td width="20%" align="center" bgcolor="EcECEC"><strong>등록일</strong></td>
-								<td width="40%" bgcolor="ffffff">${dto.regdate}</td>
+								<td width="40%" bgcolor="ffffff">${nDTO.regdate}</td>
 								<td width="20%" align="center" bgcolor="EcECEC"><strong>조회수</strong></td>
-								<td align="center" bgcolor="ffffff">${dto.readcnt}</td>
+								<td align="center" bgcolor="ffffff">${nDTO.readcnt}</td>
 							</tr>
 							<tr bgcolor="EcECEC">
 								<td align="center" bgcolor="EcECEC"><strong>내용</strong></td>
-								<td colspan=3 bgcolor="ffffff">${dto.contents}</td>
+								<td colspan=3 bgcolor="ffffff">${nDTO.contents}</td>
 							</tr>
 						</table>
 					</td>
@@ -52,10 +60,7 @@ A:hover {font-family:tahoma;font-size:9pt;color:#009900;text-decoration:underlin
 			</table><br>
 			<table width="60%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td align=center><a href="/Admin/Notice?cmd=noticeModify&idx=${dto.idx}"><b>[수정]</b></a>&nbsp; <a href="javascript:notice_delete()"><b>[삭제]</b></a>&nbsp; <a href="/Admin/Notice?cmd=noticeList"><b>[목록]</b></a></td>
-			<!-- 		<td align=center><a href="/Admin/Notice?cmd=noticeModify&idx=${dto.idx}"><b>[수정]</b></a>&nbsp; <a href="javascript:notice_delete()" onclick="if(confirm('정말 삭제하시겠습니까?')) location.href='/Admin/Notice?cmd=noticeDeletepro&idx=${dto.idx}'"><b>[삭제]</b></a>&nbsp; <a href="/Admin/Notice?cmd=noticeList"><b>[목록]</b></a></td>
-			 -->
-				
+					<td align=center><a href="/Admin/Notice?cmd=noticeModify&idx=${nDTO.idx}"><b>[수정]</b></a>&nbsp; <a href="javascript:notice_delete()"><b>[삭제]</b></a>&nbsp; <a href="/Admin/Notice?cmd=noticeList"><b>[목록]</b></a></td>
 				</tr>
 			</table>
 		</td>
@@ -63,14 +68,3 @@ A:hover {font-family:tahoma;font-size:9pt;color:#009900;text-decoration:underlin
 </table>			
 </body>
 </html>
-
-<script>
-	function notice_delete(){
-		var bool = confirm("삭제할까요?")
-		
-		if(bool){
-			location.href="/Admin/Notice?cmd=noticeDelete&idx=" + ${dto.idx}
-		}
-	}
-
-</script>

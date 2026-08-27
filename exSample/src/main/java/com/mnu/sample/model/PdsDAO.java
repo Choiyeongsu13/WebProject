@@ -1,232 +1,242 @@
 package com.mnu.sample.model;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.mnu.sample.util.DBManager;
+
 public class PdsDAO {
 	private PdsDAO() {}
-	public static PdsDAO Pds = new PdsDAO();
+	private static PdsDAO pds = new PdsDAO();
 	public static PdsDAO getInstance() {
-		return Pds;
-	}
-	Connection conn=null;
-	PreparedStatement pstmt=null;
-	ResultSet rs= null;
-	//전체 게시글 목록(list)
-	public List<PdsDTO> PdsList(){
-		List<PdsDTO> Blist = new ArrayList();
-		String sql="select * from tbl_pds ORDER by regdate desc";
-		try {
-			conn=DBManager.getConnection();
-			pstmt=conn.prepareStatement(sql);
-			rs=pstmt.executeQuery();
-			while(rs.next()) {
-				PdsDTO Bdto = new PdsDTO();
-				Bdto.setIdx(rs.getInt("idx"));
-				Bdto.setName(rs.getString("name"));
-				Bdto.setRegdate(rs.getString("regdate"));
-				Bdto.setSubject(rs.getString("subject"));
-				Bdto.setReadcnt(rs.getInt("readcnt"));
-				Blist.add(Bdto);
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-		DBManager.close(conn	, pstmt, rs);
-		}return Blist;
+		return pds;
 	}
 	
-	//총 게시글 수 카운트(검색기능  추가
-	public int PdscountList(String search, String key){
-		int count = 0;
-		String sql="select count(*) from tbl_pds where " + search + " like ?";
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
 
-//		if(search.equals("name")){
-//			sql="select count(*) from tbl_Pds where name like ?";	
-//		}else if(search.equals("subject")) {
-//			sql="select count(*) from tbl_Pds where subjcet like ?";	
-//		}else {
-//			sql="select count(*) from tbl_Pds where contents like ?";	
-//		}
-//		
-
-		
-		
-		try {
-			conn=DBManager.getConnection();
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, "%"+key+"%");
-			
-			rs=pstmt.executeQuery();
-			
-			if(rs.next()) {
-				count = rs.getInt(1);
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-		DBManager.close(conn	, pstmt, rs);
-		}return count;
-	}
-	
-	//총 게시글 수 카운트
-	public int PdscountList(){
+	// 총 게시글 수 카운트 메소드
+	public int pdsCount(){
 		int count = 0;
 		String sql="select count(*) from tbl_pds";
 		try {
-			conn=DBManager.getConnection();
-			pstmt=conn.prepareStatement(sql);
-			rs=pstmt.executeQuery();
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
 			if(rs.next()) {
 				count = rs.getInt(1);
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-		DBManager.close(conn	, pstmt, rs);
-		}return count;
-	}
-	
-	//전체 게시글 목록(list) 검색조건 추가
-	public List<PdsDTO> PdsList(String search, String key){
-		List<PdsDTO> Blist = new ArrayList();
-		String sql="select * from tbl_pds where " + search + " like ? order by regdate desc";
-		try {
-			conn=DBManager.getConnection();
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, "%"+key+"%");
-			
-			rs=pstmt.executeQuery();
-			while(rs.next()) {
-				PdsDTO Bdto = new PdsDTO();
-				Bdto.setIdx(rs.getInt("idx"));
-				Bdto.setName(rs.getString("name"));
-				Bdto.setRegdate(rs.getString("regdate"));
-				Bdto.setFilename(rs.getString("filename"));
-				
-				Bdto.setSubject(rs.getString("subject"));
-				Bdto.setReadcnt(rs.getInt("readcnt"));
-				Blist.add(Bdto);
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-		DBManager.close(conn	, pstmt, rs);
-		}return Blist;
-	}
-	
-	public int Pdswrite(PdsDTO dto){
-		int row=0;
-		String sql = "insert into tbl_pds(idx,name,email,subject,contents,pass,filename)\r\n"
-				+ "values((select nvl(max(idx),0)+1 from tbl_Pds),?,?,?,?,?,?)";
-		try {
-			conn=DBManager.getConnection();
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, dto.getName());
-			pstmt.setString(2, dto.getEmail());
-			pstmt.setString(3, dto.getSubject());
-			pstmt.setString(4, dto.getContents());
-			pstmt.setString(5, dto.getPass());
-			pstmt.setString(6, dto.getFilename());
-			row=pstmt.executeUpdate();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			DBManager.close(conn, pstmt);
-		}return row;
-	}
-
-	// 조회수 1 증가
-	public void PdsCount(int idx){
-		String sql = "update tbl_pds set readcnt = readcnt + 1 where idx = ?";
-		try {
-			conn=DBManager.getConnection();
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setInt(1, idx);
-			pstmt.executeUpdate();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			DBManager.close(conn, pstmt);
-		}
-	}
-
-	//수정 사항 (비밀번호가 일치할 때만 수정됨 - 일치하지 않으면 0행 반환)
-	public int PdsModify(PdsDTO dto){
-		int row = 0;
-		String sql = "update tbl_pds set name=?, email=?, subject=?, contents=? ,Filename=?where idx=? and pass=?";
-		try {
-			conn=DBManager.getConnection();
-			pstmt=conn.prepareStatement(sql);
-
-			pstmt.setString(1, dto.getName());
-			pstmt.setString(2, dto.getEmail());
-			pstmt.setString(3, dto.getSubject());
-			pstmt.setString(4, dto.getContents());
-			pstmt.setString(5, dto.getFilename());
-			pstmt.setInt(6, dto.getIdx());
-			pstmt.setString(7, dto.getPass());
-			
-
-			row=pstmt.executeUpdate();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			DBManager.close(conn, pstmt);
-		}return row;
-	}
-
-	
-	// 글 1개 상세조회
-	public PdsDTO PdsSearch(int idx){
-		PdsDTO dto = new PdsDTO();
-		String sql = "select * from tbl_pds where idx = ?";
-		try {
-			conn=DBManager.getConnection();
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setInt(1, idx);
-			rs=pstmt.executeQuery();
-			if(rs.next()) {
-				dto.setIdx(rs.getInt("idx"));
-				dto.setName(rs.getString("name"));
-				dto.setEmail(rs.getString("email"));
-				dto.setRegdate(rs.getString("regdate"));
-				dto.setSubject(rs.getString("subject"));
-				dto.setContents(rs.getString("contents"));
-				dto.setPass(rs.getString("pass"));
-				dto.setReadcnt(rs.getInt("readcnt"));
-				dto.setFilename(rs.getString("filename"));
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
 			DBManager.close(conn, pstmt, rs);
-		}return dto;
+		}
+		return count;
 	}
-	// 글 삭제
 	
-	public int PdsDelete(int idx , String pass) {
-		int row=0;
-		String sql="delete from tbl_pds where idx=? and pass=?";
-		
+	// 총 게시글 수 카운트 메소드(검색기능추가)
+	public int pdsCount(String search, String key){
+		int count = 0; 
+		String sql="select count(*) from tbl_pds where " + search + " like ? ";
+/*		
+		if(search.equals("name")) {
+		     sql="select count(*) from tbl_pds where name like ? ";
+		}else if(search.equals("subject")) {
+		     sql="select count(*) from tbl_pds where subject like ? ";
+		}else {
+			 sql="select count(*) from tbl_pds where contents like ? ";
+		}
+*/		
 		try {
-			conn=DBManager.getConnection();
-			pstmt=conn.prepareStatement(sql);
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+key+"%");
+			rs = pstmt.executeQuery();
 			
-			conn=DBManager.getConnection();
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setInt(1, idx);
-			pstmt.setString(2, pass);
-			row =pstmt.executeUpdate();
-			
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
-		}finally{
-			DBManager.close(conn, pstmt);
-		}return row;
+		}finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return count;
+	}
 	
+	//전체 게시글 목록(list)-(검색, 페이지인덱스 없음) 메소드
+	public List<PdsDTO> pdsList(){
+		List<PdsDTO> bList = new ArrayList();
+		String sql="select * from tbl_pds order by regdate desc";
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				PdsDTO bDTO = new PdsDTO();
+				bDTO.setIdx(rs.getInt("idx"));
+				bDTO.setName(rs.getString("name"));				
+				bDTO.setSubject(rs.getString("subject"));
+				bDTO.setFilename(rs.getString("filename"));
+				bDTO.setRegdate(rs.getString("regdate"));
+				bDTO.setReadcnt(rs.getInt("readcnt"));
+				
+				bList.add(bDTO);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return bList;
 	}
 
+	//전체 게시글 목록(list)-(검색 조건 추가) 메소드
+	public List<PdsDTO> pdsList(String search, String key){
+		List<PdsDTO> bList = new ArrayList();
+		String sql="select * from tbl_pds where " 
+					+ search + " like ? order by regdate desc";
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + key + "%");
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				PdsDTO bDTO = new PdsDTO();
+				bDTO.setIdx(rs.getInt("idx"));
+				bDTO.setName(rs.getString("name"));				
+				bDTO.setSubject(rs.getString("subject"));
+				bDTO.setFilename(rs.getString("filename"));
+				bDTO.setRegdate(rs.getString("regdate"));
+				bDTO.setReadcnt(rs.getInt("readcnt"));
+				
+				bList.add(bDTO);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return bList;
+	}
+	
+	//글 등록 메소드
+	public int pdsWrite(PdsDTO bDTO){
+		int row = 0;
+		String sql="insert into tbl_pds(idx, name, email, subject, contents, filename, pass) "
+				+ " values(tbl_pds_seq_idx.nextval, ?, ?, ?, ?, ?, ?)";
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, bDTO.getName());
+			pstmt.setString(2, bDTO.getEmail());
+			pstmt.setString(3, bDTO.getSubject());
+			pstmt.setString(4, bDTO.getContents());
+			pstmt.setString(5, bDTO.getFilename());
+			pstmt.setString(6, bDTO.getPass());
+			
+			row = pstmt.executeUpdate();
+
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return row;
+	}
+
+	//조회수 증가 메소드
+	public void pdsHits(int idx){
+		String sql="update tbl_pds set readcnt=readcnt+1 where idx=?";
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);		
+			pstmt.executeUpdate();		
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt, rs);
+		}	
+	}
+	//특정글(idx)에 해당하는 글 검색 반환(View)
+	public PdsDTO pdsSearch(int idx){
+		PdsDTO bDTO = new PdsDTO();
+		String sql="select * from tbl_pds where idx=?";
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);		
+			rs = pstmt.executeQuery();		
+			if(rs.next()) {
+				bDTO.setIdx(rs.getInt("idx"));
+				bDTO.setName(rs.getString("name"));				
+				bDTO.setSubject(rs.getString("subject"));
+				bDTO.setContents(rs.getString("contents"));
+				bDTO.setFilename(rs.getString("filename"));
+				bDTO.setRegdate(rs.getString("regdate"));
+				bDTO.setReadcnt(rs.getInt("readcnt"));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return bDTO;
+	}
+
+	//글 수정 메소드
+	public int pdsModify(PdsDTO bDTO){
+		int row = 0;
+		String sql="update tbl_pds set email=?, subject=?, contents=?, filename=? "
+				+ "	where idx=? and pass=?";
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, bDTO.getEmail());
+			pstmt.setString(2, bDTO.getSubject());
+			pstmt.setString(3, bDTO.getContents());
+			pstmt.setString(4, bDTO.getFilename());
+			pstmt.setInt(5, bDTO.getIdx());
+			pstmt.setString(6, bDTO.getPass());
+			
+			row = pstmt.executeUpdate();
+
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return row;
+	}
+
+	//글 삭제 메소드
+	public int pdsDelete(int idx, String pass){
+		int row = 0;
+		String sql="delete from tbl_pds where idx=? and pass=?";
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			pstmt.setString(2, pass);
+			
+			row = pstmt.executeUpdate();
+
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return row;
+	}
+	
 }

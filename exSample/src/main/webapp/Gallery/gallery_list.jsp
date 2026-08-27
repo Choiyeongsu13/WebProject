@@ -28,12 +28,12 @@
 		<font size="2" face="고딕">전체 : 10</b>건 - 3 Pages</font></td></tr>
       </tr>
 	  <tr onMouseOver="style.backgroundColor='#D1EEEE'" onMouseOut="style.backgroundColor=''">
-          <td align="center" height="25"><img src="/Gallery/img/jsl.jpg" alt="모집사진"></td>
+          <td align="center" height="25"><img src="./upload/jsl.jpg" alt="모집사진"></td>
           <td align="left" height="20"><font face="돋움" size="2" color="#000000">처음방문입니다</td>
           <td align="center" height="20"><font face="돋움" size="2">조회수 : 3</font></td>
       </tr>
 	  <tr onMouseOver="style.backgroundColor='#D1EEEE'" onMouseOut="style.backgroundColor=''">
-          <td align="center" height="25"><img src="/Gallery/img/jsl.jpg" alt="모집사진"></td>
+          <td align="center" height="25"><img src="upload/jsl.jpg" alt="모집사진"></td>
           <td align="left" height="20"><font face="돋움" size="2" color="#000000">처음방문입니다</td>
           <td align="center" height="20"><font face="돋움" size="2">조회수 : 3</font></td>
       </tr>

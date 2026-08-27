@@ -4,7 +4,7 @@ public class BoardPhotoDTO {
 	private int idx;
 	private String pass;
 	private String name;
-	
+	private String email;
 	private String regdate;
 	private String subject;
 	private String contents;
@@ -27,7 +27,12 @@ public class BoardPhotoDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	public String getRegdate() {
 		return regdate;
 	}
@@ -52,7 +57,4 @@ public class BoardPhotoDTO {
 	public void setReadcnt(int readcnt) {
 		this.readcnt = readcnt;
 	}
-	
-	
-
 }

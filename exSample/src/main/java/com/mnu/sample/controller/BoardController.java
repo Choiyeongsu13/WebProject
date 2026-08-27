@@ -9,14 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mnu.sample.service.Action;
-import com.mnu.sample.service.Board.BoardDeleteProService;
-import com.mnu.sample.service.Board.BoardDeleteService;
-import com.mnu.sample.service.Board.BoardListService;
-import com.mnu.sample.service.Board.BoardModifyProService;
-import com.mnu.sample.service.Board.BoardModifyService;
-import com.mnu.sample.service.Board.BoardViewService;
-import com.mnu.sample.service.Board.BoardWriteProService;
-import com.mnu.sample.service.Board.BoardWriteService;
+import com.mnu.sample.service.board.BoardDeleteProService;
+import com.mnu.sample.service.board.BoardDeleteService;
+import com.mnu.sample.service.board.BoardListService;
+import com.mnu.sample.service.board.BoardModifyProService;
+import com.mnu.sample.service.board.BoardModifyService;
+import com.mnu.sample.service.board.BoardViewService;
+import com.mnu.sample.service.board.BoardWriteProService;
+import com.mnu.sample.service.board.BoardWriteService;
 
 /**
  * Servlet implementation class BoardController
@@ -24,46 +24,51 @@ import com.mnu.sample.service.Board.BoardWriteService;
 @WebServlet("/Board")
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
     public BoardController() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String cmd = request.getParameter("cmd");
-        if (cmd == null) cmd = "";
-        System.out.println("자유게시판 요청 " + cmd);
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Action action = null;
+		String cmd = request.getParameter("cmd");
+		System.out.println("자유게시판 요청 : " + cmd);
 
-    
+		Action action = null;
+		if(cmd.equals("boardList")) {
+			action = new BoardListService();
+		}else if(cmd.equals("boardWrite")) {
+			action = new BoardWriteService();//등록폼
+		}else if(cmd.equals("boardWritePro")) {
+			action = new BoardWriteProService();//등록처리
+		}else if(cmd.equals("boardView")) {
+			action = new BoardViewService();//뷰(상세보기)
+		}else if(cmd.equals("boardModify")) {
+			action = new BoardModifyService();//수정 폼
+		}else if(cmd.equals("boardModifyPro")) {
+			action = new BoardModifyProService();//수정처리
+		}else if(cmd.equals("boardDelete")) {
+			action = new BoardDeleteService();//삭제 폼
+		}else if(cmd.equals("boardDeletePro")) {
+			action = new BoardDeleteProService();//삭제처리
+		}
+		
+		action.process(request, response);
 
-        if (cmd.equals("board_list")) {
-            action = new BoardListService();
-        } else if (cmd.equals("boardWrite")) {
-            action = new BoardWriteService();
-        } else if (cmd.equals("boardWritepro")) {
-            action = new BoardWriteProService();
-        } else if (cmd.equals("boardView")) {
-            action = new BoardViewService(); //상세보기
-        } else if (cmd.equals("boardModify")) { //수정 폼
-            action = new BoardModifyService();
-        } else if (cmd.equals("boardModifyPro")) { //수정 처리
-            action = new BoardModifyProService();
-        } else if (cmd.equals("boardDelete")) { //삭제 폼
-            action = new BoardDeleteService();
-        } else if (cmd.equals("boardDeletePro")) { //삭제처리
-            action = new BoardDeleteProService();
-        } else {
-            action = new BoardListService();
-        }
+	}
 
-        action.process(request, response);
-    }
-
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("utf-8");
 		doGet(request, response);
 	}
 

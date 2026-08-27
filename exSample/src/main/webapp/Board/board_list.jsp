@@ -1,15 +1,25 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@taglib uri ="http://java.sun.com/jsp/jstl/core"   prefix="c" %>
-<%@taglib uri ="http://java.sun.com/jsp/jstl/functions"   prefix="fn" %>
-<%@ include file="/Include/topmenu.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
+<%@ include file="/Include/topmenu.jsp" %>
+<!--  커넥션 풀 -->
 <html>
 <head><title>게시판 읽기</title>
 <link rel="stylesheet" type="text/css" href="/stylesheet.css">
 <style type="text/css">
   a.list {text-decoration:none;color:black;font-size:10pt;}
 </style>
-
+<script>
+	function board_search(){
+		if(bSearch.key.value==""){
+			alert("검색어를 입력하세요");
+			bSearch.key.focus();
+			return;
+		}
+		bSearch.submit();
+	}
+</script>
 </head>
 <body bgcolor="#FFFFFF" topmargin="0" leftmargin="0">
 <table border="0" width="800">
@@ -37,15 +47,14 @@
  	      <td width="15%" align="center" height="20"><font face="돋움" size="2">작성일</font></td>
  	      <td width="10%" align="center" height="20"><font face="돋움" size="2">조회수</font></td>
  	   </tr>
-<c:if test="${empty bList}">
-    <tr>
-        <td colspan="5" align="center" height="25">
-            <font face="돋움" size="2" color="#000000">등록된 자료가없음</font>
-        </td>
-    </tr>
-</c:if>
-
-	<c:if test="${!empty bList}">
+	<c:if test="${empty bList}">
+		<tr onMouseOver="style.backgroundColor='#D1EEEE'" onMouseOut="style.backgroundColor=''">
+			<td align="center" height="25" colspan="4">
+			<font face="돋움" size="2" color="#000000">등록된 자려가 없음</font></td>
+		</tr>
+	
+	</c:if>
+<c:if test="${!empty bList}">	
 	<c:forEach var="board" items="${bList}">
 		<tr onMouseOver="style.backgroundColor='#D1EEEE'" onMouseOut="style.backgroundColor=''">
 			<td align="center" height="25">
@@ -54,12 +63,12 @@
 				<font face="돋움" size="2" color="#000000">
 				<a class="list" href="/Board?cmd=boardView&idx=${board.idx}">${board.subject}</a></td>
 					<td align="center" height="20"><font face="돋움" size="2">
-					<a class="list" href="mailto:ein1027@nate.com">${board.name }</a></font></td>
-				<td align="center" height="20"><font face="돋움" size="2">${fn:substring(board.regdate,0,10) }</font></td>
+					<a class="list" href="mailto:ein1027@nate.com">${board.name}</a></font></td>
+				<td align="center" height="20"><font face="돋움" size="2">${fn:substring(board.regdate,0,10)}</font></td>
 				<td align="center" height="20"><font face="돋움" size="2">${board.readcnt}</font></td>
 		</tr>
 	</c:forEach>
-	</c:if>
+</c:if>
 	 <div align="center">
         <table width="700" border="0" cellspacing="0" cellpadding="5">
           <tr>&nbsp;</tr><tr>
@@ -74,17 +83,17 @@
 			<td width="25%"> &nbsp;</td>
 			<td width="50%" align="center">
 				<table>
-					<form id="bsearch" name ="bsearch" method="post" action="/Board?cmd=board_list">
+					<form id="bSearch" name="bSearch" method="post" action="/Board?cmd=boardList">	
 					<!-- 검색어를 이용하여 글제목, 작성자, 글내용 중에 하나를 입력 받아 처리하기 위한 부분 -->
 						<tr>
 							<td>
 								<select name="search">
-									<option value="subject" ${search=='subjcet' ? 'selected':''}>글제목</option>
+									<option value="subject" ${search=='subject' ? 'selected':''}>글제목</option>
 									<option value="name" ${search=='name' ? 'selected':''}>작성자</option>
 									<option value="contents" ${search=='contents' ? 'selected':''}>글내용</option>
 								</select>
 							</td>
-							<td> <input type="text" size=20 name="key" value="${key }"></td>
+							<td> <input type="text" size=20 name="key" value="${key}"></td>
 							<td> <img src="/Images/img/search2.gif" border="0" onClick="board_search()"></td>
 						</tr>
 					</form>
@@ -97,17 +106,4 @@
 	</table>
 </body>
 </html>
-<script>
-	function board_search(){
-		if(bsearch.key.value==""){
-			alert("검색어를입력하세요");
-			bsearch.key.focus();
-			return;
-		}
-		bsearch.submit();
-	}
-	
-	
 
-
-</script>

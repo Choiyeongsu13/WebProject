@@ -16,8 +16,7 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
 
 <script>
 	$(function(){
-		$("#btn_loging").click(function(e){
-			e.preventDefault();
+		$("#btn_login").click(function(){
 			if($("#userid").val() == ''){
 				alert("아이디를 입력하세요");
 				$("#userid").focus();
@@ -31,11 +30,11 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
 			$("#user").submit();
 		});
 	});
-
+	
 </script>
 </HEAD>
 <body bgcolor="#FFFFFF" text="#000000" leftmargin=0 
-  topmargin=0 onLoad='document.fname.user_id.focus();'>
+  topmargin=0 onLoad='document.user.userid.focus();'>
 
 <table border="0" width="800">
 <tr>
@@ -50,7 +49,7 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
   <TD width=100>&nbsp;</td>
   <TD>
     <table width="583" border="0" cellspacing="0" cellpadding="0" height="265">
-	  <form id="user" name="user" method=post action="/User?cmd=UserLoginPro">
+	  <form id="user" name="user" method="post" action="/User?cmd=userLoginPro">
 	    <tr>
 		  <td height="298"> 
 		    <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -83,20 +82,13 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
 							  <td>: 
 								<input type=password id="passwd" name="passwd" size=14 maxlength=12 STYLE="WIDTH:155">
 							  </td>
-							  <td><input type=image src="/Images/img/login.gif" border=0 align=absmiddle id="btn_loging"></td>
+							  <td><img src="/Images/img/login.gif" border=0 align=absmiddle id="btn_login"></td>
 							</tr>
 						  </table>
 						</td>
 					  </tr>
-					  <% if(request.getAttribute("loginError") != null) { %>
-					  <tr bgcolor="#FFFFFF">
-						<td align=CENTER>
-							<font color="red"><%= request.getAttribute("loginError") %></font>
-						</td>
-					  </tr>
-					  <% } %>
-					  <tr bgcolor="#FFFFFF">
-						<td bgcolor="#ffffff" align=CENTER height="138">
+					  <tr bgcolor="#FFFFFF"> 
+						<td bgcolor="#ffffff" align=CENTER height="138"> 
 							[아이디찾기] &nbsp;&nbsp; [비밀번호찾기]
 						</td>
 					  </tr>

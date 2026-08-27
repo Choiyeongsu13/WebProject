@@ -8,14 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mnu.sample.AdminBoard.service.admin_board_deleteproService;
-import com.mnu.sample.AdminBoard.service.admin_board_listService;
-import com.mnu.sample.AdminBoard.service.admin_board_modifyService;
-import com.mnu.sample.AdminBoard.service.admin_board_modifyproService;
-import com.mnu.sample.AdminBoard.service.admin_board_viewService;
-import com.mnu.sample.AdminBoard.service.admin_board_writeService;
-import com.mnu.sample.AdminBoard.service.admin_board_writeproService;
 import com.mnu.sample.service.Action;
+import com.mnu.sample.service.admin.board.BoardDeleteService;
+import com.mnu.sample.service.admin.board.BoardListService;
+import com.mnu.sample.service.admin.board.BoardModifyProService;
+import com.mnu.sample.service.admin.board.BoardModifyService;
+import com.mnu.sample.service.admin.board.BoardViewService;
+import com.mnu.sample.service.admin.board.BoardWriteProService;
+import com.mnu.sample.service.admin.board.BoardWriteService;
 
 /**
  * Servlet implementation class AdminController
@@ -36,45 +36,27 @@ public class AdminBoardController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		String cmd= request.getParameter("cmd");
-		if(cmd==null) cmd="";
-		System.out.println("관리자 요청" +  cmd);
-		Action action=null;
 
+		String cmd = request.getParameter("cmd");
+		System.out.println("관리자 요청 : " + cmd);
+		
+		Action action = null;
 		if(cmd.equals("boardList")) {
-			action= new admin_board_listService();
-		}
-		else if(cmd.equals("boardWrite")) 
-		{
-			action = new admin_board_writeService();
-		}
-		else if(cmd.equals("boardWritepro")) 
-		{
-			action = new admin_board_writeproService();
+			action = new BoardListService();
+		}else if(cmd.equals("boardWrite")) {
+			action = new BoardWriteService();
+		}else if(cmd.equals("boardWritePro")) {
+			action = new BoardWriteProService();
+		}else if(cmd.equals("boardView")) {
+			action = new BoardViewService();
+		}else if(cmd.equals("boardModify")) {
+			action = new BoardModifyService();
+		}else if(cmd.equals("boardModifyPro")) {
+			action = new BoardModifyProService();
+		}else if(cmd.equals("boardDelete")) {
+			action = new BoardDeleteService();
 		}
 		
-		else if(cmd.equals("boardView")) 
-		{
-			action = new admin_board_viewService();
-		}
-		else if(cmd.equals("boardModifypro")) 
-		{
-			action = new admin_board_modifyproService();
-		}
-		else if(cmd.equals("boardModify"))
-		{
-			action = new admin_board_modifyService();
-		}
-		else if(cmd.equals("boardDeletepro"))
-		{
-			action = new admin_board_deleteproService();
-		}
-		else
-		{
-			action = new admin_board_listService();
-		}
-
 		action.process(request, response);
 	}
 
@@ -82,8 +64,7 @@ public class AdminBoardController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		request.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("utf-8");
 		doGet(request, response);
 	}
 

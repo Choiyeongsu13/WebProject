@@ -1,5 +1,4 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@taglib uri ="http://java.sun.com/jsp/jstl/core"   prefix="c" %>
 
 <html>
 <head>
@@ -31,7 +30,7 @@ A:hover {font-family:tahoma;font-size:9pt;color:#009900;text-decoration:underlin
 			</table><br>
 			<table width="80%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-                    <td height="20">* 총 등록수 : <font color=red>${totcount }</font> 건</td>
+                    <td height="20">* 총 등록수 : <font color=red>10</font> 건</td>
                   </tr>
                   <tr>
                     <td><table width="100%" border="0" cellpadding="6" cellspacing="1" bgcolor="DDDDDD">
@@ -42,15 +41,20 @@ A:hover {font-family:tahoma;font-size:9pt;color:#009900;text-decoration:underlin
                         <td width="20%" align="center"><strong>접수일</strong></td>
                         <td width="10%" align="center"><strong>조회수</strong></td>
                       </tr>
-                       <c:forEach var="dto" items="${AnList}">
                       <tr>
-                        <td align="center" bgcolor="#FFFFFF">${dto.idx }</td>
-                        <td bgcolor="#FFFFFF"><a href="/Admin/Board?cmd=boardView&idx=${dto.idx}" class="unnamed1">${dto.subject}</a></td>
-                        <td align="center" bgcolor="#FFFFFF">${dto.name }</td>
-						<td align="center" bgcolor="#FFFFFF">${dto.regdate }</td>
-						<td align="center" bgcolor="#FFFFFF">${dto.readcnt }</td>
+                        <td align="center" bgcolor="#FFFFFF">1</td>
+                        <td bgcolor="#FFFFFF">안녕하세요</td>
+                        <td align="center" bgcolor="#FFFFFF">홍길동</td>
+						<td align="center" bgcolor="#FFFFFF">2007-10-11</td>
+						<td align="center" bgcolor="#FFFFFF">3</td>
                       </tr>
-                      </c:forEach>
+                      <tr>
+                        <td align="center" bgcolor="#FFFFFF">1</td>
+                        <td bgcolor="#FFFFFF"><img src="../img/btn/icon_re.gif" border=0>안녕하세요</td>
+                        <td align="center" bgcolor="#FFFFFF">홍길동</td>
+						<td align="center" bgcolor="#FFFFFF">2007-10-11</td>
+						<td align="center" bgcolor="#FFFFFF">2</td>
+                      </tr>
 	                     <tr>
                         <td height="35" colspan="10" align="center" bgcolor="#FFFFFF"></td>
                       </tr>
@@ -61,10 +65,9 @@ A:hover {font-family:tahoma;font-size:9pt;color:#009900;text-decoration:underlin
                               <td width=80% height="30" colspan="2" align="right">
 								<select name="search" class="textfield">
 									<option>제목</option>
-									<option>글쓴이</option>
 								</select>
 								<input name="key" type="text" class="textfield" size="30"></td>
-                              <td width=20% align="right"><a href="/Admin/Board?cmd=boardList"><b>[검색]</b>  &nbsp;<a href="/Admin/Board?cmd=boardWrite"><b>[글쓰기]</b></a></td>
+                              <td width=20% align="right"><b>[검색]</b>  &nbsp;<a href=""><b>[글쓰기]</b></a></td>
                             </tr>
                         </table></td>
                       </tr>

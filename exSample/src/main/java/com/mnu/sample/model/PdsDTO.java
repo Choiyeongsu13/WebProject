@@ -8,15 +8,9 @@ public class PdsDTO {
 	private String regdate;
 	private String subject;
 	private String contents;
-	private String filename;
-	
-	public String getFilename() {
-		return filename;
-	}
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
+	private String filename;		
 	private int readcnt;
+	
 	public int getIdx() {
 		return idx;
 	}
@@ -59,13 +53,16 @@ public class PdsDTO {
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}	
 	public int getReadcnt() {
 		return readcnt;
 	}
 	public void setReadcnt(int readcnt) {
 		this.readcnt = readcnt;
 	}
-	
-	
-
 }

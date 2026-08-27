@@ -9,15 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mnu.sample.service.Action;
-import com.mnu.sample.service.BoardPhoto.BoardPhotoDeleteProService;
-import com.mnu.sample.service.BoardPhoto.BoardPhotoDeleteService;
-import com.mnu.sample.service.BoardPhoto.BoardPhotoListService;
-import com.mnu.sample.service.BoardPhoto.BoardPhotoModifyProService;
-import com.mnu.sample.service.BoardPhoto.BoardPhotoModifyService;
-import com.mnu.sample.service.BoardPhoto.BoardPhotoService;
-import com.mnu.sample.service.BoardPhoto.BoardPhotoViewService;
-import com.mnu.sample.service.BoardPhoto.BoardPhotoWriteProService;
-import com.mnu.sample.service.BoardPhoto.BoardPhotoWriteService;
+import com.mnu.sample.service.boardphoto.BoardPhotoDeleteProService;
+import com.mnu.sample.service.boardphoto.BoardPhotoDeleteService;
+import com.mnu.sample.service.boardphoto.BoardPhotoListService;
+import com.mnu.sample.service.boardphoto.BoardPhotoModifyProService;
+import com.mnu.sample.service.boardphoto.BoardPhotoModifyService;
+import com.mnu.sample.service.boardphoto.BoardPhotoViewService;
+import com.mnu.sample.service.boardphoto.BoardPhotoWriteProService;
+import com.mnu.sample.service.boardphoto.BoardPhotoWriteService;
 
 /**
  * Servlet implementation class BoardPhotoController
@@ -38,44 +37,40 @@ public class BoardPhotoController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		String cmd = request.getParameter("cmd");
-		if(cmd == null) cmd = "";
-		System.out.println("포토게시판 요청" +  cmd);
+		System.out.println("포토게시판 요청 : " + cmd);
+
 		Action action = null;
-		if(cmd.equals("boardPhotoList")) {
+		if(cmd.equals("boardPhotoList")) {  //리스트
 			action = new BoardPhotoListService();
-		}
-		else if(cmd.equals("boardPhotoWrite")) {
+		}else if(cmd.equals("boardPhotoWrite")) {//등록폼
 			action = new BoardPhotoWriteService();
-		}
-		else if(cmd.equals("boardPhotoWritePro")) {
+		}else if(cmd.equals("boardPhotoWritePro")) {//등록처리
 			action = new BoardPhotoWriteProService();
-		}
-		else if(cmd.equals("boardPhotoView")) {
+		}else if(cmd.equals("boardPhotoView")) {// 뷰(상세보기)
 			action = new BoardPhotoViewService();
-		}
-		else if(cmd.equals("boardPhotoModify")) {
+		}else if(cmd.equals("boardPhotoModify")) {//수정폼
 			action = new BoardPhotoModifyService();
-		}
-		else if(cmd.equals("boardPhotoModifyPro")) {
+		}else if(cmd.equals("boardPhotoModifyPro")) {//수정처리
 			action = new BoardPhotoModifyProService();
-		}
-		else if(cmd.equals("boardPhotoDelete")) {
+		}else if(cmd.equals("boardPhotoDelete")) {//삭제폼(비번입력)
 			action = new BoardPhotoDeleteService();
-		}else if(cmd.equals("boardPhotoDeletePro")) {
+		}else if(cmd.equals("boardPhotoDeletePro")) {//삭제처리
 			action = new BoardPhotoDeleteProService();
-		}else {
-			action = new BoardPhotoListService();
 		}
+
+		
 		action.process(request, response);
+
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		request.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("utf-8");
+
 		doGet(request, response);
 	}
 

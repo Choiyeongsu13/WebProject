@@ -17,84 +17,92 @@ td   { font-family: 돋움, Verdana; font-size: 9pt; text-decoration: none; colo
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 <script type="text/javascript">
 $(function(){
-	//아이디 중복 체크 함수
 	$("#smscheck").hide();
+	$("#emailcheck").hide();
+	$("#email").hide(); // 숨기기
+
+	//라디오 버튼 선택시
+	$("input[name='mode']").change(function() {
+        if ($("#mode1").is(":checked")) {
+            $("#phone").show();
+            $("#email").hide();
+           	$("#smscheck").hide();
+           	$("#emailcheck").hide();
+        } else {
+            $("#email").show();
+            $("#phone").hide();
+           	$("#smscheck").hide();
+           	$("#emailcheck").hide();
+        }
+    });
+
 	//$("input[name='userid']").on("change",function(){
 	$("#userid").on("change",function(){
 		var userid=$('#userid').val();
 		//alert(userid);
 		$.ajax({
-			// FIX: UserController의 cmd 매핑이 "UserIdcheck"로 되어 있어 미동작하던 요청 경로 수정
-			url:'/User?cmd=UserIdcheck',
-			type : 'post',
-			data: {'userid': userid},
+			url:'/User?cmd=userIdCheck',
+			type:'post',
+			data:{'userid':userid},
 			success:function(result){
-					if(result==0){
-						//중복된 아이디가 없는경우
-						userID_c.innerHTML='사용가능한 아이디 입니다'
-					}else{
-						//ID 중복시
-						userID_c.innerHTML='중복된 아이디 입니다'	
-						$('#userid').val('');
-						$('#userid').focus();
-						
-					}
+				if(result==0){
+					//중복된 아이디가 없는 경우
+					userID_c.innerHTML='사용가능한 아이디 입니다';
+				}else{
+					//ID 중복시
+					userID_c.innerHTML='중복된 아이디 입니다';
+					$("#userid").val('');
+					$("#userid").focus();
 				}
-		});		
-	});	
-	//비번확인
+			}
+		});
+	});
+	
+	//비번 확인
 	$("#repasswd").on("change",function(){
-		var passwd = $('#passwd').val();
-		var repasswrd = $('#repasswd').val();
-		if(passwd==repasswrd){
-			repasswd_c.innerHTML="확인되었습니다"
+		var passwd = $("#passwd").val();
+		var repasswd = $("#repasswd").val();
+		if(passwd==repasswd){
+			repasswd_c.innerHTML="확인되었습니다";
 		}else{
-			repasswd_c.innerHTML="비밀번호가 다릅니다"
+			repasswd_c.innerHTML="비밀번호를 확인해 주세요";
 			$("#repasswd").val('');
 			$("#repasswd").focus();
 		}
 	});
-	//유효성검사
-	$('#btn_write').click(function(){
+	
+	//유효성 검사
+	$("#btn_write").click(function(){
 		//이름검사
-		if($("#name").val() == ''){
-			alert("이름을 입력해주세요");	
+		if($("#name").val()==''){
+			alert("이름을 입력하세요");
 			$("#name").focus();
-			return ;
+			return;
 		}
-		if($("#userid").val() == ''){
-			alert("아이디를 입력해주세요");	
-			$("#userid").focus();
-			return ;
-		}
-		if($("#passwd").val() == ''){
-			alert("비밀번호를 입력해주세요");	
-			$("#passwd").focus();
-			return ;
-		}
-		if($("#repasswd").val() == ''){
-			alert("비밀번호 확인을 입력해주세요");	
-			$("#repasswd").focus();
-			return ;
-		}
-		if($("#tel").val() == ''){
-			alert("전화번호를 입력해주세요");
-			$("#tel").focus();
-			return ;
-		}
-
-		user.submit();
-		});
+		//비번
+		
+		//비번검사
+		
+		//전화
+		
+		$("#user").submit();
 	
-		$("#phoneBtn1").click(function(){
-			$("#smscheck").show();
 	});
-});
 	
+	//핸드폰 인증하기 버튼 클릭시
+	$("#phoneBtn1").click(function(){
+		$("#smscheck").show();
+
+	});
 	
+	//이메일 인증하기 버튼 클릭시
+	$("#emailBtn1").click(function(){
+		$("#emailcheck").show();
+
+	});
 	
-	
-	
+});//$(function()끝
+		
 </script>
 </head>
 
@@ -112,7 +120,7 @@ $(function(){
 	
   </td>
   <td width="80%" valign="top">&nbsp;<img src="/Images/img/title1.gif" ><br>    
-	<form name="user" method=post action="/User?cmd=UserWritePro">
+	<form id="user" name="user" method=post action="/User?cmd=userWritePro">
 	<table border=0 cellpadding=0 cellspacing=0 width=730 valign=top>
 		<tr><td align=center><br>                            
 			<table cellpadding=0 cellspacing=0 border=0 width=650 align=center>       
@@ -160,7 +168,7 @@ $(function(){
 									<font id=repasswd_c color=red>&nbsp;*비밀번호 확인을 위해서 비밀번호를 한번 더 입력해주세요. </font> 
 								</td>
 							</tr>
-							<tr>
+							<tr id="phone">
 								<TD BGCOLOR="#EFF4F8">&nbsp;전화번호<font color=red>&nbsp;*</font></td>
 								<TD BGCOLOR=WHITE>
 									<input type=text id=tel name=tel size=13 maxlength=13 value="" placeholder="휴대전화번호 (-제외)">
@@ -178,23 +186,34 @@ $(function(){
                     				<font id="resms_c" size="2" color="red">&nbsp;</font>
 								</td>
 							</tr>							
-							<tr>
+							<tr id="email">
 								<TD BGCOLOR="#EFF4F8">&nbsp;E-mail
                 					<font color=red>&nbsp;</font>
 								</td>
 								<td bgcolor=WHITE valign=middle>
 									<input type="text" name="email1" size=13 maxlength="15">
 									@ <input type="text" name="email2" size=13 maxlength="15">
-									<select name="email2">
+									<select name="email3">
 		      							<option value="0">직접입력</option>
 		      							<option value="naver.com">naver.com</option>
 		      							<option value="daum.net">daum.net</option>
 		      							<option value="nate.com">nate.com</option>
 		      							<option value="gmail.com">gmail.com</option>
 		  							   </select>
-									 <input type="button"  value="인증하기">
+									 <input type="button" id="emailBtn1" value="인증하기">
 								</td>
 							</tr>
+							<tr id="emailcheck">
+								<TD BGCOLOR="#EFF4F8">&nbsp;이메일 인증번호<font color=red>&nbsp;*</font></td>
+								<TD BGCOLOR=WHITE>
+									<input type=text id=reemail name="reemail" size=13 maxlength=13 placeholder="이메일 인증번호를 입력하세요">
+									<input type="button" id="emailBtn2" value="재발송">
+                    				<font id="reemail_r" size="2" color="red">&nbsp;</font>
+                    				<input type="button" value="인증" id="emailBtn3">
+                    				<font id="reemail_c" size="2" color="red">&nbsp;</font>
+								</td>
+							</tr>							
+							
 						</table>
 						<table cellpadding=0 cellspacing=0 border=0 width=100%>
 							<tr bgcolor=#7AAAD5>
@@ -208,8 +227,8 @@ $(function(){
 							</tr>
 							<tr bgcolor=#ffffff>
 								<td colspan=3 align=center>
-									<img src="/Images/img/u_bt06.gif" vspace=3 border=0 id=btn_write>
-									<img src="/Images/img/u_bt05.gif" border=0 hspace=10 vspace=3 id=btn_cancle>
+									<img src="/Images/img/u_bt06.gif" vspace=3 border=0 id="btn_write">
+									<img src="/Images/img/u_bt05.gif" border=0 hspace=10 vspace=3 id="btn_cancle" name=img4>
 								</td>
 							</tr>
 						</table> 

@@ -57,7 +57,4 @@ public class BoardDTO {
 	public void setReadcnt(int readcnt) {
 		this.readcnt = readcnt;
 	}
-	
-	
-
 }

@@ -150,7 +150,7 @@ public class BoardPhotoDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			DBManager.close(conn, pstmt);
+			DBManager.close(conn, pstmt, rs);
 		}
 		return row;
 	}
@@ -197,16 +197,16 @@ public class BoardPhotoDAO {
 	//글 수정 메소드
 	public int boardModify(BoardPhotoDTO bDTO){
 		int row = 0;
-		String sql="update tbl_boardphoto set , subject=?, contents=? "
+		String sql="update tbl_boardphoto set email=?, subject=?, contents=? "
 				+ "	where idx=? and pass=?";
 		try {
 			conn = DBManager.getConnection();
 			pstmt = conn.prepareStatement(sql);
-		
-			pstmt.setString(1, bDTO.getSubject());
-			pstmt.setString(2, bDTO.getContents());
-			pstmt.setInt(3, bDTO.getIdx());
-			pstmt.setString(4, bDTO.getPass());
+			pstmt.setString(1, bDTO.getEmail());
+			pstmt.setString(2, bDTO.getSubject());
+			pstmt.setString(3, bDTO.getContents());
+			pstmt.setInt(4, bDTO.getIdx());
+			pstmt.setString(5, bDTO.getPass());
 			
 			row = pstmt.executeUpdate();
 

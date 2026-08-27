@@ -1,6 +1,7 @@
 package com.mnu.sample.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mnu.sample.service.Action;
-import com.mnu.sample.service.Admin.AdminLoginService;
+import com.mnu.sample.service.admin.AdminListService;
+import com.mnu.sample.service.admin.AdminLoginService;
 
 /**
  * Servlet implementation class AdminController
@@ -29,14 +31,15 @@ public class AdminController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		String cmd= request.getParameter("cmd");
-		System.out.println("관리자 요청" +  cmd);
-		Action action=null;
-		if(cmd.equals("admin_login")) {
-			action= new AdminLoginService();
+
+		String cmd = request.getParameter("cmd");
+		System.out.println("관리자 요청 : " + cmd);
+		
+		Action action = null;
+		if(cmd.equals("adminLogin")) {
+			action = new AdminLoginService();
 		}else if(cmd.equals("adminList")) {
-			
+			action = new AdminListService();
 		}
 		
 		action.process(request, response);
@@ -46,8 +49,7 @@ public class AdminController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		request.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("utf-8");
 		doGet(request, response);
 	}
 

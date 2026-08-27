@@ -14,35 +14,25 @@ public class DBManager {
 		
 		
 		try {//1 드라이버 로딩
-			
+
 			Class.forName(myDriver);
 			conn = DriverManager.getConnection(myURL, myID, myPass);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-			try {
-				
-			}catch(Exception e) {
-			e.printStackTrace();
-			}
-			
-		
-	return conn;	
+
+	return conn;
 	}
 	public static void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
 	try {
-		if(rs != null) rs.close();
-		if(pstmt != null) pstmt.close();
-		if(conn != null) conn.close();
+		if (rs != null) rs.close();
+		if (pstmt != null) pstmt.close();
+		if (conn != null) conn.close();
 
 	}catch(Exception e) {
 		e.printStackTrace();
 
 	}
-	}
-
-	public static void close(Connection conn, PreparedStatement pstmt) {
-		close(conn, pstmt, null);
 	}
 
 }

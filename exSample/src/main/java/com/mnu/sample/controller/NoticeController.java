@@ -1,6 +1,7 @@
 package com.mnu.sample.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mnu.sample.service.Action;
-import com.mnu.sample.service.Notice.NoticeListService;
+import com.mnu.sample.service.notice.NoticeListService;
 
 /**
  * Servlet implementation class NoticeController
@@ -29,22 +30,24 @@ public class NoticeController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		String cmd = request.getParameter("cmd");
-		System.out.println("공지사항 요청" +  cmd);
+		System.out.println("공지사항 요청 : " + cmd);
+	
 		Action action = null;
-		if(cmd.equals("notice_list")) {
+		if(cmd.equals("noticeList")) {
 			action = new NoticeListService();
 		}
 		
 		action.process(request, response);
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		request.setCharacterEncoding("utf-8");
 		doGet(request, response);
 	}
 

@@ -11,10 +11,10 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.xhtml</welcome-file>
   </welcome-file-list>
+  
   <servlet-mapping>
 	<servlet-name>default</servlet-name>
 	<url-pattern>/Images/*</url-pattern>
-
-</servlet-mapping>
+ </servlet-mapping>
+  
 </web-app>
-

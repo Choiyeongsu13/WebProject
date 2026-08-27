@@ -1,6 +1,5 @@
 package com.mnu.sample.util;
 
-
 import java.util.Properties;
 import java.util.UUID;
 

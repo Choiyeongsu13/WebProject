@@ -1,7 +1,6 @@
-﻿<%@ page contentType="text/html; charset=UTF-8" %>
-<%@taglib uri ="http://java.sun.com/jsp/jstl/core"   prefix="c" %>
-<%@taglib uri ="http://java.sun.com/jsp/jstl/functions"   prefix="fn" %>
-
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <html>
 <head>
@@ -17,6 +16,16 @@ A:active {font-family:tahoma;font-size:9pt;color:#666666;text-decoration:none;}
 A:hover {font-family:tahoma;font-size:9pt;color:#009900;text-decoration:underline;} 
 --> 
 </style> 
+<script>
+	function notice_search(){
+		if(!nSearch.key.value){
+			alert("검색어를 입력하세요");
+			nSearch.key.focus();
+			return;
+		}
+		nSearch.submit();
+	}
+</script>
 </head>
 
 <body>
@@ -39,33 +48,34 @@ A:hover {font-family:tahoma;font-size:9pt;color:#009900;text-decoration:underlin
                       <tr bgcolor="EcECEC">
                         <td width="15%" align="center" bgcolor="EcECEC"><strong>번호</strong></td>
 						<td align="center" bgcolor="EcECEC"><strong>제목</strong></td>
-                        <td width="20%" align="center"><strong>접수일</strong></td>
+                        <td width="20%" align="center"><strong>등록일</strong></td>
                         <td width="10%" align="center"><strong>조회수</strong></td>
                       </tr>
-                      <c:forEach var="dto" items="${AnList}">
+               <c:forEach var="nDTO" items="${nList}">       
                       <tr>
-                        <td align="center" bgcolor="#FFFFFF">${dto.idx}</td>
-                        <td bgcolor="#FFFFFF"><a href="/Admin/Notice?cmd=noticeView&idx=${dto.idx}" class="unnamed1">${dto.subject}</a></td>
-                        <td align="center" bgcolor="#FFFFFF">${dto.regdate}</td>
-						<td align="center" bgcolor="#FFFFFF">${dto.readcnt}</td>
+                        <td align="center" bgcolor="#FFFFFF">${nDTO.idx}</td>
+                        <td bgcolor="#FFFFFF"><a href="/Admin/Notice?cmd=noticeView&idx=${nDTO.idx}" class="unnamed1">${nDTO.subject}</a></td>
+                        <td align="center" bgcolor="#FFFFFF">${nDTO.regdate}</td>
+						<td align="center" bgcolor="#FFFFFF">${nDTO.readcnt}</td>
                       </tr>
-                      </c:forEach>
-                      <tr>
-                        <td height="35" colspan="10" align="center" bgcolor="#FFFFFF">&nbsp;</td>
+               </c:forEach>        
+                      
+	                     <tr>
+                        <td height="35" colspan="10" align="center" bgcolor="#FFFFFF">[1][2][3]</td>
                       </tr>
-					<form action="/Admin/Notice?cmd=noticeList" method="post" name="notice">
+					<form action="/Admin/Notice?cmd=noticeList" method="post" name="nSearch">
                       <tr>
                         <td colspan="10" align="center" bgcolor="#FFFFFF"><table width="610" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                               <td width=80% height="30" colspan="2" align="right">
 								<select name="search" class="textfield">
-									<option value="subject" ${search=='subject' ? 'selected':'' }>제목</option>
+									<option value="subject" ${search=='subject' ? 'selected' : ''}>제목</option>
+									<option value="contents" ${search=='contents' ? 'selected' : ''}>내용</option>
 								</select>
 								<input name="key" type="text" class="textfield" size="30" value="${key}"></td>
-
                               <td width=20% align="right"><a href="javascript:notice_search()"><b>[검색]</b></a>  &nbsp;<a href="/Admin/Notice?cmd=noticeWrite"><b>[글쓰기]</b></a></td>
                             </tr>
-
+									
                         </table></td>
                       </tr>
                     </table>
@@ -78,16 +88,3 @@ A:hover {font-family:tahoma;font-size:9pt;color:#009900;text-decoration:underlin
                    
 </body>
 </html>
-
-<script>
-	function notice_search(){
-		if(notice.key.value==""){
-			alert("검색어를입력하세요");
-			notice.key.focus();
-			return;
-		}
-		notice.submit();
-	}
-
-
-</script>
