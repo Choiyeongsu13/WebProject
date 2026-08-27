@@ -44,10 +44,11 @@ public class PdsViewService implements Action {
 		
 		//idx에 해당하는 글 검색
 		PdsDTO pDTO = pDAO.pdsSearch(idx);
-		//bDTO.setContents(bDTO.getContents().replace("\n", "<br>"));
+		pDTO.setContents(pDTO.getContents().replace("\n", "<br>"));
 		
 		request.setAttribute("pDTO", pDTO);
 
+		
 		RequestDispatcher rd = request.getRequestDispatcher("/Pds/pds_view.jsp");
 		rd.forward(request, response);
 

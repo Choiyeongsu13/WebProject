@@ -146,14 +146,15 @@ public class PdsDAO {
 			
 			row = pstmt.executeUpdate();
 
+		
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			DBManager.close(conn, pstmt, rs);
+			DBManager.close(conn, pstmt,rs);
 		}
 		return row;
 	}
-
+	
 	//조회수 증가 메소드
 	public void pdsHits(int idx){
 		String sql="update tbl_pds set readcnt=readcnt+1 where idx=?";
@@ -165,7 +166,7 @@ public class PdsDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			DBManager.close(conn, pstmt, rs);
+			DBManager.close(conn, pstmt,rs);
 		}	
 	}
 	//특정글(idx)에 해당하는 글 검색 반환(View)
@@ -214,11 +215,31 @@ public class PdsDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			DBManager.close(conn, pstmt, rs);
+			DBManager.close(conn, pstmt,rs);
 		}
 		return row;
 	}
 
+	//특정글(idx)에 해당하는 파일 검색(삭제시 사용)
+	public String pdsSearchFile(int idx){
+		String filename = "";
+		String sql="select filename from tbl_pds where idx=?";
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);		
+			rs = pstmt.executeQuery();		
+			if(rs.next()) {
+				filename = rs.getString("filename");
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return filename;
+	}
+	
 	//글 삭제 메소드
 	public int pdsDelete(int idx, String pass){
 		int row = 0;
@@ -234,7 +255,7 @@ public class PdsDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			DBManager.close(conn, pstmt, rs);
+			DBManager.close(conn, pstmt,rs);
 		}
 		return row;
 	}

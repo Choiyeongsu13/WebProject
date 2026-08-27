@@ -53,9 +53,9 @@
 <c:forEach var="pds" items="${bList}">		
       <tr onMouseOver="style.backgroundColor='#D1EEEE'" onMouseOut="style.backgroundColor=''">
         <td align="center" height="25">
-        <font face="돋움" size="2" color="#000000">${pds.idx}</font>
-        <a class= "list" href="/Pds?cmd=pdsView&idx=${pds.idx }"></a></td>
-        <td align="center" height="20"><font face="돋움" size="2">${pds.subject }</font></td>
+        <font face="돋움" size="2" color="#000000">${pds.idx}</font></td>
+        <td align="center" height="20"><font face="돋움" size="2">
+        <a class="list" href="/Pds?cmd=pdsView&idx=${pds.idx }">${pds.subject }</a></font></td>
 				<td align="center" height="20"><font face="돋움" size="2">${pds.filename }</font></td>
 				<td align="center" height="20"><font face="돋움" size="2">${pds.name }</font></td>
 				<td align="center" height="20"><font face="돋움" size="2">${pds.regdate }</font></td>
@@ -100,4 +100,3 @@
 	</table>
 </body>
 </html>
-
