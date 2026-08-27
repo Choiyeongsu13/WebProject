@@ -85,13 +85,13 @@
 								</select>
 							</td>
 							<td> <input type="text" size=20 name=""></td>
-							<td> <a href="#"><img src="/Images/img/search2.gif" border="0"></a></td>
+							<td> <a href="/Pds?cmd=pds_Wrtie"><img src="/Images/img/search2.gif" border="0"></a></td>
 						</tr>
 					</form>
 				</table>
 			</td>
 			<td width="25%" align="right">
-			<a href="#"><img src="/Images/img/write.gif" border="0"></a>
+			<a href="/Pds?cmd=pds_Wrtie"><img src="/Images/img/write.gif" border="0"></a>
 			</td>
 		</tr>
 	</table>

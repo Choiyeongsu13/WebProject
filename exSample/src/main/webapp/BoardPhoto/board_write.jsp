@@ -74,7 +74,7 @@
      <font size="2"> - 글쓰기</font><p>
      <img src="/Images/img/bullet-03.gif"><font size="2" face="돋움" color="orange"> 잠깐</font> &nbsp;
      <img src="/Images/img/bullet-02.gif"><font size="2" face="돋움">는 필수 입력 사항입니다.</font><p>
-     <form id="board" name="name" method="post" action="/BoardPhoto?cmd=boardPhotoWritePro">
+     <form id="board" name="board" method="post" action="/BoardPhoto?cmd=boardPhotoWritePro">
 
 	  <table border="0">
        <tr>
