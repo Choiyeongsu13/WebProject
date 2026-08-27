@@ -1,0 +1,931 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   Portfolio Blog — 여백 (Japanese minimal)
+
+   이 디자인은 '여백'과 '얇은 선'으로 만들어집니다.
+   요소를 더 넣기보다 빼는 쪽으로 수정하셔야 원래 의도가 유지됩니다.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. 디자인 토큰 — 여기만 바꾸면 사이트 전체가 바뀝니다
+   -------------------------------------------------------------------------- */
+:root {
+	/* 색 */
+	--paper:      #FCFCFA;   /* 배경 */
+	--ink:        #1A1A18;   /* 제목 · 주요 글자 */
+	--body:       #43433C;   /* 본문 */
+	--muted:      #5C5C55;   /* 설명 */
+	--faint:      #6E6E66;   /* 라벨 */
+	--faintest:   #727268;   /* 날짜 */
+	--line:       #E3E3DF;   /* 구분선 */
+	--line-soft:  #EFEFEC;   /* 옅은 구분선 */
+	--fill:       #F4F4F1;   /* 이미지 자리 */
+	--seal:       #C4483A;   /* 낙관 — 이 사이트의 유일한 색 */
+
+	/* 서체 */
+	--sans:  'Zen Kaku Gothic New', 'Noto Sans KR', 'Noto Sans JP', system-ui, sans-serif;
+	--serif: 'Noto Serif KR', 'Noto Serif JP', Georgia, serif;
+
+	/* 레이아웃 */
+	--pad:      120px;  /* 좌우 여백 */
+	--labelcol: 120px;  /* 왼쪽 라벨 칸 너비 */
+	--gap:      80px;   /* 라벨과 내용 사이 */
+}
+
+/* --------------------------------------------------------------------------
+   2. 리셋 · 기본
+   -------------------------------------------------------------------------- */
+* { box-sizing: border-box; }
+
+/* hidden 속성이 항상 이기게 한다.
+   display 를 지정한 요소에 hidden 을 걸면 CSS 가 이겨서 그대로 보이기 때문이다. */
+[hidden] { display: none !important; }
+
+html { scroll-behavior: smooth; }
+
+body {
+	margin: 0;
+	background: var(--paper);
+	color: var(--ink);
+	font-family: var(--sans);
+	font-weight: 400;
+	font-size: 15px;
+	line-height: 1.85;
+	-webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { margin: 0; font-weight: 400; }
+p  { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+img { max-width: 100%; display: block; }
+
+a {
+	color: inherit;
+	text-decoration: none;
+	transition: color .15s ease;
+}
+a:hover { color: var(--muted); }
+
+/* --------------------------------------------------------------------------
+   3. 반복해서 쓰는 조각
+   -------------------------------------------------------------------------- */
+
+/* 얇은 가로선 — 이 디자인의 기본 단위 */
+.rule      { height: 1px; background: var(--line); }
+.rule-soft { height: 1px; background: var(--line-soft); }
+
+/* 대문자 소형 라벨 */
+.label {
+	font-size: 11px;
+	letter-spacing: .28em;
+	text-transform: uppercase;
+	color: var(--faint);
+	font-weight: 400;
+}
+.label-on { color: var(--ink); }
+
+/* 섹션 사이 세로 간격 — 화면이 좁아지면 함께 줄어듭니다 */
+.sp-1 { padding-top: 64px; }
+.sp-2 { padding-top: 72px; }
+.sp-3 { padding-top: 120px; }
+.sp-4 { padding-top: 130px; }
+.sp-5 { padding-top: 150px; }
+.sp-6 { padding-top: 180px; }
+
+/* 왼쪽 라벨 + 오른쪽 내용 구조 */
+/* padding 단축 속성을 쓰면 위의 .sp-* 가 지정한 padding-top 을 덮어쓴다.
+   좌우만 지정해서 순서에 상관없이 동작하게 한다. */
+.section       { padding-left: var(--pad); padding-right: var(--pad); }
+.section-body  { display: flex; gap: var(--gap); }
+.section-label { width: var(--labelcol); flex-shrink: 0; padding-top: 6px; }
+.section-main  { flex-grow: 1; min-width: 0; }
+
+/* 밑줄 링크 (이 디자인의 버튼) */
+.link-u {
+	font-size: 12px;
+	letter-spacing: .1em;
+	border-bottom: 1px solid var(--ink);
+	padding-bottom: 5px;
+}
+.link-u:hover { border-bottom-color: var(--muted); }
+
+.link-u-off {
+	font-size: 12px;
+	letter-spacing: .1em;
+	color: var(--faint);
+	border-bottom: 1px solid var(--line);
+	padding-bottom: 5px;
+}
+.link-u-off:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+/* 낙관 — 히어로 옆의 붉은 사각형 */
+.seal {
+	width: 26px;
+	height: 26px;
+	background: var(--seal);
+	flex-shrink: 0;
+	margin-top: 14px;
+}
+
+/* 세로 일본어 라벨 */
+.vlabel {
+	position: absolute;
+	top: 220px;
+	right: 56px;
+	writing-mode: vertical-rl;
+	font-family: var(--serif);
+	font-size: 11px;
+	letter-spacing: .5em;
+	color: #A8A89F;
+	pointer-events: none;
+}
+
+/* 이미지 자리 */
+.ph {
+	background: var(--fill);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	gap: 10px;
+	color: var(--faintest);
+	font-size: 11px;
+	letter-spacing: .1em;
+}
+.ph svg { opacity: .22; }
+.ph-4x3    { aspect-ratio: 4 / 3; }
+.ph-square { aspect-ratio: 1 / 1; }
+.ph-avatar { width: 132px; height: 132px; border-radius: 50%; flex-shrink: 0; }
+
+/* --------------------------------------------------------------------------
+   4. 헤더
+   -------------------------------------------------------------------------- */
+.site-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 44px var(--pad) 0;
+}
+
+.brand {
+	font-size: 13px;
+	letter-spacing: .22em;
+	font-weight: 400;
+}
+
+.nav { display: flex; gap: 44px; }
+.nav a { color: var(--faint); }
+.nav a:hover { color: var(--ink); }
+.nav a.is-active { color: var(--ink); }
+
+.lang { display: flex; align-items: center; gap: 14px; }
+.lang-sep { width: 1px; height: 9px; background: var(--line); }
+
+/* --------------------------------------------------------------------------
+   5. 히어로 (홈)
+   -------------------------------------------------------------------------- */
+.hero { padding: 200px var(--pad) 0; }
+
+.hero-top { display: flex; align-items: flex-start; gap: 24px; }
+
+.hero-title {
+	font-family: var(--serif);
+	font-size: 44px;
+	font-weight: 300;
+	line-height: 1.5;
+	letter-spacing: .02em;
+}
+
+/* 낙관 너비(26) + 간격(24) 만큼 들여써서 제목과 줄을 맞춥니다 */
+.hero-indent { margin-left: 50px; }
+
+.hero-lead {
+	margin-top: 64px;
+	font-size: 15px;
+	line-height: 2.4;
+	color: var(--body);
+	max-width: 400px;
+}
+
+.hero-actions { margin-top: 56px; display: flex; gap: 40px; }
+
+/* --------------------------------------------------------------------------
+   6. 페이지 제목 (홈이 아닌 화면)
+   -------------------------------------------------------------------------- */
+.page-head { padding: 150px var(--pad) 0; }
+
+.page-title {
+	font-family: var(--serif);
+	font-size: 32px;
+	font-weight: 300;
+	letter-spacing: .04em;
+	margin-top: 22px;
+}
+
+.page-lead {
+	margin-top: 26px;
+	font-size: 14.5px;
+	line-height: 2.1;
+	color: var(--muted);
+	max-width: 420px;
+}
+
+/* --------------------------------------------------------------------------
+   7. 기술 스택 줄
+   -------------------------------------------------------------------------- */
+.stackrow { display: flex; gap: 36px; flex-wrap: wrap; }
+.stackrow span { font-size: 14px; color: var(--body); }
+
+/* --------------------------------------------------------------------------
+   8. 작업 목록 (홈 — 선으로만 구분되는 리스트)
+   -------------------------------------------------------------------------- */
+.worklist { display: flex; flex-direction: column; }
+
+.work {
+	display: flex;
+	align-items: baseline;
+	gap: 32px;
+	padding: 34px 0;
+}
+.work:hover .work-title { color: var(--muted); }
+
+.work-no {
+	font-family: var(--serif);
+	font-size: 12px;
+	color: #909087;
+	width: 24px;
+	flex-shrink: 0;
+}
+.work-main  { flex-grow: 1; min-width: 0; }
+.work-title { font-size: 17px; font-weight: 400; margin-bottom: 10px; transition: color .15s ease; }
+.work-desc  { font-size: 13.5px; color: var(--muted); line-height: 1.9; }
+.work-tech {
+	font-size: 11.5px;
+	letter-spacing: .14em;
+	color: var(--faint);
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   9. 작업 그리드 (프로젝트 페이지 — 2열, 넓은 간격)
+   -------------------------------------------------------------------------- */
+.workgrid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 96px 72px;
+}
+
+.card-title { font-size: 17px; font-weight: 400; margin: 22px 0 10px; }
+.card-desc  { font-size: 13.5px; color: var(--muted); line-height: 1.9; }
+.card-meta {
+	margin-top: 18px;
+	padding-top: 16px;
+	border-top: 1px solid var(--line-soft);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+}
+.card-tech { font-size: 11.5px; letter-spacing: .14em; color: var(--faint); }
+.card-links { display: flex; gap: 20px; }
+.card-links span { font-size: 11px; letter-spacing: .12em; color: var(--ink); }
+.card-links .off { color: var(--faintest); }
+
+/* 필터 — 알약이 아니라 글자 링크로 */
+/* 필터가 늘어나도 줄바꿈되게 한다 (언어가 추가되면 개수가 늘어난다) */
+.filters { display: flex; align-items: center; gap: 12px 24px; flex-wrap: wrap; }
+.filter {
+	font-size: 12px;
+	letter-spacing: .1em;
+	color: var(--faint);
+	background: none;
+	border: 0;
+	border-bottom: 1px solid transparent;
+	padding: 0 0 5px;
+	cursor: pointer;
+	font-family: inherit;
+}
+.filter:hover { color: var(--ink); }
+.filter.is-active { color: var(--ink); border-bottom-color: var(--ink); }
+.filter-sep { width: 1px; height: 10px; background: var(--line); }
+
+/* --------------------------------------------------------------------------
+   10. 글 목록 (홈 — 기술 / 여행 두 칸)
+   -------------------------------------------------------------------------- */
+.journal {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 72px;
+}
+
+.journal-head { display: flex; align-items: center; gap: 10px; margin-bottom: 26px; }
+.journal-dash { width: 18px; height: 1px; background: var(--ink); }
+.journal-dash.soft { background: #C2C2BA; }
+
+.postlist { display: flex; flex-direction: column; gap: 24px; }
+.post-title { font-size: 14px; font-weight: 400; margin-bottom: 7px; line-height: 1.7; }
+.post-date  { font-size: 11.5px; color: var(--faintest); letter-spacing: .08em; }
+
+/* 글 목록 (전체 목록형) */
+.postrows { display: flex; flex-direction: column; }
+.postrow {
+	display: flex;
+	align-items: baseline;
+	gap: 28px;
+	padding: 26px 0;
+}
+.postrow:hover .post-title { color: var(--muted); }
+.postrow-date { font-size: 11px; color: var(--faintest); letter-spacing: .08em; width: 76px; flex-shrink: 0; }
+.postrow-cat  { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--faint); width: 60px; flex-shrink: 0; }
+.postrow-main { flex-grow: 1; min-width: 0; }
+.postrow-read { font-size: 11px; color: var(--faintest); white-space: nowrap; }
+
+/* --------------------------------------------------------------------------
+   11. 글 본문
+   -------------------------------------------------------------------------- */
+.article { padding: 150px var(--pad) 0; }
+.article-inner { max-width: 620px; margin: 0 auto; }
+
+.article-title {
+	font-family: var(--serif);
+	font-size: 28px;
+	font-weight: 300;
+	line-height: 1.75;
+	letter-spacing: .01em;
+	margin: 24px 0 34px;
+}
+
+.byline {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding-bottom: 30px;
+	border-bottom: 1px solid var(--line);
+	margin-bottom: 62px;
+}
+.byline-name { font-size: 12.5px; font-weight: 400; }
+.byline-meta { font-size: 11px; color: var(--faintest); letter-spacing: .08em; margin-top: 2px; }
+
+.prose { display: flex; flex-direction: column; gap: 30px; }
+.prose p  { font-size: 15px; line-height: 2.2; color: var(--body); }
+.prose h2 {
+	font-family: var(--serif);
+	font-size: 17px;
+	font-weight: 400;
+	color: var(--ink);
+	margin-top: 24px;
+	letter-spacing: .03em;
+}
+.prose code {
+	font-family: Consolas, 'Courier New', monospace;
+	font-size: 12.5px;
+	color: var(--ink);
+	background: var(--fill);
+	padding: 1px 5px;
+}
+
+/* 코드 블록 — 이 디자인에서는 어둡게 하지 않고 옅은 면으로 */
+.codeblock {
+	background: #F7F7F4;
+	border: 1px solid var(--line);
+	padding: 26px 28px;
+	overflow-x: auto;
+}
+.codeblock pre {
+	margin: 0;
+	font-family: Consolas, 'Courier New', monospace;
+	font-size: 12.5px;
+	line-height: 2;
+	color: #3D3D38;
+}
+.tok-comment { color: #A0A69A; }
+.tok-keyword { color: #8A6A3C; }
+.tok-string  { color: #7A8A72; }
+
+.article-tags {
+	display: flex;
+	gap: 22px;
+	margin-top: 56px;
+	padding-top: 30px;
+	border-top: 1px solid var(--line);
+}
+.article-tags span { font-size: 11px; letter-spacing: .14em; color: var(--faint); }
+
+.related { margin-top: 72px; }
+.related-item {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 24px;
+	padding: 20px 0;
+}
+.related-name { font-size: 13.5px; font-weight: 400; }
+.related-item:hover .related-name { color: var(--muted); }
+.related-date { font-size: 11px; color: var(--faintest); letter-spacing: .08em; white-space: nowrap; }
+
+/* --------------------------------------------------------------------------
+   12. 소개
+   -------------------------------------------------------------------------- */
+.profile { display: flex; gap: 56px; align-items: flex-start; }
+.profile-name { font-family: var(--serif); font-size: 26px; font-weight: 300; letter-spacing: .05em; }
+.profile-role { font-size: 12px; letter-spacing: .16em; color: var(--seal); margin-top: 12px; }
+.profile-bio  { margin-top: 30px; font-size: 15px; line-height: 2.3; color: var(--body); max-width: 440px; }
+.profile-links { margin-top: 34px; display: flex; gap: 32px; }
+
+/* 기술 스택 표 */
+.skilltable { display: flex; flex-direction: column; }
+.skillrow {
+	display: flex;
+	align-items: baseline;
+	gap: 40px;
+	padding: 18px 0;
+	border-bottom: 1px solid var(--line-soft);
+}
+.skillrow:first-child { border-top: 1px solid var(--line); }
+.skillrow-name { width: 110px; flex-shrink: 0; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--faint); }
+.skillrow-list { display: flex; gap: 28px; flex-wrap: wrap; font-size: 14px; color: var(--body); }
+
+/* 연혁 */
+.timeline { display: flex; flex-direction: column; }
+.tl-item { display: flex; gap: 28px; }
+.tl-rail { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+.tl-dot  { width: 5px; height: 5px; border-radius: 50%; background: #C2C2BA; margin-top: 11px; }
+.tl-dot.now { background: var(--seal); }
+.tl-line { width: 1px; flex-grow: 1; background: var(--line); margin-top: 6px; }
+.tl-body { padding-bottom: 40px; }
+.tl-date { font-size: 11px; color: var(--faintest); letter-spacing: .1em; }
+.tl-title { font-size: 15px; font-weight: 400; margin: 8px 0 8px; }
+.tl-desc { font-size: 13.5px; color: var(--muted); line-height: 1.9; }
+
+/* 이력서 */
+.resume {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 24px;
+	padding: 30px 0;
+	border-top: 1px solid var(--line);
+	border-bottom: 1px solid var(--line);
+}
+.resume-title { font-size: 15px; font-weight: 400; }
+.resume-meta { font-size: 11px; color: var(--faintest); letter-spacing: .08em; margin-top: 6px; }
+
+/* --------------------------------------------------------------------------
+   13. 푸터
+   -------------------------------------------------------------------------- */
+.site-footer { margin-top: 180px; padding: 0 var(--pad) 72px; }
+.site-footer .rule { margin-bottom: 28px; }
+.footer-in { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.footer-copy { font-size: 11px; color: var(--faintest); letter-spacing: .1em; }
+.footer-links { display: flex; gap: 32px; }
+
+/* --------------------------------------------------------------------------
+   14. 반응형 — 여백을 줄이되 비율은 유지합니다
+   -------------------------------------------------------------------------- */
+@media (max-width: 1200px) {
+	:root { --pad: 72px; --gap: 56px; --labelcol: 100px; }
+	.hero { padding-top: 150px; }
+}
+
+@media (max-width: 900px) {
+	:root { --pad: 40px; --gap: 36px; }
+
+	.sp-1 { padding-top: 52px; }
+	.sp-2 { padding-top: 56px; }
+	.sp-3 { padding-top: 88px; }
+	.sp-4 { padding-top: 96px; }
+	.sp-5 { padding-top: 110px; }
+	.sp-6 { padding-top: 120px; }
+
+	.section-body { flex-direction: column; gap: 20px; }
+	.section-label { width: auto; padding-top: 0; }
+
+	.workgrid { grid-template-columns: 1fr; gap: 64px; }
+	.journal  { grid-template-columns: 1fr; gap: 52px; }
+	.profile  { flex-direction: column; gap: 32px; }
+}
+
+@media (max-width: 620px) {
+	:root { --pad: 24px; }
+
+	body { font-size: 14.5px; }
+
+	.sp-1 { padding-top: 40px; }
+	.sp-2 { padding-top: 44px; }
+	.sp-3 { padding-top: 64px; }
+	.sp-4 { padding-top: 68px; }
+	.sp-5 { padding-top: 80px; }
+	.sp-6 { padding-top: 80px; }
+
+	.site-header { flex-wrap: wrap; gap: 18px; padding-top: 28px; }
+	/* 메뉴가 5개라 390px 에서는 한 줄에 안 들어간다. 간격을 줄이고 줄바꿈을 허용한다. */
+	.nav { gap: 16px 18px; order: 3; width: 100%; flex-wrap: wrap; }
+	.nav a { letter-spacing: .18em; }
+
+	.hero { padding-top: 96px; }
+	.hero-title { font-size: 30px; }
+	.hero-indent { margin-left: 0; }
+	.hero-lead { margin-top: 40px; }
+	.hero-actions { margin-top: 40px; gap: 28px; }
+
+	.page-head { padding-top: 90px; }
+	.page-title { font-size: 25px; }
+	.article { padding-top: 90px; }
+	.article-title { font-size: 22px; }
+
+	.work { flex-wrap: wrap; gap: 14px; padding: 26px 0; }
+	.work-no { width: auto; }
+	.work-tech { width: 100%; }
+
+	.postrow { flex-wrap: wrap; gap: 8px 20px; }
+	.postrow-main { flex-basis: 100%; order: 3; }
+
+	.skillrow { flex-direction: column; gap: 12px; }
+	.skillrow-name { width: auto; }
+
+	.vlabel { display: none; }
+
+	.footer-in { flex-direction: column; align-items: flex-start; gap: 18px; }
+	.site-footer { margin-top: 110px; }
+}
+
+/* --------------------------------------------------------------------------
+   15. 여행 앨범 (travel.jsp)
+   -------------------------------------------------------------------------- */
+.album { padding-top: 84px; }
+.album:first-child { padding-top: 0; }
+
+.album-head {
+	display: flex;
+	align-items: baseline;
+	gap: 32px;
+	padding-bottom: 22px;
+	border-bottom: 1px solid var(--line);
+	margin-bottom: 22px;
+}
+.album-no {
+	font-family: var(--serif);
+	font-size: 12px;
+	color: #909087;
+	width: 24px;
+	flex-shrink: 0;
+}
+.album-title-wrap { flex-grow: 1; min-width: 0; }
+.album-title { font-size: 19px; font-weight: 400; margin-bottom: 8px; }
+.album-meta  { font-size: 11.5px; letter-spacing: .08em; color: var(--faintest); }
+.album-link {
+	font-size: 11.5px;
+	letter-spacing: .1em;
+	color: var(--faint);
+	border-bottom: 1px solid var(--line);
+	padding-bottom: 4px;
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+.album-link:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+/* 사진 배치 — 한 장을 넓게 두어 리듬을 만든다 */
+.gallery {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 12px;
+}
+.shot { aspect-ratio: 3 / 4; }
+.shot-wide { grid-column: span 2; aspect-ratio: 3 / 2; }
+
+.album-caption {
+	margin-top: 16px;
+	font-size: 12px;
+	color: var(--faintest);
+	letter-spacing: .04em;
+}
+
+.album-next {
+	margin-top: 84px;
+	padding: 44px 0;
+	border-top: 1px dashed var(--line);
+	border-bottom: 1px dashed var(--line);
+	text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   16. 글 목록 (posts.jsp)
+   -------------------------------------------------------------------------- */
+.postrow-note {
+	font-size: 10.5px;
+	letter-spacing: .1em;
+	color: var(--faintest);
+	border: 1px solid var(--line);
+	padding: 2px 7px;
+	white-space: nowrap;
+}
+
+.pager {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 22px;
+	margin-top: 72px;
+	padding-top: 30px;
+	border-top: 1px solid var(--line);
+}
+.pager span, .pager a {
+	font-size: 12px;
+	letter-spacing: .1em;
+	color: var(--faint);
+}
+.pager .is-current { color: var(--ink); border-bottom: 1px solid var(--ink); padding-bottom: 3px; }
+.pager .is-off { color: #C2C2BA; }
+
+/* --------------------------------------------------------------------------
+   17. 여행·글 목록 반응형
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+	.gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.shot-wide { grid-column: span 2; }
+	.album { padding-top: 60px; }
+	.album-next { margin-top: 60px; }
+}
+
+@media (max-width: 620px) {
+	.album-head { flex-wrap: wrap; gap: 12px; }
+	.album-no { width: auto; }
+	.album-link { flex-basis: 100%; }
+	.gallery { gap: 8px; }
+	.pager { gap: 14px; }
+	.filters { gap: 10px 16px; }
+}
+
+/* 일본어 화면에서 본문이 아직 한국어일 때 알리는 줄 */
+.kr-note {
+	font-size: 12px;
+	letter-spacing: .04em;
+	color: var(--faintest);
+	border-left: 2px solid var(--line);
+	padding: 4px 0 4px 14px;
+	margin-bottom: 40px;
+}
+
+/* 필터 결과가 없을 때 */
+.filter-empty {
+	margin-top: 48px;
+	font-size: 13px;
+	color: var(--faintest);
+	letter-spacing: .04em;
+}
+
+/* --------------------------------------------------------------------------
+   18. 댓글 (common/comments.jsp)
+   -------------------------------------------------------------------------- */
+.comments { margin-top: 88px; }
+
+.cmt-head {
+	display: flex;
+	align-items: baseline;
+	gap: 12px;
+	margin-bottom: 10px;
+}
+.cmt-count { font-size: 11.5px; color: var(--faintest); letter-spacing: .08em; }
+
+.cmt-list { display: flex; flex-direction: column; }
+
+.cmt { padding: 26px 0; border-bottom: 1px solid var(--line-soft); }
+.cmt:last-child { border-bottom: 1px solid var(--line); }
+
+/* 대댓글은 들여쓰고 왼쪽에 얇은 선을 둔다 */
+.cmt-child {
+	margin-left: 28px;
+	padding-left: 22px;
+	border-left: 1px solid var(--line);
+}
+
+.cmt-meta { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+.cmt-nick { font-size: 13px; font-weight: 500; color: var(--ink); }
+.cmt-owner { color: var(--seal); }
+.cmt-date { font-size: 11px; color: var(--faintest); letter-spacing: .08em; }
+.cmt-body { font-size: 14px; line-height: 1.95; color: var(--body); }
+
+.cmt-actions { display: flex; gap: 16px; margin-top: 12px; }
+.cmt-act {
+	background: none;
+	border: 0;
+	padding: 0;
+	font-family: inherit;
+	font-size: 11px;
+	letter-spacing: .1em;
+	color: var(--faint);
+	cursor: pointer;
+}
+.cmt-act:hover { color: var(--ink); }
+
+/* 댓글 쓰기 */
+.cmt-form { margin-top: 40px; display: flex; flex-direction: column; gap: 22px; }
+
+.cmt-replying {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	font-size: 12px;
+	color: var(--muted);
+	padding: 10px 14px;
+	background: var(--fill);
+}
+.cmt-replying #cmtReplyingTo::before { content: "\21B3\00a0"; color: var(--faint); }
+
+.cmt-row { display: flex; gap: 20px; align-items: flex-end; flex-wrap: wrap; }
+.cmt-row .field { flex: 1 1 180px; }
+
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field-label {
+	font-size: 10.5px;
+	letter-spacing: .2em;
+	text-transform: uppercase;
+	color: var(--faint);
+}
+.req { color: var(--seal); font-style: normal; }
+
+.field input[type="text"],
+.field input[type="password"],
+.field input[type="number"],
+.field textarea,
+.field select {
+	font-family: inherit;
+	font-size: 14px;
+	color: var(--ink);
+	background: transparent;
+	border: 0;
+	border-bottom: 1px solid var(--line);
+	padding: 8px 0;
+	width: 100%;
+}
+.field textarea {
+	border: 1px solid var(--line);
+	padding: 14px;
+	line-height: 1.9;
+	resize: vertical;
+}
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+	outline: none;
+	border-color: var(--ink);
+}
+.field input::placeholder,
+.field textarea::placeholder { color: #B4B4AB; }
+
+.field-check {
+	flex: 0 0 auto;
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+	font-size: 12px;
+	color: var(--muted);
+	padding-bottom: 10px;
+}
+.field-check input { accent-color: var(--seal); }
+
+.cmt-submit { display: flex; justify-content: flex-end; }
+
+.btn-line {
+	font-family: inherit;
+	font-size: 12px;
+	letter-spacing: .1em;
+	color: var(--ink);
+	background: none;
+	border: 0;
+	border-bottom: 1px solid var(--ink);
+	padding: 0 0 5px;
+	cursor: pointer;
+}
+.btn-line:hover { color: var(--muted); border-bottom-color: var(--muted); }
+
+.cmt-delbox {
+	margin: 16px 0 0;
+	padding: 18px 20px;
+	background: var(--fill);
+}
+.cmt-delbox form { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.cmt-delbox input[type="password"] {
+	font-family: inherit;
+	font-size: 13px;
+	background: transparent;
+	border: 0;
+	border-bottom: 1px solid var(--border, var(--line));
+	padding: 6px 0;
+	width: 140px;
+}
+.cmt-delbox input:focus { outline: none; border-bottom-color: var(--ink); }
+
+@media (max-width: 620px) {
+	.cmt-child { margin-left: 14px; padding-left: 14px; }
+	.cmt-row { gap: 16px; }
+	.cmt-row .field { flex: 1 1 100%; }
+}
+
+/* --------------------------------------------------------------------------
+   19. 관리자 화면 (admin/login.jsp, admin/write.jsp)
+   -------------------------------------------------------------------------- */
+.auth {
+	padding: 160px var(--pad) 0;
+	display: flex;
+	justify-content: center;
+}
+.auth-box { width: 100%; max-width: 320px; }
+.auth-title {
+	font-family: var(--serif);
+	font-size: 28px;
+	font-weight: 300;
+	letter-spacing: .05em;
+	margin: 20px 0 44px;
+}
+.auth-form { display: flex; flex-direction: column; gap: 28px; }
+.auth-error { font-size: 12.5px; color: var(--seal); }
+.auth-actions { display: flex; justify-content: flex-end; margin-top: 8px; }
+
+.write-form {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+	max-width: 720px;
+}
+.write-row { display: flex; gap: 28px; flex-wrap: wrap; }
+.write-row .field { flex: 1 1 220px; }
+
+.write-fieldset {
+	border: 1px solid var(--line);
+	border-radius: 0;
+	padding: 24px 26px 26px;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 22px;
+}
+.write-fieldset legend { padding: 0 10px; }
+.write-hint { font-size: 12px; color: var(--faintest); line-height: 1.8; }
+
+.write-actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 26px;
+	padding-top: 12px;
+	border-top: 1px solid var(--line);
+}
+
+.field select {
+	border-radius: 0;
+	appearance: none;
+	background-image: linear-gradient(45deg, transparent 50%, var(--faint) 50%),
+	                  linear-gradient(135deg, var(--faint) 50%, transparent 50%);
+	background-position: calc(100% - 9px) 16px, calc(100% - 4px) 16px;
+	background-size: 5px 5px, 5px 5px;
+	background-repeat: no-repeat;
+	padding-right: 22px;
+}
+
+@media (max-width: 620px) {
+	.auth { padding-top: 96px; }
+	.write-row .field { flex: 1 1 100%; }
+	.write-actions { flex-wrap: wrap; gap: 18px; }
+}
+
+/* 관리자 입구 — 눈에 띄지 않게 */
+.footer-admin { color: #B4B4AB; }
+.footer-admin:hover { color: var(--ink); }
+.header-write { white-space: nowrap; }
+
+/* --------------------------------------------------------------------------
+   19. DB 연결하며 추가한 것
+   -------------------------------------------------------------------------- */
+
+/* 실제 사진.
+   .ph 는 사진이 없을 때 보여 주는 회색 자리이고,
+   아래는 그 자리에 진짜 img 가 들어왔을 때 씁니다.
+   object-fit: cover 를 빼면 세로 사진이 눌려서 찌그러집니다. */
+img.ph-4x3,
+img.shot {
+	width: 100%;
+	height: auto;
+	display: block;
+	object-fit: cover;
+	background: var(--fill);
+}
+
+/* 댓글 */
+.cmt-empty {
+	margin: 28px 0;
+	font-size: 13px;
+	color: var(--faintest);
+	letter-spacing: .04em;
+}
+
+.cmt-removed { color: var(--faintest); font-style: normal; }
+
+.cmt-error {
+	margin: 20px 0 0;
+	font-size: 12.5px;
+	color: var(--seal);
+	letter-spacing: .02em;
+}
