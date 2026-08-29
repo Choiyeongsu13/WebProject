@@ -1,20 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%--
-	공통 헤더 — 여백 디자인
 
-	사용법 : 각 화면 맨 위에서 lang.jsp 를 먼저 넣고, 값을 정한 뒤 이 파일을 넣습니다.
-
-		<%@ include file="/common/lang.jsp" %>
-		<c:set var="active"    value="home" />
-		<c:set var="pageTitle"><fmt:message key="title.home" /></c:set>
-		<c:set var="vLabel"    value="ポートフォリオ" />
-		<%@ include file="/common/header.jsp" %>
-
-	active : home | works | journal | travel | about
-	vLabel : 오른쪽에 세로로 들어가는 일본어 라벨. 비우면 표시하지 않습니다.
---%>
 <!DOCTYPE html>
 <html lang="<fmt:message key="html.lang" />">
 <head>
@@ -30,6 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Sans+KR:wght@200;300;400;500&family=Noto+Serif+JP:wght@200;300;400&family=Noto+Serif+KR:wght@200;300;400&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap">
 <link rel="stylesheet" href="${ctx}/css/style.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 

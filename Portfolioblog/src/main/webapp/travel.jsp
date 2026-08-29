@@ -15,15 +15,7 @@
 	<p class="page-lead"><fmt:message key="travel.lead" /></p>
 </div>
 
-<%--
-	앨범 목록.
 
-	albums : album 테이블의 목록            (TravelListService)
-	photos : album_id -> 그 앨범의 사진 목록 (TravelListService)
-
-	사진 파일은 DB 에 넣지 않습니다. file_name 만 넣고
-	파일 자체는 webapp/images/travel 폴더에 둡니다.
---%>
 <!-- ================= 앨범 ================= -->
 <div class="section sp-2">
 

@@ -929,3 +929,64 @@ img.shot {
 	color: var(--seal);
 	letter-spacing: .02em;
 }
+
+/* --------------------------------------------------------------------------
+   20. 글쓰기 화면 보강
+   -------------------------------------------------------------------------- */
+
+/* 분류 드롭다운. 큰 화면에서 안 보인다고 해서 키웠다.
+   appearance:none 으로 브라우저 기본 화살표를 지우고 직접 그린다. */
+.field select.field-select {
+	font-size: 17px;
+	letter-spacing: .02em;
+	padding: 14px 34px 13px 2px;
+	border-bottom: 1px solid var(--line);
+	cursor: pointer;
+
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%231A1A18' stroke-width='1.3'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 6px center;
+}
+
+/* 목록이 펼쳐졌을 때의 글자. 윈도우 크롬에서 특히 작게 나온다. */
+.field select.field-select option {
+	font-size: 16px;
+	padding: 8px;
+}
+
+/* 파일 선택 칸 */
+.field input[type="file"] {
+	font-family: inherit;
+	font-size: 13px;
+	color: var(--muted);
+	border: 0;
+	border-bottom: 1px solid var(--line);
+	padding: 10px 0;
+	width: 100%;
+}
+.field input[type="file"]::file-selector-button {
+	font-family: inherit;
+	font-size: 12px;
+	letter-spacing: .06em;
+	color: var(--ink);
+	background: none;
+	border: 1px solid var(--line);
+	padding: 7px 14px;
+	margin-right: 14px;
+	cursor: pointer;
+}
+.field input[type="file"]::file-selector-button:hover {
+	border-color: var(--ink);
+}
+
+/* 글 상세의 대표 이미지 */
+.article-thumb {
+	width: 100%;
+	height: auto;
+	display: block;
+	margin: 34px 0 6px;
+	background: var(--fill);
+}

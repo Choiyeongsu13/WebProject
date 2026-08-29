@@ -17,10 +17,8 @@
 
 		<div>
 			<h1 class="profile-name">최영수</h1>
-			<p class="profile-role">초보 개발자</p>
-			<p class="profile-bio">목포대학교 융합소프트웨어학과에 재학중입니다. 재학중에는 주로 Python을 공부했고
-			캡스톤 프로젝트에서 YOLO를 활용한 이미지 딥러닝, RAG를 활용한 챗봇을 담당했습니다.
-			현재는 IT전문가 과정에서 자바를 공부하며 일본으로의 취업을 준비하고 있습니다.</p>
+			<p class="profile-role"><fmt:message key="about.role" /></p>
+			<p class="profile-bio"><fmt:message key="about.bio" /></p>
 			<div class="profile-links">
 				<a class="link-u" href="mailto:choiyeongsu0813@gmail.com">choiyeongsu0813@gmail.com</a>
 				<a class="link-u-off" href="https://github.com/Choiyeongsu13" target="_blank" rel="noopener">GitHub</a>
@@ -80,9 +78,9 @@
 					<span class="tl-line"></span>
 				</span>
 				<span class="tl-body">
-					<span class="tl-date" style="display:block;">[2021]</span>
-					<span class="tl-title" style="display:block;">국립 목포대학교 융합소프트웨어</span>
-					<span class="tl-desc" style="display:block;">C , Python, Java등을 공부했습니다.</span>
+					<span class="tl-date" style="display:block;">2021</span>
+					<span class="tl-title" style="display:block;"><fmt:message key="about.edu" /></span>
+					<span class="tl-desc" style="display:block;"><fmt:message key="about.edu.desc" /></span>
 				</span>
 			</div>
 
@@ -92,9 +90,9 @@
 					<span class="tl-line"></span>
 				</span>
 				<span class="tl-body">
-					<span class="tl-date" style="display:block;">[2026]</span>
-					<span class="tl-title" style="display:block;">전라남도청년 해외지원사업 일본취업IT전문가과정</span>
-					<span class="tl-desc" style="display:block;">Java 공부중</span>
+					<span class="tl-date" style="display:block;">2026</span>
+					<span class="tl-title" style="display:block;"><fmt:message key="about.club" /></span>
+					<span class="tl-desc" style="display:block;"><fmt:message key="about.club.desc" /></span>
 				</span>
 			</div>
 

@@ -1,5 +1,6 @@
 package com.profill.adminlogin.service;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -7,38 +8,60 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.profill.model.PostDTO;
 import com.profill.model.ProfillDAO;
 import com.profill.service.Action;
 
-/** 글 저장 처리. */
 public class AdminWriteProService implements Action {
+
+
+	private static String UPLOAD_DIR = "/images/posts";
+	private static int    MAX_SIZE   = 5 * 1024 * 1024;   
 
 	@Override
 	public void process(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		PostDTO dto = new PostDTO();
-		dto.setCategoryid(toInt(request.getParameter("categoryId")));
-		dto.setTitle(request.getParameter("title"));
-		dto.setSlug(request.getParameter("slug"));
-		dto.setSummary(request.getParameter("summary"));
-		dto.setContent(request.getParameter("content"));
-		dto.setThumbnail(request.getParameter("thumbnail"));
-		dto.setReadminutes(toInt(request.getParameter("readMinutes")));
+		String saveDir = request.getServletContext().getRealPath(UPLOAD_DIR);
+		File dir = new File(saveDir);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
 
-	
-		String status = request.getParameter("status");
-		dto.setStatus("PUBLISHED".equals(status) ? "PUBLISHED" : "DRAFT");
+		MultipartRequest multi = null;
+		try {
 
+			multi = new MultipartRequest(request, saveDir, MAX_SIZE, "UTF-8",
+					new DefaultFileRenamePolicy());
+		} catch (Exception e) {
 		
-		String tagLine = request.getParameter("tags");
+			e.printStackTrace();
+			back(request, response, new PostDTO(), "사진은 5MB 까지만 올릴 수 있습니다.");
+			return;
+		}
+
+		PostDTO dto = new PostDTO();
+		dto.setCategoryid(toInt(multi.getParameter("categoryId")));
+		dto.setTitle(multi.getParameter("title"));
+		dto.setSlug(multi.getParameter("slug"));
+		dto.setSummary(multi.getParameter("summary"));
+		dto.setContent(multi.getParameter("content"));
+		dto.setReadminutes(toInt(multi.getParameter("readMinutes")));
+
+
+		dto.setStatus("PUBLISHED");
+
+
+		dto.setThumbnail(multi.getFilesystemName("thumbnail"));
+
+		String tagLine = multi.getParameter("tags");
 		String[] tags = null;
 		if (tagLine != null && tagLine.trim().length() > 0) {
 			tags = tagLine.split(",");
 		}
 
-	
 		String problem = check(dto);
 		if (problem != null) {
 			back(request, response, dto, problem);
@@ -53,11 +76,9 @@ public class AdminWriteProService implements Action {
 			return;
 		}
 
-	
-		response.sendRedirect(request.getContextPath() + "/Post?cmd=post_view&id=" + postId);
+		response.sendRedirect(request.getContextPath() + "/Journal?cmd=journal_view&id=" + postId);
 	}
 
-	
 	private String check(PostDTO dto) {
 		if (dto.getCategoryid() <= 0) {
 			return "분류를 선택해 주세요.";
@@ -65,15 +86,14 @@ public class AdminWriteProService implements Action {
 		if (dto.getTitle() == null || dto.getTitle().trim().length() == 0) {
 			return "제목을 입력해 주세요.";
 		}
-		if (dto.getTitle().length() > 200) {
-			return "제목은 200자까지입니다.";
+		if (dto.getTitle().length() > 100) {
+			return "제목은 100자까지입니다.";
 		}
 		if (dto.getContent() == null || dto.getContent().trim().length() == 0) {
 			return "내용을 입력해 주세요.";
 		}
 		return null;
 	}
-
 
 	private void back(HttpServletRequest request, HttpServletResponse response,
 	                  PostDTO dto, String message) throws ServletException, IOException {

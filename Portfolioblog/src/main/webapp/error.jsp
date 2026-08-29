@@ -7,14 +7,6 @@
 <c:set var="vLabel"    value="" />
 <%@ include file="/common/header.jsp" %>
 
-<%--
-	주소가 틀렸거나 서버에서 문제가 생겼을 때 나오는 화면입니다.
-	web.xml 의 <error-page> 에서 이 파일을 가리키고 있습니다.
-
-	톰캣 기본 오류 화면에는 서버 버전과 파일 경로가 그대로 나옵니다.
-	그걸 보여 주지 않으려고 화면을 따로 두었습니다.
---%>
-
 <div class="page-head">
 	<span class="label">ERROR</span>
 	<h1 class="page-title">${isJa ? '見つかりません' : '찾을 수 없습니다'}</h1>

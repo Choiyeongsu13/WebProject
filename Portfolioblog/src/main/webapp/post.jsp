@@ -28,17 +28,13 @@
 			</span>
 		</div>
 
-<c:if test="${isJa}">
-		<p class="kr-note"><fmt:message key="note.kronly" /></p>
+	
+<c:if test="${not empty post.thumbnail}">
+		<img class="article-thumb" src="${ctx}/images/posts/<c:out value="${post.thumbnail}" />"
+		     alt="<c:out value="${post.title}" />">
 </c:if>
 
-		<%--
-			본문.
 
-			글쓰기 화면의 textarea 에서 온 그대로의 글자입니다.
-			c:out 으로 내보내면 <script> 같은 걸 적어 넣어도 글자로만 보입니다.
-			줄바꿈은 CSS 의 white-space:pre-wrap 이 살려 줍니다.
-		--%>
 		<div class="prose" style="white-space:pre-wrap;"><c:out value="${post.content}" /></div>
 
 <c:if test="${not empty tags}">

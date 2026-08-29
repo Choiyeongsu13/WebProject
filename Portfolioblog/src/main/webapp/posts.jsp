@@ -13,16 +13,7 @@
 	<h1 class="page-title"><fmt:message key="title.journal" /></h1>
 	<p class="page-lead"><fmt:message key="journal.lead" /></p>
 </div>
-
-<%--
-	분류 필터.
-
-	자바스크립트로 숨기지 않고 주소를 다시 부릅니다.
-	JournalListService 가 cat 값을 TECH / TRAVEL / DAILY 만 통과시키고
-	그 분류의 글만 다시 조회해서 내려 줍니다.
-	지금 눌린 분류는 cat 이라는 이름으로 같이 넘어옵니다.
---%>
-<!-- ================= 필터 ================= -->
+<!-- ============== 필터 ================= -->
 <div class="section sp-2">
 	<div class="filters">
 		<a class="filter ${empty cat ? 'is-active' : ''}"

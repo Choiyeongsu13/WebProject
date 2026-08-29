@@ -7,11 +7,7 @@
 <c:set var="vLabel"    value="作品" />
 <%@ include file="/common/header.jsp" %>
 
-<%--
-	필터에 보일 언어 목록은 WorkListService 가 filterLangs 로 넘겨 줍니다.
-	project_tag 에 실제로 붙어 있는 태그 이름을 모아 만든 것이라,
-	글쓰기 화면에서 태그를 새로 적으면 여기 버튼도 저절로 늘어납니다.
---%>
+
 <!-- ================= 페이지 제목 ================= -->
 <div class="page-head">
 	<span class="label"><fmt:message key="label.works" /></span>
@@ -31,11 +27,7 @@
 </div>
 
 <!-- ================= 작업 목록 ================= -->
-<%--
-	data-langs 에는 그 작업에 붙은 태그 이름이 띄어쓰기로 들어갑니다.
-	WorkListService 가 langs 라는 이름으로 project_id -> "Java JSP Oracle" 를 넘겨 줍니다.
-	썸네일은 파일 이름만 DB 에 넣고, 파일 자체는 webapp/images/works 폴더에 둡니다.
---%>
+
 <div class="section sp-1">
 	<div class="workgrid" id="workGrid">
 
@@ -74,33 +66,30 @@
 </div>
 
 <script>
-// 언어 필터 (화면 확인용 — 나중에 Servlet 쿼리로 대체 가능)
-(function () {
-	var buttons = document.querySelectorAll('.filter');
-	var items = document.querySelectorAll('#workGrid article[data-langs]');
-	var empty = document.getElementById('filterEmpty');
+$(function () {
 
-	for (var i = 0; i < buttons.length; i++) {
-		buttons[i].addEventListener('click', function () {
-			var target = this.getAttribute('data-filter');
-			var shown = 0;
+	var $buttons = $('.filter');
+	var $items   = $('#workGrid article[data-langs]');
+	var $empty   = $('#filterEmpty');
 
-			for (var j = 0; j < buttons.length; j++) {
-				buttons[j].classList.remove('is-active');
-			}
-			this.classList.add('is-active');
+	$buttons.on('click', function () {
 
-			for (var k = 0; k < items.length; k++) {
-				var langs = (' ' + items[k].getAttribute('data-langs') + ' ');
-				var match = (target === 'all') || (langs.indexOf(' ' + target + ' ') !== -1);
-				items[k].style.display = match ? '' : 'none';
-				if (match) { shown++; }
-			}
+		var target = $(this).attr('data-filter');
+		var shown  = 0;
 
-			empty.hidden = (shown > 0);
+		$buttons.removeClass('is-active');
+		$(this).addClass('is-active');
+
+		$items.each(function () {
+			var langs = ' ' + $(this).attr('data-langs') + ' ';
+			var match = (target === 'all') || (langs.indexOf(' ' + target + ' ') !== -1);
+
+			$(this).toggle(match);
+			if (match) { shown++; }
 		});
-	}
-})();
-</script>
 
+		$empty.prop('hidden', shown > 0);
+	});
+});
+</script>
 <%@ include file="/common/footer.jsp" %>
