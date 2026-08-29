@@ -31,12 +31,12 @@
 <div class="section sp-1">
 	<div class="workgrid" id="workGrid">
 
-<c:forEach var="p" items="${projects}">
-		<article data-langs="<c:out value="${langs[p.project_id]}" />">
+<c:forEach var="rp" items="${relatedPosts}">
+		<article data-langs="<c:out value="${postLangs[rp.postid]}" />">
 	<c:choose>
-		<c:when test="${not empty p.thumbnail}">
-			<img class="ph-4x3" src="${ctx}/images/works/<c:out value="${p.thumbnail}" />"
-			     alt="<c:out value="${p.title}" />" style="width:100%;display:block;">
+		<c:when test="${not empty rp.thumbnail}">
+			<img class="ph-4x3" src="${ctx}/images/posts/<c:out value="${rp.thumbnail}" />"
+			     alt="<c:out value="${rp.title}" />" style="width:100%;display:block;">
 		</c:when>
 		<c:otherwise>
 			<div class="ph ph-4x3">
@@ -45,20 +45,22 @@
 			</div>
 		</c:otherwise>
 	</c:choose>
-			<h2 class="card-title"><c:out value="${p.title}" /></h2>
-			<p class="card-desc"><c:out value="${p.description}" /></p>
-			<div class="card-meta">
-				<span class="card-tech"><c:out value="${empty langs[p.project_id] ? p.category_code : langs[p.project_id]}" /></span>
-	<c:if test="${not empty p.github_url}">
-				<a class="link-u" href="<c:out value="${p.github_url}" />" target="_blank" rel="noopener">GitHub</a>
+			<h2 class="card-title">
+				<a href="${ctx}/Journal?cmd=journal_view&amp;id=${rp.postid}" style="color:inherit;text-decoration:none;">
+					<c:out value="${rp.title}" />
+				</a>
+			</h2>
+	<c:if test="${not empty rp.summary}">
+			<p class="card-desc"><c:out value="${rp.summary}" /></p>
 	</c:if>
+			<div class="card-meta">
+				<span class="card-tech"><fmt:message key="cat.tech" /></span>
 			</div>
 		</article>
 </c:forEach>
-
 	</div>
 
-<c:if test="${empty projects}">
+<c:if test="${empty projects and empty relatedPosts}">
 	<p class="filter-empty"><fmt:message key="works.empty" /></p>
 </c:if>
 

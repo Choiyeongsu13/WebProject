@@ -66,7 +66,32 @@
 
 </c:forEach>
 
-<c:if test="${empty albums}">
+<c:forEach var="rp" items="${relatedPosts}">
+	<article class="album">
+		<div class="album-head">
+			<span class="album-no">&#9670;</span>
+			<div class="album-title-wrap">
+				<h2 class="album-title">
+					<a href="${ctx}/Journal?cmd=journal_view&amp;id=${rp.postid}" style="color:inherit;text-decoration:none;">
+						<c:out value="${rp.title}" />
+					</a>
+				</h2>
+				<p class="album-meta">
+					${empty rp.publishedat ? rp.creadtedat : rp.publishedat}
+			<c:if test="${rp.readminutes > 0}">
+					&nbsp;/&nbsp; ${rp.readminutes} <fmt:message key="journal.min" />
+			</c:if>
+				</p>
+			</div>
+			<a class="album-link" href="${ctx}/Journal?cmd=journal_view&amp;id=${rp.postid}"><fmt:message key="travel.readpost" /></a>
+		</div>
+	<c:if test="${not empty rp.summary}">
+		<p class="album-caption"><c:out value="${rp.summary}" /></p>
+	</c:if>
+	</article>
+</c:forEach>
+
+<c:if test="${empty albums and empty relatedPosts}">
 	<p class="filter-empty"><fmt:message key="travel.empty" /></p>
 </c:if>
 

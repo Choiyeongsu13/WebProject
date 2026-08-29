@@ -265,7 +265,7 @@ public class ProfillDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			DBManager.close(conn, pstmt);
+			DBManager.close(conn, pstmt, rs);
 		}
 		return result;
 	}
@@ -351,7 +351,7 @@ public class ProfillDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			DBManager.close(conn, pstmt);
+			DBManager.close(conn, pstmt, rs);
 		}return result;
 		
 	}
@@ -375,7 +375,7 @@ public class ProfillDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			DBManager.close(conn, pstmt);
+			DBManager.close(conn, pstmt ,rs);
 		}return result;
 	
 	}
@@ -660,6 +660,33 @@ public class ProfillDAO {
 		return map;
 	}
 	
+	//글에 붙은 태그 
+	public Map<Integer, String> postTagMap() {
+		Map<Integer, String> map = new LinkedHashMap<Integer, String>();
+		String sql = "select pt.post_id, "
+		           + "       listagg(t.name, ' ') within group (order by t.name) as tags "
+		           + "  from post_tag pt join tag t on t.tag_id = pt.tag_id "
+		           + " group by pt.post_id";
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				map.put(Integer.valueOf(rs.getInt("post_id")), rs.getString("tags"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return map;
+	}
+	
 	public Map<Integer, String> categoryList(String lang) {
 		Map<Integer, String> map = new LinkedHashMap<Integer, String>();
 		String sql = "select category_id, code, name_ko, name_ja "
@@ -725,6 +752,161 @@ public class ProfillDAO {
 		return list;
 	}
 	
+	//관리자 글 수정화면 조회 
+	public PostDTO postEditView(int postId) {
+		PostDTO dto = null;
+		String sql = "select p.post_id, p.category_id, p.title, p.slug, p.summary, p.content, "
+		           + "       p.thumbnail, p.read_minutes, p.status, p.view_count, "
+		           + "       to_char(p.created_at,'YYYY.MM.DD')   as created_at, "
+		           + "       to_char(p.updated_at,'YYYY.MM.DD')   as updated_at, "
+		           + "       to_char(p.published_at,'YYYY.MM.DD') as published_at "
+		           + "  from post p "
+		           + " where p.post_id = ?";
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, postId);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				dto = new PostDTO();
+				dto.setPostid(rs.getInt("post_id"));
+				dto.setCategoryid(rs.getInt("category_id"));
+				dto.setTitle(rs.getString("title"));
+				dto.setSlug(rs.getString("slug"));
+				dto.setSummary(rs.getString("summary"));
+				dto.setContent(rs.getString("content"));
+				dto.setThumbnail(rs.getString("thumbnail"));
+				dto.setReadminutes(rs.getInt("read_minutes"));
+				dto.setStatus(rs.getString("status"));
+				dto.setViewcount(rs.getInt("view_count"));
+				dto.setCreadtedat(rs.getString("created_at"));
+				dto.setUpdatedat(rs.getString("updated_at"));
+				dto.setPublishedat(rs.getString("published_at"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return dto;
+	}
+
+	//글 수정
+	public boolean postUpdate(PostDTO dto, String[] tags) {
+		boolean success = false;
+		String sql = "update post set category_id = ?, title = ?, slug = ?, summary = ?, "
+		           + "       content = ?, thumbnail = ?, read_minutes = ?, updated_at = sysdate "
+		           + " where post_id = ?";
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = DBManager.getConnection();
+			conn.setAutoCommit(false);
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, dto.getCategoryid());
+			pstmt.setString(2, dto.getTitle());
+			setText(pstmt, 3, dto.getSlug());
+			setText(pstmt, 4, dto.getSummary());
+			pstmt.setString(5, dto.getContent());
+			setText(pstmt, 6, dto.getThumbnail());
+
+			if (dto.getReadminutes() > 0) {
+				pstmt.setInt(7, dto.getReadminutes());
+			} else {
+				pstmt.setNull(7, Types.NUMERIC);
+			}
+
+			pstmt.setInt(8, dto.getPostid());
+
+			int row = pstmt.executeUpdate();
+			pstmt.close();
+			pstmt = null;
+
+			if (row == 0) {
+				conn.rollback();
+				return false;
+			}
+
+			pstmt = conn.prepareStatement("delete from post_tag where post_id = ?");
+			pstmt.setInt(1, dto.getPostid());
+			pstmt.executeUpdate();
+			pstmt.close();
+			pstmt = null;
+
+			if (tags != null) {
+				for (int i = 0; i < tags.length; i++) {
+					String name = tags[i].trim();
+					if (name.length() == 0) {
+						continue;
+					}
+					int tagId = findOrCreateTag(conn, name);
+					if (tagId == 0) {
+						conn.rollback();
+						return false;
+					}
+					pstmt = conn.prepareStatement(
+						"insert into post_tag (post_id, tag_id) values (?, ?)");
+					pstmt.setInt(1, dto.getPostid());
+					pstmt.setInt(2, tagId);
+					pstmt.executeUpdate();
+					pstmt.close();
+					pstmt = null;
+				}
+			}
+
+			conn.commit();
+			success = true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				if (conn != null) {
+					conn.rollback();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		} finally {
+			try {
+				if (conn != null) {
+					conn.setAutoCommit(true);
+				}
+			} catch (Exception e3) {
+				e3.printStackTrace();
+			}
+			DBManager.close(conn, pstmt ,rs);
+		}
+		return success;
+	}
+
+	//글 삭제
+
+	public boolean postDelete(int postId) {
+		boolean success = false;
+		String sql = "delete from post where post_id = ?";
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, postId);
+			success = pstmt.executeUpdate() > 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt ,rs);
+		}
+		return success;
+	}
+
 	public List<PostDTO> postRelated(int postId, int limit) {
 		List<PostDTO> list = new ArrayList<PostDTO>();
 		String sql = "select * from ( "

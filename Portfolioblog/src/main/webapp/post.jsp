@@ -28,7 +28,18 @@
 			</span>
 		</div>
 
-	
+<c:if test="${not empty sessionScope.loginUser}">
+		<div class="cmt-actions" style="margin:18px 0 0;">
+			<a class="cmt-act" href="${ctx}/Admin?cmd=admin_edit&amp;id=${post.postid}"><fmt:message key="admin.edit" /></a>
+			<form method="post" action="${ctx}/Admin" style="display:inline;"
+			      onsubmit="return confirm('<fmt:message key="admin.delconfirm" />');">
+				<input type="hidden" name="cmd" value="admin_deletepro">
+				<input type="hidden" name="id" value="${post.postid}">
+				<button type="submit" class="cmt-act"><fmt:message key="cmt.delete" /></button>
+			</form>
+		</div>
+</c:if>
+
 <c:if test="${not empty post.thumbnail}">
 		<img class="article-thumb" src="${ctx}/images/posts/<c:out value="${post.thumbnail}" />"
 		     alt="<c:out value="${post.title}" />">

@@ -1,0 +1,6 @@
+﻿여행 사진을 여기에 넣습니다.
+
+DB 의 photo.file_name 에는 파일 이름만 넣습니다.  예) osaka-01.jpg
+JSP 가 ${ctx}/images/travel/파일이름 으로 찾아갑니다.
+
+앨범 하나에서 is_cover = 'Y' 인 사진이 맨 앞에 옵니다.

@@ -20,6 +20,7 @@ public class AdminWriteService implements Action {
 		ProfillDAO dao = ProfillDAO.getInstance();
 		String lang = (String) request.getSession().getAttribute("lang");
 		request.setAttribute("categories", dao.categoryList(lang));
+		request.setAttribute("isEdit", Boolean.FALSE);
 
 		RequestDispatcher rd = request.getRequestDispatcher("/admin/write.jsp");
 		rd.forward(request, response);
