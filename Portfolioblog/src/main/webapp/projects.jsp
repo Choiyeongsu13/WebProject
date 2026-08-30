@@ -31,12 +31,12 @@
 <div class="section sp-1">
 	<div class="workgrid" id="workGrid">
 
-<c:forEach var="p" items="${projects}">
-		<article data-langs="<c:out value="${langs[p.project_id]}" />">
+<c:forEach var="rp" items="${relatedPosts}">
+		<article data-langs="<c:out value="${postLangs[rp.postid]}" />">
 	<c:choose>
-		<c:when test="${not empty p.thumbnail}">
-			<img class="ph-4x3" src="${ctx}/images/works/<c:out value="${p.thumbnail}" />"
-			     alt="<c:out value="${p.title}" />" style="width:100%;display:block;">
+		<c:when test="${not empty rp.thumbnail}">
+			<img class="ph-4x3" src="${ctx}/images/posts/<c:out value="${rp.thumbnail}" />"
+			     alt="<c:out value="${rp.title}" />" style="width:100%;display:block;">
 		</c:when>
 		<c:otherwise>
 			<div class="ph ph-4x3">
@@ -45,58 +45,27 @@
 			</div>
 		</c:otherwise>
 	</c:choose>
-			<h2 class="card-title"><c:out value="${p.title}" /></h2>
-			<p class="card-desc"><c:out value="${p.description}" /></p>
-			<div class="card-meta">
-				<span class="card-tech"><c:out value="${empty langs[p.project_id] ? p.category_code : langs[p.project_id]}" /></span>
-	<c:if test="${not empty p.github_url}">
-				<a class="link-u" href="<c:out value="${p.github_url}" />" target="_blank" rel="noopener">GitHub</a>
+			<h2 class="card-title">
+				<a href="${ctx}/Journal?cmd=journal_view&amp;id=${rp.postid}" style="color:inherit;text-decoration:none;">
+					<c:out value="${rp.title}" />
+				</a>
+			</h2>
+	<c:if test="${not empty rp.summary}">
+			<p class="card-desc"><c:out value="${rp.summary}" /></p>
 	</c:if>
+			<div class="card-meta">
+				<span class="card-tech"><fmt:message key="cat.tech" /></span>
 			</div>
 		</article>
 </c:forEach>
-
 	</div>
 
-<c:if test="${empty projects}">
+<c:if test="${empty projects and empty relatedPosts}">
 	<p class="filter-empty"><fmt:message key="works.empty" /></p>
 </c:if>
 
 	<p class="filter-empty" id="filterEmpty" hidden>${isJa ? 'この言語の作品はまだありません。' : '이 언어로 만든 작업이 아직 없습니다.'}</p>
 </div>
-
-<!-- ================= 기술 태그로 쓴 글 ================= -->
-<c:if test="${not empty relatedPosts}">
-<div class="section sp-3">
-	<div class="section-body">
-		<span class="label section-label"><fmt:message key="related.posts" /></span>
-		<div class="section-main">
-			<div class="postrows">
-				<div class="rule"></div>
-<c:forEach var="p" items="${relatedPosts}" varStatus="st">
-				<a class="postrow" href="${ctx}/Journal?cmd=journal_view&amp;id=${p.postid}">
-					<span class="postrow-date">${empty p.publishedat ? p.creadtedat : p.publishedat}</span>
-					<span class="postrow-cat"><fmt:message key="cat.tech" /></span>
-					<span class="postrow-main">
-						<span class="post-title" style="display:block;"><c:out value="${p.title}" /></span>
-					</span>
-					<span class="postrow-read">
-						<c:choose>
-							<c:when test="${p.readminutes > 0}">${p.readminutes} <fmt:message key="journal.min" /></c:when>
-							<c:otherwise>&mdash;</c:otherwise>
-						</c:choose>
-					</span>
-				</a>
-				<c:choose>
-					<c:when test="${st.last}"><div class="rule"></div></c:when>
-					<c:otherwise><div class="rule-soft"></div></c:otherwise>
-				</c:choose>
-</c:forEach>
-			</div>
-		</div>
-	</div>
-</div>
-</c:if>
 
 <script>
 $(function () {

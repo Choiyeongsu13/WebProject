@@ -23,20 +23,24 @@ public class WorkListService implements Action {
 
 		ProfillDAO dao = ProfillDAO.getInstance();
 
-		Map<Integer, String> langs = dao.projectTagMap();
+		Map<Integer, String> langs     = dao.projectTagMap();
+		Map<Integer, String> postLangs = dao.postTagMap();
 
 		request.setAttribute("projects", dao.projectList());
 		request.setAttribute("langs", langs);
-		request.setAttribute("filterLangs", filterLangs(langs));
+		request.setAttribute("postLangs", postLangs);
 
-		// 기술(TECH) 태그로 쓴 글도 같이 보여준다
+
 		request.setAttribute("relatedPosts", dao.postList("TECH"));
+
+	
+		request.setAttribute("filterLangs", filterLangs(langs));
 
 		RequestDispatcher rd = request.getRequestDispatcher("/projects.jsp");
 		rd.forward(request, response);
 	}
 
-	// 작업물에 실제로 붙어 있는 태그 이름만 모아서 필터 버튼을 만든다
+	
 	private List<String> filterLangs(Map<Integer, String> langs) {
 		List<String> list = new ArrayList<String>();
 

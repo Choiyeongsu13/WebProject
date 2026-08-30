@@ -1,6 +1,8 @@
 package com.profill.adminlogin.service;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,46 +23,47 @@ public class AdminWriteProService implements Action {
 	public void process(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		PostDTO dto = new PostDTO();
-		dto.setCategoryid(toInt(request.getParameter("categoryId")));
-		dto.setTitle(request.getParameter("title"));
-		dto.setSlug(request.getParameter("slug"));
-		dto.setSummary(request.getParameter("summary"));
-		dto.setContent(request.getParameter("content"));
-		dto.setReadminutes(toInt(request.getParameter("readMinutes")));
-		dto.setStatus("PUBLISHED");
+		Map<String, String> fields = new HashMap<String, String>();
+		String fileName = null;
 
-		String tagLine = request.getParameter("tags");
-		String[] tags = null;
-		if (tagLine != null && tagLine.trim().length() > 0) {
-			tags = tagLine.split(",");
+		try {
+			fileName = FileUploadUtil.parseAndSave(request, fields, "thumbnail", UPLOAD_DIR);
+		} catch (Exception e) {
+			e.printStackTrace();
+			back(request, response, toDto(fields), e.getMessage());
+			return;
 		}
+
+		PostDTO dto = toDto(fields);
+		dto.setStatus("PUBLISHED");
 
 		String problem = check(dto);
 		if (problem != null) {
-			back(request, response, dto, tagLine, problem);
+			back(request, response, dto, problem);
 			return;
 		}
 
-		String fileName = null;
-		try {
-			fileName = FileUploadUtil.saveImage(request, "thumbnail", UPLOAD_DIR);
-		} catch (Exception e) {
-			e.printStackTrace();
-			back(request, response, dto, tagLine, "사진을 저장하지 못했습니다. 5MB 이하의 이미지만 올릴 수 있습니다.");
-			return;
-		}
 		dto.setThumbnail(fileName);
 
 		ProfillDAO dao = ProfillDAO.getInstance();
-		int postId = dao.postInsert(dto, tags);
+		int postId = dao.postInsert(dto, null);
 
 		if (postId == 0) {
-			back(request, response, dto, tagLine, "저장하지 못했습니다. 잠시 후 다시 시도해 주세요.");
+			back(request, response, dto, "저장하지 못했습니다. 잠시 후 다시 시도해 주세요.");
 			return;
 		}
 
 		response.sendRedirect(request.getContextPath() + "/Journal?cmd=journal_view&id=" + postId);
+	}
+
+	private PostDTO toDto(Map<String, String> fields) {
+		PostDTO dto = new PostDTO();
+		dto.setCategoryid(toInt(fields.get("categoryId")));
+		dto.setTitle(fields.get("title"));
+		dto.setSlug(fields.get("slug"));
+		dto.setContent(fields.get("content"));
+		dto.setReadminutes(toInt(fields.get("readMinutes")));
+		return dto;
 	}
 
 	private String check(PostDTO dto) {
@@ -80,13 +83,12 @@ public class AdminWriteProService implements Action {
 	}
 
 	private void back(HttpServletRequest request, HttpServletResponse response,
-	                  PostDTO dto, String tagLine, String message) throws ServletException, IOException {
+	                  PostDTO dto, String message) throws ServletException, IOException {
 
 		String lang = (String) request.getSession().getAttribute("lang");
 
 		request.setAttribute("error", message);
 		request.setAttribute("post", dto);
-		request.setAttribute("tagsLine", tagLine);
 		request.setAttribute("isEdit", Boolean.FALSE);
 		request.setAttribute("categories", ProfillDAO.getInstance().categoryList(lang));
 
@@ -95,6 +97,9 @@ public class AdminWriteProService implements Action {
 	}
 
 	private int toInt(String value) {
+		if (value == null) {
+			return 0;
+		}
 		try {
 			return Integer.parseInt(value.trim());
 		} catch (Exception e) {

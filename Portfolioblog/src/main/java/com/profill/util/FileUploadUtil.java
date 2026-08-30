@@ -1,29 +1,62 @@
 package com.profill.util;
 
-import java.io.File;
-import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
 
-/** 글쓰기/글수정 화면에서 올린 이미지를 서버 폴더에 저장한다. */
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.javax.JavaxServletDiskFileUpload;
+
+
+
+
+
 public class FileUploadUtil {
 
 	private static String[] ALLOWED = { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
 
 	private FileUploadUtil() {}
 
-	public static String saveImage(HttpServletRequest request, String partName, String subDir) throws Exception {
 
-		Part part = request.getPart(partName);
-		if (part == null || part.getSize() == 0) {
-			return null;
+	public static String parseAndSave(HttpServletRequest request, Map<String, String> fields,
+	                                   String filePartName, String subDir) throws Exception {
+
+		JavaxServletDiskFileUpload upload = new JavaxServletDiskFileUpload();
+		upload.setFileSizeMax(5L * 1024 * 1024);
+		upload.setSizeMax(10L * 1024 * 1024);
+
+		List<DiskFileItem> items;
+		try {
+			items = upload.parseRequest(request);
+		} catch (FileUploadException e) {
+			throw new Exception("업로드 용량이 너무 큽니다. 5MB 이하의 이미지만 올릴 수 있습니다.", e);
 		}
 
-		String origin = part.getSubmittedFileName();
-		if (origin == null || origin.trim().length() == 0) {
+		String savedFileName = null;
+
+		for (int i = 0; i < items.size(); i++) {
+			DiskFileItem item = items.get(i);
+
+			if (item.isFormField()) {
+				fields.put(item.getFieldName(), item.getString(StandardCharsets.UTF_8));
+			} else if (filePartName.equals(item.getFieldName())) {
+				savedFileName = save(item, request, subDir);
+			}
+		}
+
+		return savedFileName;
+	}
+
+	private static String save(DiskFileItem item, HttpServletRequest request, String subDir) throws Exception {
+
+		String origin = item.getName();
+		if (origin == null || origin.trim().length() == 0 || item.getSize() == 0) {
 			return null;
 		}
 
@@ -45,22 +78,13 @@ public class FileUploadUtil {
 		}
 
 		String saveDir = request.getServletContext().getRealPath(subDir);
-		File dir = new File(saveDir);
-		if (!dir.exists()) {
-			dir.mkdirs();
+		Path dir = Paths.get(saveDir);
+		if (!Files.exists(dir)) {
+			Files.createDirectories(dir);
 		}
 
 		String name = System.currentTimeMillis() + ext;
-
-		InputStream in = null;
-		try {
-			in = part.getInputStream();
-			Files.copy(in, new File(dir, name).toPath(), StandardCopyOption.REPLACE_EXISTING);
-		} finally {
-			if (in != null) {
-				in.close();
-			}
-		}
+		item.write(dir.resolve(name));
 
 		return name;
 	}

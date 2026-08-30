@@ -351,7 +351,7 @@ public class ProfillDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			DBManager.close(conn, pstmt , rs);
+			DBManager.close(conn, pstmt, rs);
 		}return result;
 		
 	}
@@ -375,7 +375,7 @@ public class ProfillDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			DBManager.close(conn, pstmt, rs);
+			DBManager.close(conn, pstmt ,rs);
 		}return result;
 	
 	}
@@ -660,6 +660,33 @@ public class ProfillDAO {
 		return map;
 	}
 	
+	//글에 붙은 태그 
+	public Map<Integer, String> postTagMap() {
+		Map<Integer, String> map = new LinkedHashMap<Integer, String>();
+		String sql = "select pt.post_id, "
+		           + "       listagg(t.name, ' ') within group (order by t.name) as tags "
+		           + "  from post_tag pt join tag t on t.tag_id = pt.tag_id "
+		           + " group by pt.post_id";
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				map.put(Integer.valueOf(rs.getInt("post_id")), rs.getString("tags"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return map;
+	}
+	
 	public Map<Integer, String> categoryList(String lang) {
 		Map<Integer, String> map = new LinkedHashMap<Integer, String>();
 		String sql = "select category_id, code, name_ko, name_ja "
@@ -725,7 +752,7 @@ public class ProfillDAO {
 		return list;
 	}
 	
-	//관리자 글 수정화면 조회 (공개 여부 상관없이 가져온다)
+	//관리자 글 수정화면 조회 
 	public PostDTO postEditView(int postId) {
 		PostDTO dto = null;
 		String sql = "select p.post_id, p.category_id, p.title, p.slug, p.summary, p.content, "
@@ -854,13 +881,13 @@ public class ProfillDAO {
 			} catch (Exception e3) {
 				e3.printStackTrace();
 			}
-			DBManager.close(conn, pstmt , rs);
+			DBManager.close(conn, pstmt ,rs);
 		}
 		return success;
 	}
 
-	//글 삭제 (post_tag, post_comment 는 외래키 ON DELETE CASCADE 로 함께 지워지고
-	//         album.post_id 는 ON DELETE SET NULL 로 자동으로 비워진다)
+	//글 삭제
+
 	public boolean postDelete(int postId) {
 		boolean success = false;
 		String sql = "delete from post where post_id = ?";
@@ -875,7 +902,7 @@ public class ProfillDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			DBManager.close(conn, pstmt , rs);
+			DBManager.close(conn, pstmt ,rs);
 		}
 		return success;
 	}

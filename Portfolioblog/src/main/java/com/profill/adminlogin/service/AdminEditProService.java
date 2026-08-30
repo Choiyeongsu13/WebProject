@@ -1,6 +1,8 @@
 package com.profill.adminlogin.service;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,40 +23,30 @@ public class AdminEditProService implements Action {
 	public void process(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		int postId = toInt(request.getParameter("postId"));
+		Map<String, String> fields = new HashMap<String, String>();
+		String fileName = null;
 
-		PostDTO dto = new PostDTO();
-		dto.setPostid(postId);
-		dto.setCategoryid(toInt(request.getParameter("categoryId")));
-		dto.setTitle(request.getParameter("title"));
-		dto.setSlug(request.getParameter("slug"));
-		dto.setSummary(request.getParameter("summary"));
-		dto.setContent(request.getParameter("content"));
-		dto.setReadminutes(toInt(request.getParameter("readMinutes")));
-		dto.setStatus("PUBLISHED");
-
-		String tagLine = request.getParameter("tags");
-		String[] tags = null;
-		if (tagLine != null && tagLine.trim().length() > 0) {
-			tags = tagLine.split(",");
+		try {
+			fileName = FileUploadUtil.parseAndSave(request, fields, "thumbnail", UPLOAD_DIR);
+		} catch (Exception e) {
+			e.printStackTrace();
+			back(request, response, toDto(fields), e.getMessage());
+			return;
 		}
+
+		int postId = toInt(fields.get("postId"));
+
+		PostDTO dto = toDto(fields);
+		dto.setPostid(postId);
+		dto.setStatus("PUBLISHED");
 
 		String problem = check(postId, dto);
 		if (problem != null) {
-			back(request, response, dto, tagLine, problem);
+			back(request, response, dto, problem);
 			return;
 		}
 
 		ProfillDAO dao = ProfillDAO.getInstance();
-
-		String fileName = null;
-		try {
-			fileName = FileUploadUtil.saveImage(request, "thumbnail", UPLOAD_DIR);
-		} catch (Exception e) {
-			e.printStackTrace();
-			back(request, response, dto, tagLine, "사진을 저장하지 못했습니다. 5MB 이하의 이미지만 올릴 수 있습니다.");
-			return;
-		}
 
 		if (fileName != null) {
 			dto.setThumbnail(fileName);
@@ -63,14 +55,25 @@ public class AdminEditProService implements Action {
 			dto.setThumbnail(old == null ? null : old.getThumbnail());
 		}
 
-		boolean success = dao.postUpdate(dto, tags);
+		boolean success = dao.postUpdate(dto, null);
 
 		if (!success) {
-			back(request, response, dto, tagLine, "수정하지 못했습니다. 잠시 후 다시 시도해 주세요.");
+			back(request, response, dto, "수정하지 못했습니다. 잠시 후 다시 시도해 주세요.");
 			return;
 		}
 
 		response.sendRedirect(request.getContextPath() + "/Journal?cmd=journal_view&id=" + postId);
+	}
+
+	private PostDTO toDto(Map<String, String> fields) {
+		PostDTO dto = new PostDTO();
+		dto.setPostid(toInt(fields.get("postId")));
+		dto.setCategoryid(toInt(fields.get("categoryId")));
+		dto.setTitle(fields.get("title"));
+		dto.setSlug(fields.get("slug"));
+		dto.setContent(fields.get("content"));
+		dto.setReadminutes(toInt(fields.get("readMinutes")));
+		return dto;
 	}
 
 	private String check(int postId, PostDTO dto) {
@@ -93,13 +96,12 @@ public class AdminEditProService implements Action {
 	}
 
 	private void back(HttpServletRequest request, HttpServletResponse response,
-	                  PostDTO dto, String tagLine, String message) throws ServletException, IOException {
+	                  PostDTO dto, String message) throws ServletException, IOException {
 
 		String lang = (String) request.getSession().getAttribute("lang");
 
 		request.setAttribute("error", message);
 		request.setAttribute("post", dto);
-		request.setAttribute("tagsLine", tagLine);
 		request.setAttribute("isEdit", Boolean.TRUE);
 		request.setAttribute("categories", ProfillDAO.getInstance().categoryList(lang));
 
@@ -108,6 +110,9 @@ public class AdminEditProService implements Action {
 	}
 
 	private int toInt(String value) {
+		if (value == null) {
+			return 0;
+		}
 		try {
 			return Integer.parseInt(value.trim());
 		} catch (Exception e) {

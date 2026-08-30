@@ -3,7 +3,6 @@ package com.profill.controller;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,11 +23,7 @@ import com.profill.service.Action;
  * 관리자 화면을 담당
  */
 @WebServlet("/Admin")
-@MultipartConfig(
-	fileSizeThreshold = 1024 * 1024,
-	maxFileSize       = 5 * 1024 * 1024,
-	maxRequestSize    = 10 * 1024 * 1024
-)
+
 public class AdminController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

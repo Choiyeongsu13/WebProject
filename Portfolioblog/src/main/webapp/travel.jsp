@@ -66,7 +66,32 @@
 
 </c:forEach>
 
-<c:if test="${empty albums}">
+<c:forEach var="rp" items="${relatedPosts}">
+	<article class="album">
+		<div class="album-head">
+			<span class="album-no">&#9670;</span>
+			<div class="album-title-wrap">
+				<h2 class="album-title">
+					<a href="${ctx}/Journal?cmd=journal_view&amp;id=${rp.postid}" style="color:inherit;text-decoration:none;">
+						<c:out value="${rp.title}" />
+					</a>
+				</h2>
+				<p class="album-meta">
+					${empty rp.publishedat ? rp.creadtedat : rp.publishedat}
+			<c:if test="${rp.readminutes > 0}">
+					&nbsp;/&nbsp; ${rp.readminutes} <fmt:message key="journal.min" />
+			</c:if>
+				</p>
+			</div>
+			<a class="album-link" href="${ctx}/Journal?cmd=journal_view&amp;id=${rp.postid}"><fmt:message key="travel.readpost" /></a>
+		</div>
+	<c:if test="${not empty rp.summary}">
+		<p class="album-caption"><c:out value="${rp.summary}" /></p>
+	</c:if>
+	</article>
+</c:forEach>
+
+<c:if test="${empty albums and empty relatedPosts}">
 	<p class="filter-empty"><fmt:message key="travel.empty" /></p>
 </c:if>
 
@@ -76,38 +101,5 @@
 	</div>
 
 </div>
-
-<!-- ================= 여행 태그로 쓴 글 ================= -->
-<c:if test="${not empty relatedPosts}">
-<div class="section sp-3">
-	<div class="section-body">
-		<span class="label section-label"><fmt:message key="related.posts" /></span>
-		<div class="section-main">
-			<div class="postrows">
-				<div class="rule"></div>
-<c:forEach var="p" items="${relatedPosts}" varStatus="st">
-				<a class="postrow" href="${ctx}/Journal?cmd=journal_view&amp;id=${p.postid}">
-					<span class="postrow-date">${empty p.publishedat ? p.creadtedat : p.publishedat}</span>
-					<span class="postrow-cat"><fmt:message key="cat.travel" /></span>
-					<span class="postrow-main">
-						<span class="post-title" style="display:block;"><c:out value="${p.title}" /></span>
-					</span>
-					<span class="postrow-read">
-						<c:choose>
-							<c:when test="${p.readminutes > 0}">${p.readminutes} <fmt:message key="journal.min" /></c:when>
-							<c:otherwise>&mdash;</c:otherwise>
-						</c:choose>
-					</span>
-				</a>
-				<c:choose>
-					<c:when test="${st.last}"><div class="rule"></div></c:when>
-					<c:otherwise><div class="rule-soft"></div></c:otherwise>
-				</c:choose>
-</c:forEach>
-			</div>
-		</div>
-	</div>
-</div>
-</c:if>
 
 <%@ include file="/common/footer.jsp" %>
