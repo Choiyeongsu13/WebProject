@@ -32,13 +32,28 @@
 			       value="<c:out value="${post.title}" />">
 		</label>
 
-		<label class="field">
-			<span class="field-label"><fmt:message key="admin.f.category" /> <em class="req">*</em></span>
-			<select name="categoryId" class="field-select" required>
+		<div class="write-row">
+			<label class="field">
+				<span class="field-label"><fmt:message key="admin.f.category" /> <em class="req">*</em></span>
+				<select name="categoryId" class="field-select" required>
 <c:forEach var="cg" items="${categories}">
-				<option value="${cg.key}" ${post.categoryid eq cg.key ? 'selected' : ''}><c:out value="${cg.value}" /></option>
+					<option value="${cg.key}" ${post.categoryid eq cg.key ? 'selected' : ''}><c:out value="${cg.value}" /></option>
 </c:forEach>
-			</select>
+				</select>
+			</label>
+
+			<label class="field">
+				<span class="field-label"><fmt:message key="admin.f.tags" /></span>
+				<input type="text" name="tags" placeholder="<fmt:message key="admin.f.tags.h" />"
+				       value="<c:out value="${tagsLine}" />">
+			</label>
+		</div>
+
+		<label class="field">
+			<span class="field-label"><fmt:message key="admin.f.summary" /></span>
+			<input type="text" name="summary" maxlength="500"
+			       placeholder="<fmt:message key="admin.f.summary.h" />"
+			       value="<c:out value="${post.summary}" />">
 		</label>
 
 		<label class="field">
@@ -46,7 +61,20 @@
 			<textarea name="content" rows="18" required><c:out value="${post.content}" /></textarea>
 		</label>
 
+		<div class="write-row">
+			<label class="field">
+				<span class="field-label"><fmt:message key="admin.f.read" /></span>
+				<input type="number" name="readMinutes" min="0" max="999"
+				       value="${post.readminutes > 0 ? post.readminutes : ''}">
+			</label>
 
+			<label class="field">
+				<span class="field-label"><fmt:message key="admin.f.slug" /></span>
+				<input type="text" name="slug" maxlength="200"
+				       placeholder="<fmt:message key="admin.f.slug.h" />"
+				       value="<c:out value="${post.slug}" />">
+			</label>
+		</div>
 
 		<label class="field">
 			<span class="field-label"><fmt:message key="admin.f.thumb" /></span>
